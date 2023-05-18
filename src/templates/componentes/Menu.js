@@ -14,7 +14,7 @@ export default function Menu(props){
         <Navbar expand="lg">
         <Container fluid >
           <Image src={Icone} width='75' className='icone'></Image>
-          <Navbar.Brand href="#"><Link className='linkDeco Menu' to='/'>Menu</Link></Navbar.Brand>
+          <Navbar.Brand href="#"><Link className='linkDeco Menu' to='/'>Quintal da Leitura</Link></Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -23,12 +23,22 @@ export default function Menu(props){
               navbarScroll
             >  
               <NavDropdown title="Cadastros" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroProfessor'>Cadastro de Professor</Link></NavDropdown.Item>
+                <NavDropdown.Item href="#"><Link className='linkDeco' to='/'>Cadastro de Exemplar</Link></NavDropdown.Item>
                 <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroAluno'>Cadastro de Aluno</Link></NavDropdown.Item>
-                <NavDropdown.Item href="#" disabled>Em-breve</NavDropdown.Item>
+                <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroProfessor'>Cadastro de Professor</Link></NavDropdown.Item>
+                <NavDropdown.Item href="#"><Link className='linkDeco' to='/'>Cadastro de Funcionário</Link></NavDropdown.Item>
               </NavDropdown>
               <Nav.Link href="#" disabled>
-                Em-breve
+                Empréstimo
+              </Nav.Link>
+              <Nav.Link href="#" disabled>
+                Renovar
+              </Nav.Link>
+              <Nav.Link href="#" disabled>
+                Devolução
+              </Nav.Link>
+              <Nav.Link href="#" disabled>
+                Baixa
               </Nav.Link>
             </Nav>
             <Form className="d-flex">

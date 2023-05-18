@@ -4,7 +4,7 @@ import Menu from "./Menu.js";
 export default function Pagina(props){
     return (
         <div>
-            <Cabecalho texto='Escola Almeida Prado'></Cabecalho>
+            <Cabecalho texto='Quintal da Leitura'></Cabecalho>
             <Menu></Menu>
             {props.children}
         </div>

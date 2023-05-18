@@ -4,7 +4,7 @@ import imgInicio from "../img/inicioImg.jpg";
 export default function Inicio() {
   return (
     <body id="corpo" className="corLetra">
-      <h1 className="text-center">Sistema de Gerenciamento Escolar</h1>
+      <h1 className="text-center">Sistema de Gerenciamento Bibliotecário</h1>
       <img className="mx-auto d-block" src={imgInicio}></img>
       <Container>
         <p className="paragrafo">

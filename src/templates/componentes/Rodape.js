@@ -5,7 +5,7 @@ export default function Rodape(props){
     return(
         <div>
             <footer>
-                <Alert variant='white' className='text-center mb-2 '>Copywriting by Emanuel</Alert>
+                <Alert variant='white' className='text-center mb-2 '>Copywriting 2023</Alert>
             </footer>
         </div>
     )
