@@ -7,7 +7,7 @@ export default function Tela404(props){
         <div>
             <Pagina>
                 <Alert className="text-center" variant="warning">
-                    O recurso solicitado não existe
+                    O recurso solicitado não existe em nosso sistema
                 </Alert>
             </Pagina>
             <Rodape></Rodape>

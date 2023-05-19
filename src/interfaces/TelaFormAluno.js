@@ -1,12 +1,18 @@
 import Pagina from "../templates/componentes/Pagina.js";
 import FormAluno from "../Formularios/FormAluno.jsx";
-import Rodape from "../templates/componentes/Rodape.js";
+import TabelaAlunos from "../tabelas/TabelaAlunos.jsx";
+import listaAlunos from "../dados/monkAlunos.js";
+import { useState } from "react";
 export default function TelaCadastroAluno(props){
+    const [exibirTabela, setExibirTabela] = useState(true)
     return (
-        <div>
-            <Pagina></Pagina>
-            <FormAluno></FormAluno>
-            <Rodape></Rodape>
-        </div>
+            <Pagina>
+                {
+                    exibirTabela ? 
+                    <TabelaAlunos listaAlunos={listaAlunos} exibirTabela={setExibirTabela}/> 
+                    :
+                    <FormAluno exibirTabela={setExibirTabela}/>
+                }
+            </Pagina>
     );
 }
