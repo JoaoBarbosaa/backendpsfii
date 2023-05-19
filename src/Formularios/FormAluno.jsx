@@ -28,19 +28,16 @@ export default function FormProfessor(props) {
           <Form noValidate validated={validated} onSubmit={manipulacaoSubmit} className='mainForm'>
 
 
-            <Form.Group className="mb-3" controlId="FuncaoForm">
-              <Form.Label>Selecione sua função</Form.Label>
-              <Form.Select required aria-label="Default select example">
-              <option value={setValidated}>Selecione uma das opções</option>
-              <option value="1">Professor</option>
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">
-              Seleciona uma função
+            <Form.Group className="mb-3" controlId="RAForm">
+              <Form.Label>RA</Form.Label>
+              <Form.Control type="text" required placeholder="Digite o RA" />
+              <Form.Control.Feedback type="invalid">
+              Digite um RA valido
             </Form.Control.Feedback>
             </Form.Group>
 
 
-            <Form.Group className="mb-3" controlId="FuncaoForm">
+            <Form.Group className="mb-3" controlId="SexoForm">
               <Form.Label>Sexo</Form.Label>
               <Form.Select required aria-label="Default select example">
               <option value={setValidated}>Selecione uma das opções</option>
@@ -71,6 +68,15 @@ export default function FormProfessor(props) {
             </Form.Group>
 
 
+            <Form.Group className="mb-3" controlId="TurmaForm">
+              <Form.Label>Turma</Form.Label>
+              <Form.Control type="text" required placeholder="Digite a turma do aluno ex 1° Ano - Ensino médio" />
+              <Form.Control.Feedback type="invalid">
+              Digite uma turma valida
+            </Form.Control.Feedback>
+            </Form.Group>
+
+
             <Form.Group className="mb-3" controlId="NumeroTelefone">
               <Form.Label>Telefone</Form.Label>
               <Form.Control type="text" required placeholder="Digite o numero de telefone" />
@@ -80,11 +86,11 @@ export default function FormProfessor(props) {
             </Form.Group>
 
 
-            <Form.Group className="mb-3" controlId="CpfForm">
-              <Form.Label>CPF</Form.Label>
-              <Form.Control type="text" required placeholder="Digite o cpf" />
+            <Form.Group className="mb-3" controlId="CidadeForm">
+              <Form.Label>Cidade</Form.Label>
+              <Form.Control type="text" required placeholder="Digite a Cidade" />
               <Form.Control.Feedback type="invalid">
-              Digite um CPF valido
+              Digite uma Cidade valido
             </Form.Control.Feedback>
             </Form.Group>
 
@@ -104,7 +110,7 @@ export default function FormProfessor(props) {
             </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="DataNascimentoForm">
+            <Form.Group className="mb-3" controlId="dataNascForm">
               <Form.Label>Data de nascimento</Form.Label>
               <Form.Control required type="date"/>
               <Form.Control.Feedback type="invalid">
@@ -117,6 +123,9 @@ export default function FormProfessor(props) {
 
             
             <div className="botao"><Button type="submit" className="botao">Cadastrar</Button></div>
+            <div className="botao"><Button type="button" onClick={()=>{
+              props.exibirTabela(true)
+            }}>Voltar</Button></div>
           </Form>
         </Container>
       </body>
