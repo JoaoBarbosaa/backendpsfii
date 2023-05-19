@@ -23,7 +23,7 @@ export default function Menu(props){
               navbarScroll
             >  
               <NavDropdown title="Cadastros" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="#"><Link className='linkDeco' to='/'>Cadastro de Exemplar</Link></NavDropdown.Item>
+                <NavDropdown.Item href="#"><Link className='linkDeco' to="/cadastroLivro">Cadastro de Exemplar</Link></NavDropdown.Item>
                 <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroAluno'>Cadastro de Aluno</Link></NavDropdown.Item>
                 <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroProfessor'>Cadastro de Professor</Link></NavDropdown.Item>
                 <NavDropdown.Item href="#"><Link className='linkDeco' to='/'>Cadastro de Funcionário</Link></NavDropdown.Item>
