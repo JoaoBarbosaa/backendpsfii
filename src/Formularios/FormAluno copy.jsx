@@ -51,7 +51,7 @@ export default function FormProfessor(props) {
     
       <body id="corpo">
         <Container className="background mb-3">
-          <h1 className='text-center colorWhite'>Cadastro de Professores</h1>
+          <h1 className='text-center colorWhite'>Cadastro de Aluno</h1>
           <Form noValidate validated={validado} onSubmit={manipulaSubmissao} className='mainForm'>
             <Form.Group className="mb-3" controlId="RAForm">
               <Form.Label>RA</Form.Label>
@@ -144,10 +144,15 @@ export default function FormProfessor(props) {
             </Form.Group>
 
 
+
+
             
-            <div className="botao" type="submit">
-                <Button type="submit" variant="primary" id="cadastrar">Cadastrar</Button>{' '}
-                <Button type="button" className="btn btn-secondary" onClick={()=>{props.exibirTabela(true)}}>Voltar</Button>{' '}
+            <div className="botao">
+            <Button type="submit" className="botao">Cadastrar</Button>
+            
+            <Button type="button" onClick={()=>{
+              props.exibirTabela(true)
+            }}>Voltar</Button>
             </div>
           </Form>
         </Container>
