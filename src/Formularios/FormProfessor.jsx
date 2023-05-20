@@ -9,16 +9,14 @@ import './estilos/FormProfessor.css';
 export default function FormProfessor(props) {
 
   const [validado, setValidado] = useState(false);
-  const [aluno, setAluno] = useState({
-    ra: "",
+  const [professor, setProfessores] = useState({
+    codigo: "",
     sexo: "",
     nome: "",
     email: "",
-    turma: "",
     telefone: "",
-    cidade: "",
-    endereco: "",
-    cep: "",
+    materia: "",
+    cpf: "",
     dataNasc: ""
   });
 
@@ -26,15 +24,15 @@ export default function FormProfessor(props) {
     const elemForm = e.currentTarget;
     const id = elemForm.id;
     const valor = elemForm.value;
-    setAluno({...aluno, [id]:valor})
+    setProfessores({...professor, [id]:valor})
   }
 
   function manipulaSubmissao (evento) {
     const form = evento.currentTarget;
     if (form.checkValidity()) {
-        let alunos = props.listaAlunos;
-        alunos.push(aluno);
-        props.setAlunos(alunos);
+        let professores = props.listaProfessores;
+        professores.push(professor);
+        props.setProfessores(professores);
         props.exibirTabela(true);
         setValidado(false);
      }
@@ -53,21 +51,22 @@ export default function FormProfessor(props) {
         <Container className="background mb-3">
           <h1 className='text-center colorWhite'>Cadastro de Professores</h1>
           <Form noValidate validated={validado} onSubmit={manipulaSubmissao} className='mainForm'>
-            <Form.Group className="mb-3" controlId="RAForm">
-              <Form.Label>RA</Form.Label>
-              <Form.Control type="text" required placeholder="Digite o RA" value={aluno.ra} id="ra" onChange={manipularMudanca} />
+            <Form.Group className="mb-3" controlId="CodForm">
+              <Form.Label>Codigo de inscrição</Form.Label>
+              <Form.Control type="text" required placeholder="Digite o Codigo" value={professor.ra} id="codigo" onChange={manipularMudanca} />
               <Form.Control.Feedback type="invalid">
-              Digite um RA valido
+              Digite um codigo valido!
             </Form.Control.Feedback>
             </Form.Group>
 
 
             <Form.Group className="mb-3" controlId="SexoForm">
               <Form.Label>Sexo</Form.Label>
-              <Form.Select value={aluno.sexo} required id="sexo" onChange={manipularMudanca} aria-label="Default select example">
+              <Form.Select value={professor.sexo} required id="sexo" onChange={manipularMudanca} aria-label="Default select example">
               <option value={setValidado}>Selecione uma das opções</option>
               <option value="1">Masculino</option>
               <option value="2">Feminino</option>
+              <option value="3">Indefinido</option>
             </Form.Select>
             <Form.Control.Feedback type="invalid">
               Selecione seu sexo
@@ -76,70 +75,51 @@ export default function FormProfessor(props) {
 
 
             <Form.Group className="mb-3" controlId="NomeForm">
-              <Form.Label>Nome</Form.Label>
-              <Form.Control type="text" required value={aluno.nome} id="nome" onChange={manipularMudanca} placeholder="Digite o nome completo" />
+              <Form.Label>Nome Completo</Form.Label>
+              <Form.Control type="text" required value={professor.nome} id="nome" onChange={manipularMudanca} placeholder="Digite o nome completo" />
               <Form.Control.Feedback type="invalid">
-              Digite um nome valido
+              Digite um nome valido!
             </Form.Control.Feedback>
             </Form.Group>
 
 
             <Form.Group className="mb-3" controlId="EmailForm">
               <Form.Label>Email</Form.Label>
-              <Form.Control type="text" required value={aluno.email} id="email" onChange={manipularMudanca} placeholder="Digite um e-mail" />
+              <Form.Control type="text" required value={professor.email} id="email" onChange={manipularMudanca} placeholder="@gmail.com" />
               <Form.Control.Feedback type="invalid">
-              Digite um e-mail valido
+              Digite um e-mail valido!
             </Form.Control.Feedback>
             </Form.Group>
-
-
-            <Form.Group className="mb-3" controlId="TurmaForm">
-              <Form.Label>Turma</Form.Label>
-              <Form.Control type="text" required value={aluno.turma} id="turma" onChange={manipularMudanca} placeholder="Digite a turma do aluno ex 1° Ano - Ensino médio" />
-              <Form.Control.Feedback type="invalid">
-              Digite uma turma valida
-            </Form.Control.Feedback>
-            </Form.Group>
-
 
             <Form.Group className="mb-3" controlId="NumeroTelefone">
               <Form.Label>Telefone</Form.Label>
-              <Form.Control type="text" required value={aluno.telefone} id="telefone" onChange={manipularMudanca} placeholder="Digite o numero de telefone" />
+              <Form.Control type="text" required value={professor.telefone} id="telefone" onChange={manipularMudanca} placeholder="(00)00000-0000" />
               <Form.Control.Feedback type="invalid">
-              Digite um telefone valido
+              Digite um telefone valido!
             </Form.Control.Feedback>
             </Form.Group>
 
-
-            <Form.Group className="mb-3" controlId="CidadeForm">
-              <Form.Label>Cidade</Form.Label>
-              <Form.Control type="text" required value={aluno.cidade} id="cidade" onChange={manipularMudanca} placeholder="Digite a Cidade" />
+            <Form.Group className="mb-3" controlId="MateriaForm">
+              <Form.Label>Materia</Form.Label>
+              <Form.Control type="text" required value={professor.materia} id="materia" onChange={manipularMudanca} placeholder="Informe uma materia" />
               <Form.Control.Feedback type="invalid">
-              Digite uma Cidade valido
-            </Form.Control.Feedback>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="EnderecoForm">
-              <Form.Label>Endereço</Form.Label>
-              <Form.Control type="text" required value={aluno.endereco} id="endereco" onChange={manipularMudanca} placeholder="Digite o endereço" />
-              <Form.Control.Feedback type="invalid">
-              Digite um endereço valido
+              Digite uma materia valida!
             </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="CepForm">
-              <Form.Label>CEP</Form.Label>
-              <Form.Control type="text" required value={aluno.cep} id="cep" onChange={manipularMudanca} placeholder="Digite o CEP" />
+              <Form.Label>CPF</Form.Label>
+              <Form.Control type="text" required value={professor.cpf} id="cpf" onChange={manipularMudanca} placeholder="000.000.000-00" />
               <Form.Control.Feedback type="invalid">
-              Digite um CEP valido
+              Digite um CPF valido!
             </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="dataNascForm">
               <Form.Label>Data de nascimento</Form.Label>
-              <Form.Control required value={aluno.dataNasc} id="dataNasc" onChange={manipularMudanca} type="date"/>
+              <Form.Control required value={professor.dataNasc} id="dataNasc" onChange={manipularMudanca} type="date"/>
               <Form.Control.Feedback type="invalid">
-              Digite uma data de nascimento valida
+              Digite uma data de nascimento valida!
             </Form.Control.Feedback>
             </Form.Group>
 
