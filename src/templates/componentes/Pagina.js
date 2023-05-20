@@ -1,5 +1,6 @@
 import { Cabecalho } from "./Cabecalho.js";
 import Menu from "./Menu.js";
+import Rodape from "./Rodape.js";
 
 export default function Pagina(props){
     return (
@@ -7,6 +8,7 @@ export default function Pagina(props){
             <Cabecalho texto='Quintal da Leitura'></Cabecalho>
             <Menu></Menu>
             {props.children}
+            <Rodape></Rodape>
         </div>
     );
 }
