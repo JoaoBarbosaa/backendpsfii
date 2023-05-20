@@ -1,6 +1,6 @@
 var listaAlunos = [
     {
-        ra: "34578934",
+        ra: "3457934",
         sexo: "Masculino",
         nome: "Marcos João",
         email: "marcus@gmail.com",

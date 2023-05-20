@@ -1,6 +1,5 @@
 import { Alert } from "react-bootstrap";
 import Pagina from "../templates/componentes/Pagina.js";
-import Rodape from "../templates/componentes/Rodape.js";
 
 export default function Tela404(props){
     return (
@@ -10,7 +9,6 @@ export default function Tela404(props){
                     O recurso solicitado não existe em nosso sistema
                 </Alert>
             </Pagina>
-            <Rodape></Rodape>
         </div>
     );
 }
