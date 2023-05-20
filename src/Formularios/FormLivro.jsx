@@ -27,9 +27,9 @@ export default function FormLivro(props) {
     return(
         <>
             <div className='row justify-content-center align-items-center mt-5'>
-                <div className="col-md-8">
+                <div className="col-md-6">
                     <Form onoValidate validated={valido} onSubmit={manipulaEvento} className="p-5 border rounded" noValidate>
-                    <h3 className="text-center mb-5">Cadastro Livro</h3>
+                    <h3 className="text-center mb-5">Cadastro Exemplar</h3>
                         <Row className="row mb-3">
                             <Col>
                                 <Form.Group>
@@ -91,7 +91,7 @@ export default function FormLivro(props) {
                                 <Button type="submit" variant="primary" id="cadastrar">Cadastrar</Button>{' '}
                                 <Button type="button" className="btn btn-warning" id="atualizar" disabled>Atualizar</Button>{' '}
                                 <Button type="button" className="btn btn-danger" id="excluir" disabled>Excluir</Button>{' '}
-                                <Button type="button" className="btn btn-secondary" onClick={props.chamarTabelaLivro}>Voltar</Button>{' '}
+                                <Button type="button" className="btn btn-secondary" onClick={()=>{props.exibirTabela(true)}}>Voltar</Button>{' '}
                             </div>
                         </Row>
                         
