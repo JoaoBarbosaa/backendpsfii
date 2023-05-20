@@ -1,5 +1,6 @@
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import React, { useState } from 'react';
+import './estilos/FormLivro.css'
 
 
 
@@ -44,10 +45,10 @@ export default function FormLivro(props) {
 
     return(
         <>
-            <div className='row justify-content-center align-items-center mt-5'>
-                <div className="col-md-6">
-                    <Form onoValidate validated={valido} onSubmit={manipulaEvento} className="p-5 border rounded" noValidate>
-                    <h3 className="text-center mb-5">Cadastro Exemplar</h3>
+            <div className='row justify-content-center' id="corpo">
+                <div>
+                    <Form onoValidate validated={valido} onSubmit={manipulaEvento} className="p-5 border rounded mainForm" noValidate>
+                    <h3 className="text-center mb-5 colorWhite">Cadastro Exemplar</h3>
                         <Row className="row mb-3">
                             <Col>
                                 <Form.Group>
@@ -97,14 +98,14 @@ export default function FormLivro(props) {
                             <Col>
                                 <Form.Group >
                                     <Form.Label htmlFor="dataAquisicao" className="form-label">Data Aquisicao</Form.Label>
-                                    <Form.Control  type="text" value={livro.dataAquisicao} className="form-control" id="dataAquisicao" onChange={manipularMudanca} required />
+                                    <Form.Control  type="date"s value={livro.dataAquisicao} className="form-control" id="dataAquisicao" onChange={manipularMudanca} required />
                                     <Form.Control.Feedback type='invalid'>Informe a Data de Aquisição</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Row>
                         <br />
 
-                        <Row className='mb-3'>
+                        <Row className='mb-3 botao'>
                             <div>
                                 <Button type="submit" variant="primary" id="cadastrar">Cadastrar</Button>{' '}
                                 <Button type="button" className="btn btn-secondary" onClick={()=>{props.exibirTabela(true)}}>Voltar</Button>{' '}
