@@ -8,31 +8,12 @@ export default function Inicio() {
       <img className="mx-auto d-block" src={imgInicio}></img>
       <Container>
         <p className="paragrafo">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente est
-          laborum ipsam aliquid, aliqua illum quisquam similique ab eveniet
-          corrupti! Perspiciatis ipsam mollitia tempora eveniet ipsum
-          voluptatem, doloribus facere qui, Lorem ipsum dolor sit, amet
-          consectetur adipisicing elit. Quaerat modi adipisci provident
-          quibusdam pariatur perspiciatis aspernatur voluptates totam? Optio
-          corrupti recusandae natus dolorum modi delectus quae aliquam eaque
-          aperiam doloremque, Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Similique magni sunt ipsum tempore obcaecati suscipit,
-          reiciendis veniam provident velit nemo deleniti modi facilis
-          distinctio corrupti quidem, fugit cum quibusdam repellat!, Lorem ipsum
-          dolor sit amet consectetur adipisicing elit. Reiciendis ex nobis
-          aperiam molestias, neque tempora dolores cum, repellat eius magnam
-          sed, doloremque totam commodi minus! Optio mollitia cupiditate
-          repellendus numquam.,Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Enim reprehenderit aliquam quos ullam architecto
-          unde expedita dolorum impedit vitae consequuntur consequatur ut
-          voluptatibus, error sint non! Deleniti beatae ut voluptatem. Lorem
-          ipsum dolor sit amet consectetur adipisicing elit. Dolorem voluptas
-          quasi fugit accusamus nulla, numquam nesciunt repellat. Maiores
-          debitis, itaque, distinctio illo, ducimus deleniti expedita provident
-          eum quo autem mollitia! Lorem ipsum dolor sit amet consectetur,
-          adipisicing elit. Pariatur molestias nihil quis quos cum repellat
-          distinctio illum perspiciatis magni. Eius officiis sapiente earum
-          magni hic non aperiam quo, veniam
+          O web software QL (Quintal da Leitura), tem como seu objetivo um
+          sistema para uma biblioteca de uma escola pu blica, onde irá
+          proporcionar o gerenciamento administrativo, relacionado ao seu
+          controle t otal sobre o acervo de livros, responsável pelo controle e
+          arquivamento de exemplares, com o objetivo de proporcionar
+          organização, controle de acesso e registro das operações realizadas.
         </p>
       </Container>
     </body>
