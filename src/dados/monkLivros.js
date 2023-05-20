@@ -1,5 +1,6 @@
 const listaLivros = [
     {
+        codigo : 0,
         tituloDoLivro : "Introdução HTML",
         autores :"Unoeste",
         editora :"Aprender",
@@ -8,6 +9,7 @@ const listaLivros = [
         dataAquisicao :"2020",
     },
     {
+        codigo : 1,
         tituloDoLivro : "NODE baisco ao avançado",
         autores :"Unoeste",
         editora :"Aprender",
@@ -16,6 +18,7 @@ const listaLivros = [
         dataAquisicao :"2023",
     },
     {
+        codigo : 2,
         tituloDoLivro : "PHP basico ao Avançado",
         autores :"Unoeste",
         editora :"Aprender",

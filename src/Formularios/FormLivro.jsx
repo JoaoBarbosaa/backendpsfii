@@ -4,8 +4,10 @@ import React, { useState } from 'react';
 
 
 export default function FormLivro(props) {
+    const [valido, setValidated] = useState(false);
+
     const [livro, setLivro] = useState({
-        tituloDoLivro : 0,
+        tituloDoLivro : "",
         autores : "",
         editora : "",
         edicao : "",
@@ -13,15 +15,31 @@ export default function FormLivro(props) {
         dataAquisicao : ""
     })
 
-    const [valido, setValidated] = useState(false);
+    function manipularMudanca(e){
+        const elemForm = e.currentTarget;
+        const id = elemForm.id;
+        const valor = elemForm.value;
+        setLivro({...livro, [id]:valor});
+    }
+
   
     function manipulaEvento(evento) {
       const form = evento.currentTarget;
-      if (form.checkValidity() === false) {
-        evento.preventDefault();
-        evento.stopPropagation();
+
+      if (form.checkValidity()) {
+
+        let livros = props.listaLivros;
+        livros.push(livro);
+        props.setLivros(livros);
+
+        props.exibirTabela(true)
+        setValidated(false);
+      }else{
+        setValidated(true);
       }
-      setValidated(true);
+      
+      evento.preventDefault();
+      evento.stopPropagation();
     };
 
     return(
@@ -40,7 +58,7 @@ export default function FormLivro(props) {
                             <Col>
                                 <Form.Group>
                                     <Form.Label htmlFor="tituloDoLivro" className="form-label">Titulo Do Livro</Form.Label>
-                                    <Form.Control  type="text" className="form-control" id="tituloDoLivro" required />
+                                    <Form.Control  type="text" value={livro.tituloDoLivro} className="form-control" id="tituloDoLivro" onChange={manipularMudanca} required />
                                     <Form.Control.Feedback type='invalid'>Titulo do Livro</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
@@ -49,14 +67,14 @@ export default function FormLivro(props) {
                             <Col>
                                 <Form.Group>
                                     <Form.Label htmlFor="autores" className="form-label">Autores</Form.Label>
-                                    <Form.Control  type="text" className="form-control" id="autores" required />
+                                    <Form.Control  type="text" value={livro.autores} className="form-control" id="autores" onChange={manipularMudanca} required />
                                     <Form.Control.Feedback type='invalid'>Informe Autores</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col>
                                 <Form.Group>
                                     <Form.Label htmlFor="editora" className="form-label">Editora</Form.Label>
-                                    <Form.Control  type="text" className="form-control" id="editora" required />
+                                    <Form.Control  type="text" value={livro.editora} className="form-control" id="editora" onChange={manipularMudanca} required />
                                     <Form.Control.Feedback type='invalid'>Informe Editora</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
@@ -65,21 +83,21 @@ export default function FormLivro(props) {
                             <Col>
                                 <Form.Group >
                                     <Form.Label htmlFor="edicao" className="form-label">Edição</Form.Label>
-                                    <Form.Control  type="text" className="form-control" id="edicao" required />
+                                    <Form.Control  type="text" value={livro.edicao} className="form-control" id="edicao" onChange={manipularMudanca} required />
                                     <Form.Control.Feedback type='invalid'>Informe Edição</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col>
                                 <Form.Group >
                                     <Form.Label htmlFor="anoPublicacao" className="form-label">Ano Publicacao</Form.Label>
-                                    <Form.Control  type="text" className="form-control" id="anoPublicacao" required />
+                                    <Form.Control  type="text" value={livro.anoPublicacao} className="form-control" id="anoPublicacao" onChange={manipularMudanca} required />
                                     <Form.Control.Feedback type='invalid'>Informe o Ano de Publicação</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col>
                                 <Form.Group >
                                     <Form.Label htmlFor="dataAquisicao" className="form-label">Data Aquisicao</Form.Label>
-                                    <Form.Control  type="text" className="form-control" id="dataAquisicao" required />
+                                    <Form.Control  type="text" value={livro.dataAquisicao} className="form-control" id="dataAquisicao" onChange={manipularMudanca} required />
                                     <Form.Control.Feedback type='invalid'>Informe a Data de Aquisição</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
@@ -89,8 +107,6 @@ export default function FormLivro(props) {
                         <Row className='mb-3'>
                             <div>
                                 <Button type="submit" variant="primary" id="cadastrar">Cadastrar</Button>{' '}
-                                <Button type="button" className="btn btn-warning" id="atualizar" disabled>Atualizar</Button>{' '}
-                                <Button type="button" className="btn btn-danger" id="excluir" disabled>Excluir</Button>{' '}
                                 <Button type="button" className="btn btn-secondary" onClick={()=>{props.exibirTabela(true)}}>Voltar</Button>{' '}
                             </div>
                         </Row>
