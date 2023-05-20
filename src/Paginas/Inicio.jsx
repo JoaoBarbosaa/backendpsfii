@@ -1,39 +1,29 @@
 import Container from "react-bootstrap/Container";
 import "./estilos/Inicio.css";
-import imgInicio from "../img/inicioImg.jpg";
+import imgInicio from "../img/pexels-huseyn-kamaladdin-667838.jpg";
 export default function Inicio() {
   return (
-    <body id="corpo" className="corLetra">
+    <body id="wallpaperInicio" className="corLetra">
       <h1 className="text-center">Sistema de Gerenciamento Bibliotecário</h1>
       <img className="mx-auto d-block" src={imgInicio}></img>
       <Container>
+        <hr></hr>
+        <h2 className="text-center">Frases motivacional</h2>
         <p className="paragrafo">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente est
-          laborum ipsam aliquid, aliqua illum quisquam similique ab eveniet
-          corrupti! Perspiciatis ipsam mollitia tempora eveniet ipsum
-          voluptatem, doloribus facere qui, Lorem ipsum dolor sit, amet
-          consectetur adipisicing elit. Quaerat modi adipisci provident
-          quibusdam pariatur perspiciatis aspernatur voluptates totam? Optio
-          corrupti recusandae natus dolorum modi delectus quae aliquam eaque
-          aperiam doloremque, Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Similique magni sunt ipsum tempore obcaecati suscipit,
-          reiciendis veniam provident velit nemo deleniti modi facilis
-          distinctio corrupti quidem, fugit cum quibusdam repellat!, Lorem ipsum
-          dolor sit amet consectetur adipisicing elit. Reiciendis ex nobis
-          aperiam molestias, neque tempora dolores cum, repellat eius magnam
-          sed, doloremque totam commodi minus! Optio mollitia cupiditate
-          repellendus numquam.,Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Enim reprehenderit aliquam quos ullam architecto
-          unde expedita dolorum impedit vitae consequuntur consequatur ut
-          voluptatibus, error sint non! Deleniti beatae ut voluptatem. Lorem
-          ipsum dolor sit amet consectetur adipisicing elit. Dolorem voluptas
-          quasi fugit accusamus nulla, numquam nesciunt repellat. Maiores
-          debitis, itaque, distinctio illo, ducimus deleniti expedita provident
-          eum quo autem mollitia! Lorem ipsum dolor sit amet consectetur,
-          adipisicing elit. Pariatur molestias nihil quis quos cum repellat
-          distinctio illum perspiciatis magni. Eius officiis sapiente earum
-          magni hic non aperiam quo, veniam
+        <ul className="text-center listaInicio">
+          <li>"O segredo para alcançar o sucesso é começar acreditando que você é capaz."</li>
+          <li>"Não tenha medo de enfrentar desafios, pois são eles que te fortalecem e te levam mais longe."</li>
+          <li>"Lembre-se de que cada dia é uma nova oportunidade para se tornar a melhor versão de si mesmo."</li>
+          <li>"Não importa quantas vezes você caia, o que importa é quantas vezes você se levanta e continua tentando."</li>
+          <li>"O caminho para o sucesso pode ser difícil, mas cada passo que você dá em direção aos seus objetivos é uma vitória."</li>
+          <li>"Acredite em si mesmo, pois se você não acreditar, ninguém mais o fará."</li>
+          <li>"Não se compare com os outros, pois cada jornada é única. Concentre-se em superar a si mesmo."</li>
+          <li>"Não deixe que o medo do fracasso o impeça de tentar. Lembre-se de que grandes conquistas exigem coragem."</li>
+          <li>"A persistência é a chave para o sucesso. Continue tentando, mesmo quando as coisas parecerem difíceis."</li>
+          <li>"Você é capaz de coisas incríveis. Acredite em seu potencial e deixe sua luz brilhar."</li>
+        </ul>
         </p>
+        <hr></hr>
       </Container>
     </body>
   );
