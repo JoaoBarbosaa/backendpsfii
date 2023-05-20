@@ -21,24 +21,18 @@ export default function TabelaLivro(props){
 
     return (
         <>  
-            <Container className="border mb-2 mt-2">
-            <h2 className="text-center">Cadastro de Exemplar</h2>
+            <Container className="border mb-2 mt-2" >
+            <h2 className="text-center  ">Cadastro de Exemplar</h2>
             <Row className='mb-2 mt-2'>
                 <Col>
                     <Button onClick={()=>{props.exibirTabela(false)}}>
                         Cadastrar
                     </Button>
                 </Col>
-                <Col className="d-flex justify-content-end md-2">
-                    <Form className="d-flex mb-2 m-2">
+                <Col className="d-flex justify-content-end md-2 ">
+                    <Form className="d-flex mb-2 mt-2">
                     <Form.Control type="text" id="termoBusca" onChange={filtrarLivros} placeholder="Pesquisar"/>
-               
-                    <Button ><svg xmlns="http://www.w3.org/2000/svg" 
-                    width="16" height="16" fill="currentColor" 
-                    className="bi bi-search" viewBox="0 0 16 16">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                        </svg>
-                    </Button>
+
                     </Form>
                 </Col>
             </Row>
