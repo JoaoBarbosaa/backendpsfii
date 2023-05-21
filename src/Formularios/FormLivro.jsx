@@ -98,8 +98,8 @@ export default function FormLivro(props) {
                             </Col>
                             <Col>
                                 <Form.Group >
-                                <Form.Label htmlFor="anoPublicacao" className="form-label">Ano Publicação</Form.Label>
-                                    <Form.Control  type="text" value={livro.anoPublicacao} className="form-control" id="anoPublicacao" onChange={manipularMudanca} required />
+                                <Form.Label htmlFor="anoDePublicacao" className="form-label">Ano Publicação</Form.Label>
+                                    <Form.Control  type="date" value={livro.anoDePublicacao} className="form-control" id="anoDePublicacao" onChange={manipularMudanca} required />
                                     <Form.Control.Feedback type='invalid'>Informe o Ano de Publicação</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
