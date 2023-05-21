@@ -45,7 +45,7 @@ var listaProfessores = [
         email: "dugomes@hotmail.com",
         materia: "Matematica",
         telefone: "(19)998236898",
-        cidade: "Regente",
+        cidade: "São Paulo",
         endereco: "Rua Brasilandia N.65",
         cep: "19500000",
         dataNasc: "30/09/1997"
@@ -56,9 +56,9 @@ var listaProfessores = [
         sexo: "Feminino",
         nome: "Diane Silva",
         email: "diane@gmail.com",
-        materia: "Fisica",
+        materia: "ED. Fisica",
         telefone: "(19)998996534",
-        cidade: "Vitoria",
+        cidade: "São Paulo",
         endereco: "Rua Brasil novo N.324",
         cep: "19500000",
         dataNasc: "19/10/1987"
