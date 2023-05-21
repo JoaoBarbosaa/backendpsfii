@@ -9,11 +9,11 @@ export default function FormLivro(props) {
 
     const [livro, setLivro] = useState({
         tituloDoLivro : "",
-        autores : "",
         editora : "",
+        categoria : "",
         edicao : "",
-        anoPublicacao : "",
-        dataAquisicao : ""
+        assunto : "",
+        anoDePublicacao : ""
     })
 
     function manipularMudanca(e){
@@ -48,7 +48,7 @@ export default function FormLivro(props) {
             <div className='row justify-content-center' id="corpo">
                 <div>
                     <Form onoValidate validated={valido} onSubmit={manipulaEvento} className="p-5 border rounded mainForm" noValidate>
-                    <h3 className="text-center mb-5 colorWhite">Cadastro Exemplar</h3>
+                    <h3 className="text-center mb-5 colorWhite">Cadastro de Título</h3>
                         <Row className="row mb-3">
                             <Col>
                                 <Form.Group>
@@ -64,19 +64,20 @@ export default function FormLivro(props) {
                                 </Form.Group>
                             </Col>
                         </Row>
+                        
                         <Row className="row mb-3">
-                            <Col>
-                                <Form.Group>
-                                    <Form.Label htmlFor="autores" className="form-label">Autores</Form.Label>
-                                    <Form.Control  type="text" value={livro.autores} className="form-control" id="autores" onChange={manipularMudanca} required />
-                                    <Form.Control.Feedback type='invalid'>Informe Autores</Form.Control.Feedback>
-                                </Form.Group>
-                            </Col>
                             <Col>
                                 <Form.Group>
                                     <Form.Label htmlFor="editora" className="form-label">Editora</Form.Label>
                                     <Form.Control  type="text" value={livro.editora} className="form-control" id="editora" onChange={manipularMudanca} required />
                                     <Form.Control.Feedback type='invalid'>Informe Editora</Form.Control.Feedback>
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group>
+                                    <Form.Label htmlFor="categoria" className="form-label">Categoria</Form.Label>
+                                    <Form.Control  type="text" value={livro.categoria} className="form-control" id="categoria" onChange={manipularMudanca} required />
+                                    <Form.Control.Feedback type='invalid'>Informe Categoria</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -90,16 +91,16 @@ export default function FormLivro(props) {
                             </Col>
                             <Col>
                                 <Form.Group >
-                                    <Form.Label htmlFor="anoPublicacao" className="form-label">Ano Publicacao</Form.Label>
-                                    <Form.Control  type="text" value={livro.anoPublicacao} className="form-control" id="anoPublicacao" onChange={manipularMudanca} required />
-                                    <Form.Control.Feedback type='invalid'>Informe o Ano de Publicação</Form.Control.Feedback>
+                                    <Form.Label htmlFor="assunto" className="form-label">Assunto</Form.Label>
+                                    <Form.Control  type="text" value={livro.assunto} className="form-control" id="assunto" onChange={manipularMudanca} required />
+                                    <Form.Control.Feedback type='invalid'>Informe Assunto</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col>
                                 <Form.Group >
-                                    <Form.Label htmlFor="dataAquisicao" className="form-label">Data Aquisicao</Form.Label>
-                                    <Form.Control  type="date"s value={livro.dataAquisicao} className="form-control" id="dataAquisicao" onChange={manipularMudanca} required />
-                                    <Form.Control.Feedback type='invalid'>Informe a Data de Aquisição</Form.Control.Feedback>
+                                <Form.Label htmlFor="anoPublicacao" className="form-label">Ano Publicação</Form.Label>
+                                    <Form.Control  type="text" value={livro.anoPublicacao} className="form-control" id="anoPublicacao" onChange={manipularMudanca} required />
+                                    <Form.Control.Feedback type='invalid'>Informe o Ano de Publicação</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                         </Row>

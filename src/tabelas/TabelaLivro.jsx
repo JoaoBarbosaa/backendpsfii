@@ -23,7 +23,7 @@ export default function TabelaLivro(props){
     return (
         <>  <body id="corpo" className="colorwhite">
                 <Container className="border mb-2 mt-2 corpoTabela" >
-                <h2 className="text-center m-4 ">Cadastro de Exemplar</h2>
+                <h2 className="text-center m-4 ">Livros Cadastrados</h2>
                 <Row className='mb-2 mt-2 '>
                     <Col>
                         <Button variant="success" onClick={()=>{props.exibirTabela(false)}}>
@@ -44,11 +44,11 @@ export default function TabelaLivro(props){
                     <tr >
                     <th>Codigo</th>
                     <th>Titulo Do Livro</th>
-                    <th>Autores</th>
                     <th>Editora</th>
-                    <th>Edicao</th>
+                    <th>Categoria</th>
+                    <th>Edição</th>
+                    <th>Assunto</th>
                     <th>Ano de Publicação</th>
-                    <th>Data Aquisição</th>
                     <th>Ações</th>
                     </tr>
                 </thead>
@@ -58,11 +58,11 @@ export default function TabelaLivro(props){
                             return <tr  key={livro.codigo}>
                                 <td id="colorwhite">{livro.codigo}</td>
                                 <td id="colorwhite">{livro.tituloDoLivro}</td>
-                                <td id="colorwhite">{livro.autores}</td>
                                 <td id="colorwhite">{livro.editora}</td>
+                                <td id="colorwhite">{livro.categoria}</td>
                                 <td id="colorwhite">{livro.edicao}</td>
-                                <td id="colorwhite">{livro.anoPublicacao}</td>
-                                <td id="colorwhite">{livro.dataAquisicao}</td>
+                                <td id="colorwhite">{livro.assunto}</td>
+                                <td id="colorwhite">{livro.anoDePublicacao}</td>
                                 <td>
                                     <Button variant="warning"><svg xmlns="http://www.w3.org/2000/svg" 
                                             width="16" height="16" 
