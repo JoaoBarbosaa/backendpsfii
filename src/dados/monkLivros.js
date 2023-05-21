@@ -1,42 +1,31 @@
 const listaLivros = [
     {
-        codigo : 0,
-        tituloDoLivro : "Matematica Basica",
-        autores :"Unoeste",
-        editora :"Aprender",
-        edicao :"6 edição",
-        anoPublicacao :"2010",
-        dataAquisicao :"01/02/2023",
-    },
-    {
         codigo : 1,
-        tituloDoLivro : "Quimica Basica",
-        autores :"Unoeste",
-        editora :"Aprender",
-        edicao :"4 edição",
-        anoPublicacao :"2012",
-        dataAquisicao :"02/05/2023",
+        tituloDoLivro : "Matematica Basica",
+        editora :"Unoeste",
+        categoria :"Exatas",
+        edicao :"6 edição",
+        assunto :"Livro de Matematica Basica",
+        anoDePublicacao :"01/02/2023",
     },
     {
         codigo : 2,
-        tituloDoLivro : "Informatica Basica",
-        autores :"Unoeste",
-        editora :"Aprender",
-        edicao :"1 edição",
-        anoPublicacao :"2023",
-        dataAquisicao :"02/12/2022",
+        tituloDoLivro : "Biologia Basico",
+        editora :"Unoeste",
+        categoria :"Humanas",
+        edicao :"6 edição",
+        assunto :"Livro de Biologia basica",
+        anoDePublicacao :"09/10/2022",
     },
-
     {
         codigo : 3,
-        tituloDoLivro : "Inglês para Leigos",
-        autores :"Unoeste",
+        tituloDoLivro : "Matematica Intermediaria",
         editora :"Aprender",
+        categoria :"Exatas",
         edicao :"10 edição",
-        anoPublicacao :"2023",
-        dataAquisicao :"05/05/2023",
+        assunto :"Livro de Matematica intermediaria",
+        anoDePublicacao :"05/08/2022",
     }
-
 ];
 
 
