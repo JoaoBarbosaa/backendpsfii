@@ -29,7 +29,9 @@ footer{
     cursor: pointer;
 }
 
-
+.copy_right{
+    margin: -1rem;
+}
 
 .copy_right span{
     font-weight: bold;

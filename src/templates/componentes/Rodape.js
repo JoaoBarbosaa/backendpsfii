@@ -1,4 +1,3 @@
-import Alert from 'react-bootstrap/Alert';
 import { FaFacebook, FaInstagram} from 'react-icons/fa'
 import "../estilos/Rodape.css"
 
@@ -11,7 +10,7 @@ export default function Rodape(props){
                     <li> <FaInstagram/> </li>
                 </ul>
 
-                <p className='copy_right mb-0'>
+                <p className='copy_right mb-0' >
                     <span>Copyright </span> &copy; 2023
                 </p>
             </footer>

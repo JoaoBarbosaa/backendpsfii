@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Table, Form, Container, Row, Col } from "react-bootstrap";
+import { Button, Table, Form, Container} from "react-bootstrap";
 import "./estilos/tabela.css";
 
 export default function TabelaAlunos(props) {
