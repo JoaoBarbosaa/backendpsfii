@@ -107,8 +107,8 @@ export default function FormLivro(props) {
 
                         <Row className='mb-3 botao'>
                             <div>
-                                <Button type="submit" variant="primary" id="cadastrar">Cadastrar</Button>{' '}
-                                <Button type="button" className="btn btn-secondary" onClick={()=>{props.exibirTabela(true)}}>Voltar</Button>{' '}
+                                <Button type="submit" variant="success" id="cadastrar">Cadastrar</Button>{' '}
+                                <Button type="button" className="btn btn-secondary" variant="warning" onClick={()=>{props.exibirTabela(true)}}>Voltar</Button>{' '}
                             </div>
                         </Row>
                         

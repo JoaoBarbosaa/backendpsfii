@@ -34,7 +34,7 @@ const listaLivros = [
         editora :"Aprender",
         edicao :"10 edição",
         anoPublicacao :"2023",
-        dataAquisicao :"05/052023",
+        dataAquisicao :"05/05/2023",
     }
 
 ];

@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export default function TelaCadastroLivro(props){
 
-    const [exibirTabela, setExibirTabela] = useState(true);
+    const [ exibirTabela, setExibirTabela] = useState(true);
     const [livros, setLivros] = useState(listaLivros);
     
     return (
