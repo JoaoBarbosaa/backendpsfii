@@ -7,6 +7,7 @@ export default function TabelaAlunos(props){
     function excluirAluno(ra){
         const listaAtualizada = props.listaAlunos.filter((aluno) => aluno.ra !== ra );
         props.setAlunos(listaAtualizada);
+        setAlunos(listaAtualizada)
     }
 
     function filtrarAlunos(e){

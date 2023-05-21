@@ -7,6 +7,7 @@ export default function TabelaAutores(props){
     function excluirAutor(cod){
         const listaAtualizada = props.listaAutores.filter((autor) => autor.cod !== cod );
         props.setAutores(listaAtualizada);
+        setAutores(listaAtualizada)
     }
 
     function filtrarAlunos(e){
@@ -56,7 +57,7 @@ export default function TabelaAutores(props){
                             </Button>{' '}
                             <Button onClick={() => {
                                     if (window.confirm("Deseja realmente excluir o Autor?")){
-                                        excluirAutor(autor.ra);
+                                        excluirAutor(autor.cod);
                                     }
                             }}><svg xmlns="http://www.w3.org/2000/svg" 
                                     width="16" 
