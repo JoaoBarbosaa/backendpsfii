@@ -52,7 +52,7 @@ export default function TabelaProfessores(props) {
               <th>Materia</th>
               <th>Telefone</th>
               <th>Cidade</th>
-              <th>endereco</th>
+              <th>Endereco</th>
               <th>CEP</th>
               <th>Data Nasc.</th>
               <th>Ações</th>

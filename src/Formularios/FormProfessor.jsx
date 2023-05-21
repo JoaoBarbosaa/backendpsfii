@@ -10,13 +10,15 @@ export default function FormProfessor(props) {
 
   const [validado, setValidado] = useState(false);
   const [professor, setProfessores] = useState({
-    codigo: "",
+    cpf: "",
     sexo: "",
     nome: "",
     email: "",
+    materia:"",
     telefone: "",
-    materia: "",
-    cpf: "",
+    cidade: "",
+    endereco: "",
+    cep: "",
     dataNasc: ""
   });
 
@@ -52,10 +54,10 @@ export default function FormProfessor(props) {
           <h1 className='text-center colorWhite'>Cadastro de Professores</h1>
           <Form noValidate validated={validado} onSubmit={manipulaSubmissao} className='mainForm'>
             <Form.Group className="mb-3" controlId="CodForm">
-              <Form.Label>Codigo de inscrição</Form.Label>
-              <Form.Control type="text" required placeholder="Digite o Codigo" value={professor.ra} id="codigo" onChange={manipularMudanca} />
+              <Form.Label>CPF</Form.Label>
+              <Form.Control type="text" required placeholder="000.000.000-00" value={professor.cpf} id="codigo" onChange={manipularMudanca} />
               <Form.Control.Feedback type="invalid">
-              Digite um codigo valido!
+              Digite um cpf valido!
             </Form.Control.Feedback>
             </Form.Group>
 
@@ -73,7 +75,6 @@ export default function FormProfessor(props) {
             </Form.Control.Feedback>
             </Form.Group>
 
-
             <Form.Group className="mb-3" controlId="NomeForm">
               <Form.Label>Nome Completo</Form.Label>
               <Form.Control type="text" required value={professor.nome} id="nome" onChange={manipularMudanca} placeholder="Digite o nome completo" />
@@ -82,12 +83,19 @@ export default function FormProfessor(props) {
             </Form.Control.Feedback>
             </Form.Group>
 
-
             <Form.Group className="mb-3" controlId="EmailForm">
               <Form.Label>Email</Form.Label>
               <Form.Control type="text" required value={professor.email} id="email" onChange={manipularMudanca} placeholder="@gmail.com" />
               <Form.Control.Feedback type="invalid">
               Digite um e-mail valido!
+            </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="EmailForm">
+              <Form.Label>Materia</Form.Label>
+              <Form.Control type="text" required value={professor.materia} id="materia" onChange={manipularMudanca} placeholder="Informe sua materia" />
+              <Form.Control.Feedback type="invalid">
+              Digite uma materia valida!
             </Form.Control.Feedback>
             </Form.Group>
 
@@ -100,18 +108,26 @@ export default function FormProfessor(props) {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="MateriaForm">
-              <Form.Label>Materia</Form.Label>
-              <Form.Control type="text" required value={professor.materia} id="materia" onChange={manipularMudanca} placeholder="Informe uma materia" />
+              <Form.Label>Cidade</Form.Label>
+              <Form.Control type="text" required value={professor.cidade} id="cidade" onChange={manipularMudanca} placeholder="Informe sua cidade" />
               <Form.Control.Feedback type="invalid">
-              Digite uma materia valida!
+              Digite uma cidade valida!
+            </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="MateriaForm">
+              <Form.Label>Endereço</Form.Label>
+              <Form.Control type="text" required value={professor.endereco} id="endereco" onChange={manipularMudanca} placeholder="Informe seu endereco" />
+              <Form.Control.Feedback type="invalid">
+              Digite um endereço alido!
             </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="CepForm">
-              <Form.Label>CPF</Form.Label>
-              <Form.Control type="text" required value={professor.cpf} id="cpf" onChange={manipularMudanca} placeholder="000.000.000-00" />
+              <Form.Label>CEP</Form.Label>
+              <Form.Control type="text" required value={professor.cep} id="cep" onChange={manipularMudanca} placeholder="00000-000" />
               <Form.Control.Feedback type="invalid">
-              Digite um CPF valido!
+              Digite um CEP valido!
             </Form.Control.Feedback>
             </Form.Group>
 
