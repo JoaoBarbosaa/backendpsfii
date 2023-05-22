@@ -8,7 +8,7 @@ export default function Inicio() {
       <img className="mx-auto d-block" src={imgInicio}></img>
       <Container>
         <hr></hr>
-        <h2 className="text-center">Frases motivacional</h2>
+        <h2 className="text-center">Frases motivacionais</h2>
         <p className="paragrafo">
         <ul className="text-center listaInicio">
           <li>"O segredo para alcançar o sucesso é começar acreditando que você é capaz."</li>
