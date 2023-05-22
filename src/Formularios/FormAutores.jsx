@@ -84,8 +84,8 @@ export default function FormAutor(props) {
               aria-label="Default select example"
             >
               <option value={setValidado}>Selecione uma das opções</option>
-              <option value="1">Masculino</option>
-              <option value="2">Feminino</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Feminino">Feminino</option>
             </Form.Select>
             <Form.Control.Feedback type="invalid">
               Selecione seu sexo

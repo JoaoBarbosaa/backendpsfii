@@ -51,7 +51,7 @@ export default function TabelaFuncionarios(props) {
                             <th>Cidade</th>
                             <th>Endereço</th>
                             <th>CEP</th>
-                            <th>Data de Nasc.</th>
+                            <th>Data Nasc.</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
