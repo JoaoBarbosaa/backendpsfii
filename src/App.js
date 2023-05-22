@@ -5,6 +5,7 @@ import Tela404 from "./interfaces/Tela404.js"
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 import TelaCadastroLivro from "./interfaces/TelaCadastroLivro.jsx";
 import TelaCadastroAutor from "./interfaces/TelaFormAutor.js";
+import TelaCadastroFuncionario from "./interfaces/TelaCadastroFuncionario.jsx";
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Routes>
               <Route path="/cadastroProfessor" element={<FormProfessor></FormProfessor>}></Route>
               <Route path="/cadastroAluno" element={<FormAluno></FormAluno>}></Route>
+              <Route path="/cadastroFuncionario" element={<TelaCadastroFuncionario/>}/>
               <Route path="/cadastroLivro" element={<TelaCadastroLivro/>} />
               <Route path="/cadastroAutor" element={<TelaCadastroAutor/>} />
               <Route path="/" element={<TelaMenu></TelaMenu>}></Route>

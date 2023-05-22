@@ -1,12 +1,6 @@
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Image } from 'react-bootstrap';
-import Icone from '../../img/icone.png'
+import { Button, Container, Form, Nav, Navbar, NavDropdown, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Icone from '../../img/icone.png'
 import '../estilos/MenuCss.css'
 
 export default function Menu(props){
@@ -27,7 +21,7 @@ export default function Menu(props){
                 <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroAutor'>Cadastro de Autor</Link></NavDropdown.Item>
                 <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroAluno'>Cadastro de Aluno</Link></NavDropdown.Item>
                 <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroProfessor'>Cadastro de Professor</Link></NavDropdown.Item>
-                <NavDropdown.Item href="#"><Link className='linkDeco' to='/'>Cadastro de Funcionário</Link></NavDropdown.Item>
+                <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroFuncionario'>Cadastro de Funcionário</Link></NavDropdown.Item>
               </NavDropdown>
               <Nav.Link href="#" disabled>
                 Exemplar
