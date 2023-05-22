@@ -5,9 +5,9 @@ import "./estilos/tabela.css";
 export default function TabelaProfessores(props) {
   const [professores, setProfessores] = useState(props.listaProfessores);
 
-  function excluirProfessor(cod) {
+  function excluirProfessor(cpf) {
     const listaAtualizada = props.listaProfessores.filter(
-      (professor) => professor.cod !== cod
+      (professor) => professor.cpf !== cpf
     );
     props.setProfessores(listaAtualizada);
     setProfessores(listaAtualizada);
@@ -61,7 +61,7 @@ export default function TabelaProfessores(props) {
           <tbody>
             {professores?.map((professor) => {
               return (
-                <tr key={professor.cod}>
+                <tr key={professor.cpf}>
                   <td id="colorwhite">{professor.cpf}</td>
                   <td id="colorwhite">{professor.sexo}</td>
                   <td id="colorwhite">{professor.nome}</td>
@@ -91,7 +91,7 @@ export default function TabelaProfessores(props) {
                         if (
                           window.confirm("Deseja realmente excluir o professor?")
                         ) {
-                          excluirProfessor(professor.cod);
+                          excluirProfessor(professor.cpf);
                         }
                       }}
                     >

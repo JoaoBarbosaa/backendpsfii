@@ -53,9 +53,9 @@ export default function FormProfessor(props) {
         <Container className="background mb-3">
           <h1 className='text-center colorWhite'>Cadastro de Professores</h1>
           <Form noValidate validated={validado} onSubmit={manipulaSubmissao} className='mainForm'>
-            <Form.Group className="mb-3" controlId="CodForm">
+            <Form.Group className="mb-3" controlId="cpf">
               <Form.Label>CPF</Form.Label>
-              <Form.Control type="text" required placeholder="000.000.000-00" value={professor.cpf} id="codigo" onChange={manipularMudanca} />
+              <Form.Control type="text" required placeholder="000.000.000-00" value={professor.cpf} id="cpf" onChange={manipularMudanca} />
               <Form.Control.Feedback type="invalid">
               Digite um cpf valido!
             </Form.Control.Feedback>
