@@ -45,7 +45,8 @@ export default function TabelaFuncionarios(props) {
                             <th>Sexo</th>
                             <th>Nome</th>
                             <th>E-mail</th>
-                            <th>Função</th>
+                            <th>Setor</th>
+                            <th>Cargo</th>
                             <th>Telefone</th>
                             <th>Cidade</th>
                             <th>Endereço</th>
@@ -62,7 +63,8 @@ export default function TabelaFuncionarios(props) {
                                     <td id="colorwhite">{funcionario.sexo}</td>
                                     <td id="colorwhite">{funcionario.nome}</td>
                                     <td id="colorwhite">{funcionario.email}</td>
-                                    <td id="colorwhite">{funcionario.funcao}</td>
+                                    <td id="colorwhite">{funcionario.setor}</td>
+                                    <td id="colorwhite">{funcionario.cargo}</td>
                                     <td id="colorwhite">{funcionario.telefone}</td>
                                     <td id="colorwhite">{funcionario.cidade}</td>
                                     <td id="colorwhite">{funcionario.endereco}</td>

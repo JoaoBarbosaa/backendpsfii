@@ -47,7 +47,7 @@ export default function TabelaAutores(props) {
             <tr>
               <th>Código</th>
               <th>Autor</th>
-              <th>Sexo</th>
+              <th>Gênero</th>
               <th>Ações</th>
             </tr>
           </thead>

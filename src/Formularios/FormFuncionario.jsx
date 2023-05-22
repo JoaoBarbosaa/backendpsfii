@@ -9,7 +9,8 @@ export default function FormFuncionario(props) {
         sexo: "",
         nome: "",
         email: "",
-        funcao: "",
+        setor: "",
+        cargo: "",
         telefone: "",
         cidade: "",
         endereco: "",
@@ -112,13 +113,28 @@ export default function FormFuncionario(props) {
                         </Form.Control.Feedback>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="FormFuncaoFuncionario">
-                        <Form.Label>Funcao</Form.Label>
+                    <Form.Group className="mb-3" controlId="FormSetorFuncionario">
+                        <Form.Label>Setor</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Digite o setor do funcionário"
+                            value={funcionario.funcao}
+                            id="setor"
+                            onChange={manipularMudanca}
+                            required
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            Por favor, informe o setor do funcionário!
+                        </Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="FormCargoFuncionario">
+                        <Form.Label>Cargo</Form.Label>
                         <Form.Control
                             type="text"
                             placeholder="Digite o cargo do funcionário"
                             value={funcionario.funcao}
-                            id="funcao"
+                            id="cargo"
                             onChange={manipularMudanca}
                             required
                         />

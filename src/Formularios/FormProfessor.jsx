@@ -63,7 +63,7 @@ export default function FormProfessor(props) {
 
 
             <Form.Group className="mb-3" controlId="SexoForm">
-              <Form.Label>Sexo</Form.Label>
+              <Form.Label>Gênero</Form.Label>
               <Form.Select value={professor.sexo} required id="sexo" onChange={manipularMudanca} aria-label="Default select example">
               <option value={setValidado}>Selecione uma das opções</option>
               <option value="1">Masculino</option>
@@ -71,7 +71,7 @@ export default function FormProfessor(props) {
               <option value="3">Indefinido</option>
             </Form.Select>
             <Form.Control.Feedback type="invalid">
-              Selecione seu sexo
+              Selecione seu Gênero
             </Form.Control.Feedback>
             </Form.Group>
 
