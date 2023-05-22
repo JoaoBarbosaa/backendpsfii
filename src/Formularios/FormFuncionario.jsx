@@ -133,7 +133,7 @@ export default function FormFuncionario(props) {
                         <Form.Control
                             type="text"
                             placeholder="Digite o cargo do funcionário"
-                            value={funcionario.funcao}
+                            value={funcionario.cargo}
                             id="cargo"
                             onChange={manipularMudanca}
                             required
