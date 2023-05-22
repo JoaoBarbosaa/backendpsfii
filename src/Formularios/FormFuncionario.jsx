@@ -118,7 +118,7 @@ export default function FormFuncionario(props) {
                         <Form.Control
                             type="text"
                             placeholder="Digite o setor do funcionário"
-                            value={funcionario.funcao}
+                            value={funcionario.setor}
                             id="setor"
                             onChange={manipularMudanca}
                             required
