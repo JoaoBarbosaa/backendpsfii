@@ -44,9 +44,7 @@ export default function TabelaLivro(props){
                         <th>Codigo</th>
                         <th>Titulo Do Livro</th>
                         <th>Editora</th>
-                        <th>Categoria</th>
                         <th>Edição</th>
-                        <th>Assunto</th>
                         <th>Ano de Publicação</th>
                         <th>Ações</th>
                         </tr>
@@ -58,9 +56,7 @@ export default function TabelaLivro(props){
                                     <td id="colorwhite">{livro.codigo}</td>
                                     <td id="colorwhite">{livro.tituloDoLivro}</td>
                                     <td id="colorwhite">{livro.editora}</td>
-                                    <td id="colorwhite">{livro.categoria}</td>
                                     <td id="colorwhite">{livro.edicao}</td>
-                                    <td id="colorwhite">{livro.assunto}</td>
                                     <td id="colorwhite">{livro.anoDePublicacao}</td>
                                     <td>
                                         <Button variant="warning"><svg xmlns="http://www.w3.org/2000/svg" 

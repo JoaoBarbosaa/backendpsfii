@@ -10,9 +10,7 @@ export default function FormLivro(props) {
     const [livro, setLivro] = useState({
         tituloDoLivro : "",
         editora : "",
-        categoria : "",
         edicao : "",
-        assunto : "",
         anoDePublicacao : ""
     })
 
@@ -74,26 +72,10 @@ export default function FormLivro(props) {
                                 </Form.Group>
                             </Col>
                             <Col>
-                                <Form.Group>
-                                    <Form.Label htmlFor="categoria" className="form-label">Categoria</Form.Label>
-                                    <Form.Control  type="text" value={livro.categoria} className="form-control" id="categoria" onChange={manipularMudanca} required />
-                                    <Form.Control.Feedback type='invalid'>Informe Categoria</Form.Control.Feedback>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row className="row mb-3">
-                            <Col>
                                 <Form.Group >
                                     <Form.Label htmlFor="edicao" className="form-label">Edição</Form.Label>
                                     <Form.Control  type="text" value={livro.edicao} className="form-control" id="edicao" onChange={manipularMudanca} required />
                                     <Form.Control.Feedback type='invalid'>Informe Edição</Form.Control.Feedback>
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group >
-                                    <Form.Label htmlFor="assunto" className="form-label">Assunto</Form.Label>
-                                    <Form.Control  type="text" value={livro.assunto} className="form-control" id="assunto" onChange={manipularMudanca} required />
-                                    <Form.Control.Feedback type='invalid'>Informe Assunto</Form.Control.Feedback>
                                 </Form.Group>
                             </Col>
                             <Col>
