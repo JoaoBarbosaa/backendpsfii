@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button, Table, Container, Row, Form, Col } from "react-bootstrap";
-import listaLivros from "../dados/monkLivros";
 import "./estilos/tabela.css";
 
 export default function TabelaLivro(props){
@@ -16,7 +15,7 @@ export default function TabelaLivro(props){
 
     function filtrarLivros(e){
         const termoBusca = e.currentTarget.value;
-        const resultadoBusca = props.listaLivros.filter((livro) => livro.tituloDoLivro.toLowerCase().includes(termoBusca.toLowerCase()))
+        const resultadoBusca = props.listaLivros.filter((livro) => livro.tituloDoLivro.toLowerCase().includes(termoBusca.toLowerCase()));
         setLivros(resultadoBusca)
     }
 

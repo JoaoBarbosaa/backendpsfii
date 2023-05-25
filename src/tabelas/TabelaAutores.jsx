@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Table, Form, Container,} from "react-bootstrap";
+import "./estilos/tabela.css";
 
 export default function TabelaAutores(props) {
   const [autores, setAutores] = useState(props.listaAutores);
@@ -12,10 +13,10 @@ export default function TabelaAutores(props) {
     setAutores(listaAtualizada);
   }
 
-  function filtrarAlunos(e) {
+  function filtrarAutores(e) {
     const termoBusca = e.currentTarget.value;
     const resultadoBusca = props.listaAutores.filter((aluno) =>
-      aluno.nome.includes(termoBusca)
+      aluno.nome.toLowerCase().includes(termoBusca.toLowerCase())
     );
     setAutores(resultadoBusca);
   }
@@ -38,7 +39,7 @@ export default function TabelaAutores(props) {
             className="BarraPesquisar"
             type="text"
             id="termoBusca"
-            onChange={filtrarAlunos}
+            onChange={filtrarAutores}
             placeholder="Pesquisar"
           />
         </Form>
@@ -47,7 +48,7 @@ export default function TabelaAutores(props) {
             <tr>
               <th>Código</th>
               <th>Autor</th>
-              <th>Gênero</th>
+              <th>Nacionalidade</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -57,7 +58,7 @@ export default function TabelaAutores(props) {
                 <tr key={autor.cod}>
                   <td id="colorwhite">{autor.cod}</td>
                   <td id="colorwhite">{autor.nome}</td>
-                  <td id="colorwhite">{autor.sexo}</td>
+                  <td id="colorwhite">{autor.nacionalidade}</td>
                   <td>
                     <Button variant="warning">
                       <svg

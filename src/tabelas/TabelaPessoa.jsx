@@ -2,29 +2,27 @@ import { useState } from "react";
 import { Button, Table, Form, Container} from "react-bootstrap";
 import "./estilos/tabela.css";
 
-export default function TabelaAlunos(props) {
-  const [alunos, setAlunos] = useState(props.listaAlunos);
+export default function TabelaPessoas(props) {
+  const [pessoas, setPessoas] = useState(props.listaPessoas);
 
-  function excluirAluno(ra) {
-    const listaAtualizada = props.listaAlunos.filter(
-      (aluno) => aluno.ra !== ra
-    );
-    props.setAlunos(listaAtualizada);
-    setAlunos(listaAtualizada);
+  function excluirPessoa(cpf) {
+    const listaAtualizada = props.listaPessoas.filter((professor) => 
+    professor.cpf !== cpf);
+    props.setPessoas(listaAtualizada);
+    setPessoas(listaAtualizada)
   }
 
-  function filtrarAlunos(e) {
+  function filtrarPessoas(e) {
     const termoBusca = e.currentTarget.value;
-    const resultadoBusca = props.listaAlunos.filter((aluno) =>
-      aluno.nome.includes(termoBusca)
-    );
-    setAlunos(resultadoBusca);
+    const resultadoBusca = props.listaPessoas.filter((pessoa) =>
+      pessoa.nome.toLowerCase().includes(termoBusca.toLowerCase()));
+      setPessoas(resultadoBusca);
   }
 
   return (
     <body id="corpo" className="colorwhite">
       <Container className="border corpoTabela">
-        <h1 className="text-center">Tabela Cadastro de Alunos</h1>
+        <h1 className="text-center">Tabela Cadastro de Pessoas</h1>
         <Button variant="secondary"
           onClick={() => {
             props.exibirTabela(false);
@@ -38,40 +36,40 @@ export default function TabelaAlunos(props) {
             className="BarraPesquisar"
             type="text"
             id="termoBusca"
-            onChange={filtrarAlunos}
+            onChange={filtrarPessoas}
             placeholder="Pesquisar"
           />
         </Form>
         <Table striped bordered hover>
           <thead className="colorwhite">
             <tr>
-              <th>RA</th>
-              <th>Sexo</th>
+              <th>Categoria</th>
+              <th>CPF</th>
               <th>Nome</th>
+              <th>Sexo</th>
               <th>E-mail</th>
-              <th>Turma</th>
               <th>Telefone</th>
               <th>Cidade</th>
-              <th>endereco</th>
+              <th>Endereco</th>
               <th>CEP</th>
               <th>Data Nasc.</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody>
-            {alunos?.map((aluno) => {
+            {pessoas?.map((pessoa) => {
               return (
-                <tr key={aluno.ra}>
-                  <td id="colorwhite">{aluno.ra}</td>
-                  <td id="colorwhite">{aluno.sexo}</td>
-                  <td id="colorwhite">{aluno.nome}</td>
-                  <td id="colorwhite">{aluno.email}</td>
-                  <td id="colorwhite">{aluno.turma}</td>
-                  <td id="colorwhite">{aluno.telefone}</td>
-                  <td id="colorwhite">{aluno.cidade}</td>
-                  <td id="colorwhite">{aluno.endereco}</td>
-                  <td id="colorwhite">{aluno.cep}</td>
-                  <td id="colorwhite">{aluno.dataNasc}</td>
+                <tr key={pessoa.cpf}>
+                  <td id="colorwhite">{pessoa.categoria}</td>
+                  <td id="colorwhite">{pessoa.cpf}</td>
+                  <td id="colorwhite">{pessoa.nome}</td>
+                  <td id="colorwhite">{pessoa.sexo}</td>
+                  <td id="colorwhite">{pessoa.email}</td>
+                  <td id="colorwhite">{pessoa.telefone}</td>
+                  <td id="colorwhite">{pessoa.cidade}</td>
+                  <td id="colorwhite">{pessoa.endereco}</td>
+                  <td id="colorwhite">{pessoa.cep}</td>
+                  <td id="colorwhite">{pessoa.dataNasc}</td>
                   <td>
                     <Button variant="warning">
                       <svg
@@ -89,9 +87,9 @@ export default function TabelaAlunos(props) {
                       variant="danger"
                       onClick={() => {
                         if (
-                          window.confirm("Deseja realmente excluir o aluno?")
+                          window.confirm("Deseja realmente excluir essa Pessoa?")
                         ) {
-                          excluirAluno(aluno.ra);
+                          excluirPessoa(pessoa.cpf);
                         }
                       }}
                     >

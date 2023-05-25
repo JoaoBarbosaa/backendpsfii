@@ -2,29 +2,29 @@ import { useState } from "react";
 import { Button, Table, Form, Container} from "react-bootstrap";
 import "./estilos/tabela.css";
 
-export default function TabelaProfessores(props) {
-  const [professores, setProfessores] = useState(props.listaProfessores);
+export default function TabelaCategorias(props) {
+  const [categorias, setCategorias] = useState(props.listaCategorias);
 
-  function excluirProfessor(cpf) {
-    const listaAtualizada = props.listaProfessores.filter(
-      (professor) => professor.cpf !== cpf
+  function excluirCategoria(cod) {
+    const listaAtualizada = props.listaCategorias.filter(
+      (assunto) => assunto.cod !== cod
     );
-    props.setProfessores(listaAtualizada);
-    setProfessores(listaAtualizada);
+    props.setCategorias(listaAtualizada);
+    setCategorias(listaAtualizada);
   }
 
-  function filtrarProfessores(e) {
+  function filtrarCategorias(e) {
     const termoBusca = e.currentTarget.value;
-    const resultadoBusca = props.listaProfessores.filter((professor) =>
-      professor.nome.includes(termoBusca)
+    const resultadoBusca = props.listaCategorias.filter((categoria) =>
+    categoria.categoria.toLowerCase().includes(termoBusca.toLowerCase())
     );
-    setProfessores(resultadoBusca);
+    setCategorias(resultadoBusca);
   }
 
   return (
     <body id="corpo" className="colorwhite">
       <Container className="border corpoTabela">
-        <h1 className="text-center">Tabela Cadastro de Professores</h1>
+        <h1 className="text-center">Tabela Cadastro de Categorias</h1>
         <Button variant="secondary"
           onClick={() => {
             props.exibirTabela(false);
@@ -38,40 +38,24 @@ export default function TabelaProfessores(props) {
             className="BarraPesquisar"
             type="text"
             id="termoBusca"
-            onChange={filtrarProfessores}
+            onChange={filtrarCategorias}
             placeholder="Pesquisar"
           />
         </Form>
         <Table striped bordered hover>
           <thead className="colorwhite">
             <tr>
-              <th>CPF</th>
-              <th>Sexo</th>
-              <th>Nome</th>
-              <th>E-mail</th>
-              <th>Materia</th>
-              <th>Telefone</th>
-              <th>Cidade</th>
-              <th>Endereco</th>
-              <th>CEP</th>
-              <th>Data Nasc.</th>
+              <th>Código</th>
+              <th>Categoria do Titulo</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody>
-            {professores?.map((professor) => {
+            {categorias?.map((categoria) => {
               return (
-                <tr key={professor.cpf}>
-                  <td id="colorwhite">{professor.cpf}</td>
-                  <td id="colorwhite">{professor.sexo}</td>
-                  <td id="colorwhite">{professor.nome}</td>
-                  <td id="colorwhite">{professor.email}</td>
-                  <td id="colorwhite">{professor.materia}</td>
-                  <td id="colorwhite">{professor.telefone}</td>
-                  <td id="colorwhite">{professor.cidade}</td>
-                  <td id="colorwhite">{professor.endereco}</td>
-                  <td id="colorwhite">{professor.cep}</td>
-                  <td id="colorwhite">{professor.dataNasc}</td>
+                <tr key={categoria.cod}>
+                  <td id="colorwhite">{categoria.cod}</td>
+                  <td id="colorwhite">{categoria.categoria}</td>
                   <td>
                     <Button variant="warning">
                       <svg
@@ -89,9 +73,9 @@ export default function TabelaProfessores(props) {
                       variant="danger"
                       onClick={() => {
                         if (
-                          window.confirm("Deseja realmente excluir o professor?")
+                          window.confirm("Deseja realmente excluir a categoria?")
                         ) {
-                          excluirProfessor(professor.cpf);
+                          excluirCategoria(categoria.cod);
                         }
                       }}
                     >

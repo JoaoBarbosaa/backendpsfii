@@ -19,9 +19,8 @@ export default function Menu(props){
               <NavDropdown title="Cadastros" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="#"><Link className='linkDeco' to="/cadastroLivro">Cadastro de Titulo</Link></NavDropdown.Item>
                 <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroAutor'>Cadastro de Autor</Link></NavDropdown.Item>
-                <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroAluno'>Cadastro de Aluno</Link></NavDropdown.Item>
-                <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroProfessor'>Cadastro de Professor</Link></NavDropdown.Item>
-                <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroFuncionario'>Cadastro de Funcionário</Link></NavDropdown.Item>
+                <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroCategoria'>Cadastro de Categoria</Link></NavDropdown.Item>
+                <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroPessoa'>Cadastro de Pessoa</Link></NavDropdown.Item>
               </NavDropdown>
               <Nav.Link href="#" disabled>
                 Exemplar

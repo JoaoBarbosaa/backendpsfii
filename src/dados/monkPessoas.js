@@ -1,0 +1,67 @@
+var listaPessoas = [
+  {
+    categoria: "Professor",
+    cpf: "12365489709",
+    nome: "Junior Pereira",
+    sexo: "Masculino",
+    email: "Junior.silva@gmail.com",
+    telefone: "(19)998345732",
+    cidade: "Alagoas",
+    endereco: "Rua Brasilandia 27",
+    cep: "19500000",
+    dataNasc: "19/02/1997",
+  },
+
+  {
+    categoria: "Aluno",
+    cpf: "34578545345",
+    nome: "Alfredo da Silva",
+    sexo: "Feminino",
+    email: "mclara@gmail.com",
+    telefone: "(19)997455567",
+    cidade: "Brasilia",
+    endereco: "Rua José Bonifacio 100",
+    cep: "15345045",
+    dataNasc: "25/04/1992",
+  },
+
+  {
+    categoria: "Funcionário",
+    cpf: "68845632343",
+    nome: "Gustavo João",
+    sexo: "Masculino",
+    email: "gustajao@gmail.com",
+    telefone: "(19)997423425",
+    cidade: "São Paulo",
+    endereco: "Rua Morada do Sol 89",
+    cep: "19500000",
+    dataNasc: "01/12/1989",
+  },
+
+  {
+    categoria: "Aluno",
+    cpf: "68865753434",
+    nome: "Diego Gomes",
+    sexo: "Masculino",
+    email: "dugomes@hotmail.com",
+    telefone: "(19)998236898",
+    cidade: "São Paulo",
+    endereco: "Rua Brasilandia N.65",
+    cep: "19500000",
+    dataNasc: "30/09/1997",
+  },
+
+  {
+    categoria: "Aluno",
+    cpf: "16323465488",
+    nome: "Diane Almeida",
+    sexo: "Feminino",
+    email: "diane@gmail.com",
+    telefone: "(19)998996534",
+    cidade: "São Paulo",
+    endereco: "Rua Brasil novo N.324",
+    cep: "19500000",
+    dataNasc: "19/10/1987",
+  },
+];
+export default listaPessoas;
