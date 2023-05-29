@@ -6,8 +6,8 @@ export default function TabelaPessoas(props) {
   const [pessoas, setPessoas] = useState(props.listaPessoas);
 
   function excluirPessoa(cpf) {
-    const listaAtualizada = props.listaPessoas.filter((professor) => 
-    professor.cpf !== cpf);
+    const listaAtualizada = props.listaPessoas.filter((pessoa) => 
+    pessoa.cpf !== cpf);
     props.setPessoas(listaAtualizada);
     setPessoas(listaAtualizada)
   }
@@ -22,7 +22,7 @@ export default function TabelaPessoas(props) {
   return (
     <body id="corpo" className="colorwhite">
       <Container className="border corpoTabela">
-        <h1 className="text-center">Tabela Cadastro de Pessoas</h1>
+        <h1 className="text-center">Cadastro de Pessoas</h1>
         <Button variant="secondary"
           onClick={() => {
             props.exibirTabela(false);
