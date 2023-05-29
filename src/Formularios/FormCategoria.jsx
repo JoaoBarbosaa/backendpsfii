@@ -54,7 +54,7 @@ export default function FormCategoria(props) {
               onChange={manipularMudanca}
             />
             <Form.Control.Feedback type="invalid">
-              Digite um Codigo valido
+              Digite um Código valido
             </Form.Control.Feedback>
           </Form.Group>
 
@@ -70,7 +70,7 @@ export default function FormCategoria(props) {
               placeholder="Digite do categoria"
             />
             <Form.Control.Feedback type="invalid">
-              Digite um assunto valido
+              Digite uma categoria valida
             </Form.Control.Feedback>
           </Form.Group>
 
