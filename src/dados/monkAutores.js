@@ -2,25 +2,25 @@ var listaAutores = [
     {
     cod: "1",
     nome: "William Shakespeare",
-    nacionalidade: "Masculino",
+    nacionalidade: "Inglesa",
     },
 
     {        
     cod: "2",
     nome: "Charles Dickens",
-    nacionalidade: "Masculino",
+    nacionalidade: "Inglesa",
     },
 
     {   
     cod: "3",
     nome: "Jane Austen",
-    nacionalidade: "Feminino",
+    nacionalidade: "Inglesa",
     },
 
     {   
     cod: "4",
     nome: "Mark Twain",
-    nacionalidade: "Masculino",
+    nacionalidade: "Americana",
     },
 ]
 export default listaAutores;
