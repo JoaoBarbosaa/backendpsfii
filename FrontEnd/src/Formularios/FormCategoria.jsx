@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import "./estilos/FormAluno.css";
+import "./estilos/FormPessoa.css";
 
 export default function FormCategoria(props) {
   const [validado, setValidado] = useState(false);
