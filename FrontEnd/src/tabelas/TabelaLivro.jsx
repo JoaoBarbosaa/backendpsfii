@@ -1,31 +1,39 @@
 import { useState } from "react";
 import { Button, Table, Container, Row, Form, Col } from "react-bootstrap";
 import "./estilos/tabela.css";
+import { urlBase } from "../utilitarios/definicoes";
 
 export default function TabelaLivro(props){
     
-    const [livros, setLivros] = useState(props.listaLivros)
-
-    function excluirLivro(codigo){
-        const listaAtualizada = props.listaLivros.filter((livro) => 
-        livro.codigo !== codigo);
-        props.setLivros(listaAtualizada);
-        setLivros(listaAtualizada)
-    }
 
     function filtrarLivros(e){
         const termoBusca = e.currentTarget.value;
-        const resultadoBusca = props.listaLivros.filter((livro) => livro.tituloDoLivro.toLowerCase().includes(termoBusca.toLowerCase()));
-        setLivros(resultadoBusca)
+        fetch(urlBase + "/acervos", {method:"GET"})
+        .then((resposta)=> {
+            return resposta.json()
+        })
+        .then((listaLivros)=>{
+            if (Array.isArray(listaLivros)){
+                const resultadoBusca = listaLivros.filter((livro) => 
+                livro.tituloDoLivro.toLowerCase().includes(termoBusca.toLowerCase()));
+                props.setLivros(resultadoBusca)
+            }
+        })
     }
+      
+      
 
     return (
-        <>  <body id="corpo" className="colorwhite">
+        <>  <body id="corpo" className="colorwhite ">
                 <Container className="border mb-2 mt-2 corpoTabela" >
                     <h2 className="text-center m-4 ">Livros Cadastrados</h2>
                     <Row className='mb-2 mt-2 '>
                         <Col>
-                            <Button variant="success" onClick={()=>{props.exibirTabela(false)}}>
+                            <Button variant="success" 
+                            onClick={()=>{
+                                props.exibirTabela(false)
+                                props.setModoEdicao(false)
+                                }}>
                                 Cadastrar
                             </Button>
                         </Col>
@@ -38,7 +46,7 @@ export default function TabelaLivro(props){
                     </Row>
                         
                         
-                    <Table striped bordered hover>
+                    <Table striped bordered hover className="text-center">
                     <thead className="colorWhite">
                         <tr >
                         <th>Codigo</th>
@@ -51,15 +59,22 @@ export default function TabelaLivro(props){
                     </thead>
                     <tbody>
                         {
-                            livros?.map((livro) => {
-                                return <tr  key={livro.codigo}>
-                                    <td id="colorwhite">{livro.codigo}</td>
+                            props.listaLivros?.map((livro, i) => {
+                                return <tr  key={i}>
+                                    <td id="colorwhite">{livro.codigoRegisto}</td>
                                     <td id="colorwhite">{livro.tituloDoLivro}</td>
                                     <td id="colorwhite">{livro.editora}</td>
                                     <td id="colorwhite">{livro.edicao}</td>
                                     <td id="colorwhite">{livro.anoDePublicacao}</td>
                                     <td>
-                                        <Button variant="warning"><svg xmlns="http://www.w3.org/2000/svg" 
+                                        <Button variant="warning" onClick={()=>{
+                                            if(
+                                                window.confirm("Deseja atualizar o Titulo?")
+                                            ){
+                                                props.editarLivro(livro)
+                                            }
+                                            }}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" 
                                                 width="16" height="16" 
                                                 fill="currentColor" 
                                                 className="bi bi-pencil" 
@@ -68,9 +83,12 @@ export default function TabelaLivro(props){
                                                 </svg>
                                         </Button>{' '}
                                         <Button variant="danger" onClick={()=>{
-                                                if (window.confirm('Confirma a exclusão do Titulo?')){
-                                                        excluirLivro(livro.codigo)}}}>
-
+                                                if(
+                                                    window.confirm("Deseja excluir o Titulo?")
+                                                ){
+                                                    props.excluirTitulo(livro)
+                                                }
+                                                }}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" 
                                                 width="16" 
                                                 height="16" 
