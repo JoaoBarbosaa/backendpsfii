@@ -1,34 +1,32 @@
-import { useState } from "react";
 import { Button, Table, Form, Container,} from "react-bootstrap";
-import "./estilos/tabela.css";
-
+import { urlBase } from "../utilitarios/definicoes";
 export default function TabelaAutores(props) {
-  const [autores, setAutores] = useState(props.listaAutores);
 
-  function excluirAutor(cod) {
-    const listaAtualizada = props.listaAutores.filter(
-      (autor) => autor.cod !== cod
-    );
-    props.setAutores(listaAtualizada);
-    setAutores(listaAtualizada);
-  }
-
-  function filtrarAutores(e) {
+  function filtrarAlunos(e) {
     const termoBusca = e.currentTarget.value;
-    const resultadoBusca = props.listaAutores.filter((aluno) =>
-      aluno.nome.toLowerCase().includes(termoBusca.toLowerCase())
-    );
-    setAutores(resultadoBusca);
+    fetch(urlBase + "/autor", {method:"GET"})
+    .then((resposta) => {
+      return resposta.json()
+    })
+    .then((listaAutores) => {
+      if (Array.isArray(listaAutores)){
+      const resultadoBusca = listaAutores.filter((autor) =>
+      autor.nome.toLowerCase().includes(termoBusca.toLowerCase()));
+      props.setAutores(resultadoBusca)}
+    })
   }
+
+
 
   return (
     <body id="corpo" className="colorwhite">
       <Container className="border corpoTabela">
-        <h1 className="text-center">Tabela Cadastro de Autores</h1>
+        <h2 className="text-center m-4">Tabela Cadastro de Autores</h2>
         <Button
           variant="secondary"
           onClick={() => {
             props.exibirTabela(false);
+            props.setModoEdicao(false)
           }}
         >
           Cadastrar
@@ -39,7 +37,7 @@ export default function TabelaAutores(props) {
             className="BarraPesquisar"
             type="text"
             id="termoBusca"
-            onChange={filtrarAutores}
+            onChange={filtrarAlunos}
             placeholder="Pesquisar"
           />
         </Form>
@@ -53,14 +51,14 @@ export default function TabelaAutores(props) {
             </tr>
           </thead>
           <tbody>
-            {autores?.map((autor) => {
+            {props.listaAutores?.map((autor, i) => {
               return (
-                <tr key={autor.cod}>
-                  <td id="colorwhite">{autor.cod}</td>
+                <tr key={i}>
+                  <td id="colorwhite">{autor.codigo}</td>
                   <td id="colorwhite">{autor.nome}</td>
                   <td id="colorwhite">{autor.nacionalidade}</td>
                   <td>
-                    <Button variant="warning">
+                    <Button variant="warning" onClick={() => { props.editarAutor(autor)}}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -78,7 +76,7 @@ export default function TabelaAutores(props) {
                         if (
                           window.confirm("Deseja realmente excluir o Autor?")
                         ) {
-                          excluirAutor(autor.cod);
+                          props.excluirAutor(autor);
                         }
                       }}
                     >

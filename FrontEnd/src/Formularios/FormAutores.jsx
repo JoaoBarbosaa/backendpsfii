@@ -2,15 +2,12 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
-import "./estilos/FormAutor.css";
+import "./estilos/EstiloForm.css";
+import { urlBase } from "../utilitarios/definicoes";
 
 export default function FormAutor(props) {
   const [validado, setValidado] = useState(false);
-  const [autor, setAutor] = useState({
-    cod: "",
-    nome: "",
-    nacionalidade: "",
-  });
+  const [autor, setAutor] = useState(props.autor);
 
   function manipularMudanca(e) {
     const elemForm = e.currentTarget;
@@ -19,19 +16,40 @@ export default function FormAutor(props) {
     setAutor({ ...autor, [id]: valor });
   }
 
-  function manipulaSubmissao(evento) {
-    const form = evento.currentTarget;
-    if (form.checkValidity()) {
-      let autores = props.listaAutores;
-      autores.push(autor);
-      props.setAutores(autores);
-      props.exibirTabela(true);
-      setValidado(false);
-    } else {
-      setValidado(true);
+  function gravar(autor){
+    if(!props.modoEdicao){
+      fetch(urlBase+"/autor",{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(autor),
+      }).then((resposta) =>{
+        window.alert('Autor gravador com sucesso!')
+      })
+    }else{
+      fetch(urlBase+"/autor",{
+        method: 'PUT',
+        headers: {
+          'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify(autor),
+      }).then((reposta) => {
+        window.alert("Autor atualizado com sucesso")
+      })
     }
-    evento.preventDefault();
-    evento.stopPropagation();
+  }
+
+  function manipular(evento){
+    const form = evento.currentTarget;
+    if(!form.checkValidity()){
+      evento.preventDefault();
+      evento.stopPropagation();
+    }else{
+      gravar(autor)
+    }
+    setValidado(true);
+    return false;
   }
 
   return (
@@ -39,19 +57,19 @@ export default function FormAutor(props) {
       <Container className="background mb-3">
         <h1 className="text-center colorWhite">Cadastro de Autor</h1>
         <Form
+          id="formAutor"
           noValidate
           validated={validado}
-          onSubmit={manipulaSubmissao}
+          onSubmit={manipular}
           className="mainForm"
         >
-          <Form.Group className="mb-3" controlId="CodForm">
+          <Form.Group className="mb-3" controlId="CodigoForm">
             <Form.Label>Codigo do Autor</Form.Label>
             <Form.Control
               type="text"
-              required
-              placeholder="Digite o código do Autor"
-              value={autor.cod}
-              id="cod"
+              placeholder="O sistema gera o código automaticamente"
+              value={autor.codigo}
+              id="codigo"
               onChange={manipularMudanca}
             />
             <Form.Control.Feedback type="invalid">
@@ -74,16 +92,15 @@ export default function FormAutor(props) {
             </Form.Control.Feedback>
           </Form.Group>
 
-          <Form.Group>
-            <Form.Label> Nacionalidade </Form.Label>
+          <Form.Group className="mb-3" controlId="NacionalidadeForm">
+            <Form.Label>Nacionalidade</Form.Label>
             <Form.Control
               type="text"
-              value={autor.nacionalidade}
-              className="form-control"
-              id="nacionalidade"
-              placeholder="Digite a nacionalidade"
-              onChange={manipularMudanca}
               required
+              placeholder="Digite a nacionalidade"
+              value={autor.nacionalidade}
+              id="nacionalidade"
+              onChange={manipularMudanca}
             />
             <Form.Control.Feedback type="invalid">
               Digite uma nacionalidade valida
@@ -96,13 +113,13 @@ export default function FormAutor(props) {
               type="button"
               onClick={() => {
                 props.exibirTabela(true);
+                props.setModoEdicao(false);
               }}
             >
               Voltar
             </Button>
 
-            <Button type="submit" className="botao">
-              Cadastrar
+            <Button type="submit" className="botao" id="cadastrar">{props.modoEdicao ? "Atualizar" : "Cadastrar"}
             </Button>
           </div>
         </Form>
