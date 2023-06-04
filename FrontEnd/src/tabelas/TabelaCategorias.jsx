@@ -1,33 +1,32 @@
-import { useState } from "react";
 import { Button, Table, Form, Container} from "react-bootstrap";
-import "./estilos/tabela.css";
-
+import { urlBase } from "../utilitarios/definicoes.js";
 export default function TabelaCategorias(props) {
-  const [categorias, setCategorias] = useState(props.listaCategorias);
-
-  function excluirCategoria(cod) {
-    const listaAtualizada = props.listaCategorias.filter(
-      (assunto) => assunto.cod !== cod
-    );
-    props.setCategorias(listaAtualizada);
-    setCategorias(listaAtualizada);
-  }
 
   function filtrarCategorias(e) {
     const termoBusca = e.currentTarget.value;
-    const resultadoBusca = props.listaCategorias.filter((categoria) =>
-    categoria.categoria.toLowerCase().includes(termoBusca.toLowerCase())
-    );
-    setCategorias(resultadoBusca);
+    fetch(urlBase+"/categoria",{method:"GET"})
+    .then((resposta)=> {
+      return resposta.json()
+    })
+    .then((listaCategorias)=>{
+      if (Array.isArray(listaCategorias)){
+      const resultadoBusca = listaCategorias.filter((categoria) =>
+      categoria.categoria.toLowerCase().includes(termoBusca.toLowerCase()));
+      props.setCategorias(resultadoBusca)}
+    })
   }
+
+
 
   return (
     <body id="corpo" className="colorwhite">
       <Container className="border corpoTabela">
         <h1 className="text-center">Tabela Cadastro de Categorias</h1>
-        <Button variant="secondary"
+        <Button
+         variant="secondary"
           onClick={() => {
             props.exibirTabela(false);
+            props.setModoEdicao(false)
           }}
         >
           Cadastrar
@@ -51,13 +50,13 @@ export default function TabelaCategorias(props) {
             </tr>
           </thead>
           <tbody>
-            {categorias?.map((categoria) => {
+            {props.listaCategorias?.map((categoria, i) => {
               return (
-                <tr key={categoria.cod}>
-                  <td id="colorwhite">{categoria.cod}</td>
+                <tr key={i}>
+                  <td id="colorwhite">{categoria.codigo}</td>
                   <td id="colorwhite">{categoria.categoria}</td>
                   <td>
-                    <Button variant="warning">
+                    <Button variant="warning" onClick={() => { props.editarCategoria(categoria)}}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -75,10 +74,10 @@ export default function TabelaCategorias(props) {
                         if (
                           window.confirm("Deseja realmente excluir a categoria?")
                         ) {
-                          excluirCategoria(categoria.cod);
+                          props.excluirCategoria(categoria);
                         }
                       }}
-                    >
+                      >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"

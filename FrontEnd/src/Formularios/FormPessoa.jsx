@@ -1,47 +1,57 @@
 import { Form, Button, Container } from 'react-bootstrap';
 import React, { useState } from 'react';
 import './estilos/FormPessoa.css';
+import { urlBase } from '../utilitarios/definicoes';
 
 export default function FormPessoa(props) {
 
   const [validado, setValidado] = useState(false);
-  const [pessoa, setPessoa] = useState({
-    categoria: "",
-    cpf: "",
-    nome: "",
-    sexo: "",
-    email: "",
-    telefone: "",
-    cidade: "",
-    endereco: "",
-    cep: "",
-    dataNasc: ""
-  });
+  const [pessoa, setPessoa] = useState(props.pessoa);
+
 
   function manipularMudanca(e) {
     const elemForm = e.currentTarget;
     const id = elemForm.id;
     const valor = elemForm.value;
-    setPessoa({ ...pessoa, [id]: valor })
+    setPessoa({ ...pessoa, [id]: valor });
   }
 
-  function manipulaSubmissao(evento) {
+  function gravarDados(pessoa){
+    if(!props.modoEdicao)
+    {
+      fetch(urlBase+"/pessoas",{
+                              method:"POST",
+                              headers:{"Content-Type":"application/json"},
+                              body:JSON.stringify(pessoa),
+                              }).then((resposta) => {
+                                window.alert("Pessoa cadastrada com sucesso!")
+                              });
+    }
+    else
+    {
+      fetch(urlBase+"/pessoas",{
+                            method:"PUT",
+                            headers:{'Content-Type':'application/json'},
+                            body:JSON.stringify(pessoa),
+                          }).then((resposta)=> {
+                            window.alert("Atualizado com sucesso!")
+                          });
+    }
+  }
+
+  function manipulaSubmissao(evento){
     const form = evento.currentTarget;
-    if (form.checkValidity()) {
-      let pessoas = props.listaPessoas;
-      pessoas.push(pessoa);
-      props.setPessoas(pessoas);
+    if (!form.checkValidity()){
+      evento.preventDefault();
+      evento.stopPropagation();
+    }
+    else{
+      gravarDados(pessoa)
+    }
+    setValidado(true);
 
-      props.exibirTabela(true);
-      setValidado(false);
-    }
-    else {
-      setValidado(true)
-    }
-    evento.preventDefault();
-    evento.stopPropagation();
+    return false;
   }
-
 
   return (
 
@@ -49,6 +59,14 @@ export default function FormPessoa(props) {
       <Container className="background mb-3">
         <h1 className='text-center colorWhite'>Cadastro de Pessoas</h1>
         <Form noValidate validated={validado} onSubmit={manipulaSubmissao} className='mainForm'>
+
+        <Form.Group className="mb-3" controlId="FormCpf">
+            <Form.Label>CPF</Form.Label>
+            <Form.Control type="text" required placeholder="000.000.000-00" value={pessoa.cpf} id="cpf" onChange={manipularMudanca} />
+            <Form.Control.Feedback type="invalid">
+              Digite um CPF valido!
+            </Form.Control.Feedback>
+          </Form.Group>
 
           <Form.Group className="mb-3" controlId="FormCategoria">
             <Form.Label>Categoria</Form.Label>
@@ -60,14 +78,6 @@ export default function FormPessoa(props) {
             </Form.Select>
             <Form.Control.Feedback type="invalid">
               Selecione uma categoria
-            </Form.Control.Feedback>
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="FormCpf">
-            <Form.Label>CPF</Form.Label>
-            <Form.Control type="text" required placeholder="000.000.000-00" value={pessoa.cpf} id="cpf" onChange={manipularMudanca} />
-            <Form.Control.Feedback type="invalid">
-              Digite um CPF valido!
             </Form.Control.Feedback>
           </Form.Group>
 
@@ -142,8 +152,8 @@ export default function FormPessoa(props) {
           </Form.Group>
 
           <div className="botao" type="submit">
-            <Button type="submit" variant="primary" id="cadastrar">Cadastrar</Button>{' '}
-            <Button type="button" className="btn btn-secondary" onClick={() => { props.exibirTabela(true) }}>Voltar</Button>{' '}
+            <Button type="submit" variant="primary" id="cadastrar">{props.modoEdicao ? "Atualizar" : "Cadastrar"}</Button>{' '}
+            <Button type="button" className="btn btn-secondary" onClick={() => { props.exibirTabela(true); props.setModoEdicao(false)}}>Voltar</Button>{' '}
           </div>
         </Form>
       </Container>

@@ -1,18 +1,13 @@
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import React, { useState } from 'react';
 import './estilos/FormLivro.css'
-
-
+import { urlBase } from '../utilitarios/definicoes';
 
 export default function FormLivro(props) {
+
     const [valido, setValidated] = useState(false);
 
-    const [livro, setLivro] = useState({
-        tituloDoLivro : "",
-        editora : "",
-        edicao : "",
-        anoDePublicacao : ""
-    })
+    const [livro, setLivro] = useState(props.livros)
 
     function manipularMudanca(e){
         const elemForm = e.currentTarget;
@@ -21,24 +16,44 @@ export default function FormLivro(props) {
         setLivro({...livro, [id]:valor});
     }
 
+    function gravarDados(livro){
+        if(!props.modoEdicao){
+            fetch(urlBase+"/acervos",{
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(livro),
+            }).then((resposta) =>{
+                window.alert("Titulo gravado  com sucesso!!")
+            })
+        }else{
+            fetch(urlBase+"/acervos",{
+                method: 'PUT',
+                headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(livro),
+            }).then((resposta) =>{
+                window.alert("Titulo atualizado  com sucesso!!")
+            })
+        }
+
+    }
+
   
     function manipulaEvento(evento) {
-      const form = evento.currentTarget;
+        const form = evento.currentTarget;
 
-      if (form.checkValidity()) {
-
-        let livros = props.listaLivros;
-        livros.push(livro);
-        props.setLivros(livros);
-
-        props.exibirTabela(true)
-        setValidated(false);
-      }else{
+        if (!form.checkValidity()) {
+            evento.preventDefault();
+            evento.stopPropagation();
+        }
+        else{
+            gravarDados(livro)
+        }
         setValidated(true);
-      }
-      
-      evento.preventDefault();
-      evento.stopPropagation();
+        return false;
     };
 
     return(
@@ -51,7 +66,7 @@ export default function FormLivro(props) {
                             <Col>
                                 <Form.Group>
                                     <Form.Label htmlFor="codigoRegisto" className="form-label">Codigo Registo</Form.Label>
-                                    <Form.Control  type="text" className="form-control" placeholder="Não preencher" id="codigoRegisto" />
+                                    <Form.Control  type="text" className="form-control" value={livro.codigoRegisto} placeholder="Não preencher" id="codigoRegisto" onChange={manipularMudanca}/>
                                 </Form.Group>
                             </Col>
                             <Col>
@@ -90,8 +105,9 @@ export default function FormLivro(props) {
 
                         <Row className='mb-3 botao'>
                             <div>
-                                <Button type="submit" variant="success" id="cadastrar">Cadastrar</Button>{' '}
-                                <Button type="button" className="btn btn-secondary" variant="warning" onClick={()=>{props.exibirTabela(true)}}>Voltar</Button>{' '}
+                                <Button type="submit" variant="success" id="cadastrar">{props.modoEdicao ? " Atualizar": "Cadastrar" } </Button>{' '}
+                                <Button type="button" className="btn btn-secondary" variant="warning" onClick={()=>{ props.exibirTabela(true); 
+                                props.setModoEdicao(false)}}>Voltar</Button>{' '}
                             </div>
                         </Row>
                         

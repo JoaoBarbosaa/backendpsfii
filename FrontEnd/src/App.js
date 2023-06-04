@@ -13,7 +13,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/cadastroPessoa" element={<TelaCadastroPessoa />} />
-          <Route path="/cadastroCategoria" element={<TelaCadastroCategoria></TelaCadastroCategoria>}></Route>
+          <Route path="/cadastroCategoria" element={<TelaCadastroCategoria />} />
           <Route path="/cadastroLivro" element={<TelaCadastroLivro />} />
           <Route path="/cadastroAutor" element={<TelaCadastroAutor />} />
           <Route path="/" element={<TelaMenu></TelaMenu>}></Route>
