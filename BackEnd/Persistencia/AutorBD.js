@@ -9,8 +9,7 @@ export default class {
             const conexao = await conectar();
             const sql = "INSERT INTO autor(nome,nacionalidade) \
             VALUES(?,?)";
-
-                const valores = [autor.nome,autor.nacionalidade];
+            const valores = [autor.nome,autor.nacionalidade];
             const resultado = await conexao.query(sql,valores)
             return await resultado[0].insertId;
         }

@@ -9,5 +9,5 @@ app.use(express.json());
 app.use("/autor", rotaAutor);
 
 app.listen(3020, "localhost", () => {
-  console.log("api escurando na posta 3020");
+  console.log("api escutando na posta 3020");
 });
