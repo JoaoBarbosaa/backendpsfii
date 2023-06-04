@@ -23,7 +23,7 @@ export default function TabelaAutores(props) {
       <Container className="border corpoTabela">
         <h2 className="text-center m-4">Tabela Cadastro de Autores</h2>
         <Button
-          variant="secondary"
+          variant="success"
           onClick={() => {
             props.exibirTabela(false);
             props.setModoEdicao(false)

@@ -1,6 +1,6 @@
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import React, { useState } from 'react';
-import './estilos/FormLivro.css'
+import "./estilos/EstiloForm.css";
 import { urlBase } from '../utilitarios/definicoes';
 
 export default function FormLivro(props) {

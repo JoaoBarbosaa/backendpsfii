@@ -23,7 +23,7 @@ export default function TabelaCategorias(props) {
       <Container className="border corpoTabela">
         <h1 className="text-center">Tabela Cadastro de Categorias</h1>
         <Button
-         variant="secondary"
+         variant="success"
           onClick={() => {
             props.exibirTabela(false);
             props.setModoEdicao(false)

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button, Table, Container, Row, Form, Col } from "react-bootstrap";
 import "./estilos/tabela.css";
 import { urlBase } from "../utilitarios/definicoes";

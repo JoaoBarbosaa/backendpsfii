@@ -1,6 +1,6 @@
 import { Form, Button, Container } from 'react-bootstrap';
 import React, { useState } from 'react';
-import './estilos/FormPessoa.css';
+import "./estilos/EstiloForm.css";
 import { urlBase } from '../utilitarios/definicoes';
 
 export default function FormPessoa(props) {

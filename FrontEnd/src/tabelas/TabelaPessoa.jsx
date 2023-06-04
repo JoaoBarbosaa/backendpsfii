@@ -20,9 +20,9 @@ export default function TabelaPessoas(props) {
 
   return (
     <body id="corpo" className="colorwhite">
-      <div className="border corpoTabela">
+      <div className="border corpoTabela PessoaEscp">
         <h1 className="text-center">Cadastro de Pessoas</h1>
-        <Button variant="secondary"
+        <Button variant="success"
           onClick={() => {
             props.exibirTabela(false)
             props.setModoEdicao(false)
