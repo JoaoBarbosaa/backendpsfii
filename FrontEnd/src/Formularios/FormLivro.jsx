@@ -65,7 +65,7 @@ export default function FormLivro(props) {
                         <Row className="row mb-3">
                             <Col>
                                 <Form.Group>
-                                    <Form.Label htmlFor="codigoRegisto" className="form-label">Codigo Registo</Form.Label>
+                                    <Form.Label htmlFor="codigoRegisto" className="form-label">Codigo Registro</Form.Label>
                                     <Form.Control  type="text" className="form-control" value={livro.codigoRegisto} placeholder="Não preencher" id="codigoRegisto" onChange={manipularMudanca}/>
                                 </Form.Group>
                             </Col>
