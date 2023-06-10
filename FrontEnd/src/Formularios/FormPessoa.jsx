@@ -1,15 +1,49 @@
 import { Form, Button, Container } from 'react-bootstrap';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import "./estilos/EstiloForm.css";
 import { urlBase } from '../utilitarios/definicoes';
-
 export default function FormPessoa(props) {
 
   const [validado, setValidado] = useState(false);
   const [pessoa, setPessoa] = useState(props.pessoa);
+  const cpfRef = useRef(null);
+  const teleRef = useRef(null);
+  const cepRef = useRef(null);
+  
+    const formatCpf = (value) => {
+      const formattedValue = value
+        .replace(/\D/g, '') // Remove caracteres não numéricos
+        .replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'); // Aplica a máscara
+      return formattedValue
+    }
 
+    const formatPhone = (value) => {
+      const formattedValue = value
+        .replace(/\D/g, '') // Remove caracteres não numéricos
+        .replace(/^(\d{2})(\d{4,5})(\d{4})$/, '($1) $2-$3'); // Aplica a máscara
+  
+      return formattedValue;
+    };
+
+    const formatCep  = (value) => {
+      const formattedValue = value
+        .replace(/\D/g, '') // Remove caracteres não numéricos
+        .replace(/^(\d{5})(\d{3})$/, '$1-$2'); // Aplica a máscara
+  
+      return formattedValue;
+    };
 
   function manipularMudanca(e) {
+    const { value } = e.target;
+
+    const formattedValueCpf = formatCpf(value);
+    cpfRef.current.value = formattedValueCpf;
+    const formattedValueTele = formatPhone(value);
+    teleRef.current.value = formattedValueTele;
+    const formattedValueCep = formatCep(value);
+    cepRef.current.value = formattedValueCep;
+
+
     const elemForm = e.currentTarget;
     const id = elemForm.id;
     const valor = elemForm.value;
@@ -62,7 +96,7 @@ export default function FormPessoa(props) {
 
         <Form.Group className="mb-3" controlId="FormCpf">
             <Form.Label>CPF</Form.Label>
-            <Form.Control type="text" required placeholder="000.000.000-00" value={pessoa.cpf} id="cpf" onChange={manipularMudanca} />
+            <Form.Control type="text" required placeholder="000.000.000-00" value={pessoa.cpf} id="cpf" onChange={manipularMudanca} ref={cpfRef} maxLength={14} />
             <Form.Control.Feedback type="invalid">
               Digite um CPF valido!
             </Form.Control.Feedback>
@@ -113,7 +147,7 @@ export default function FormPessoa(props) {
 
           <Form.Group className="mb-3" controlId="FormTelefone">
             <Form.Label>Telefone</Form.Label>
-            <Form.Control type="text" required value={pessoa.telefone} id="telefone" onChange={manipularMudanca} placeholder="(00)00000-0000" />
+            <Form.Control type="text" required value={pessoa.telefone} id="telefone" onChange={manipularMudanca} placeholder="(00)00000-0000" ref={teleRef} maxLength={15} />
             <Form.Control.Feedback type="invalid">
               Digite um telefone valido!
             </Form.Control.Feedback>
@@ -137,7 +171,7 @@ export default function FormPessoa(props) {
 
           <Form.Group className="mb-3" controlId="FormCep">
             <Form.Label>CEP</Form.Label>
-            <Form.Control type="text" required value={pessoa.cep} id="cep" onChange={manipularMudanca} placeholder="00000-000" />
+            <Form.Control type="text" required value={pessoa.cep} id="cep" onChange={manipularMudanca} placeholder="00000-000" ref={cepRef} maxLength={9} />
             <Form.Control.Feedback type="invalid">
               Digite um CEP valido!
             </Form.Control.Feedback>
