@@ -12,37 +12,37 @@ export default function FormPessoa(props) {
   
     const formatCpf = (value) => {
       const formattedValue = value
-        .replace(/\D/g, '') // Remove caracteres não numéricos
-        .replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4'); // Aplica a máscara
+        .replace(/\D/g, '')
+        .replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
       return formattedValue
     }
 
     const formatPhone = (value) => {
       const formattedValue = value
-        .replace(/\D/g, '') // Remove caracteres não numéricos
-        .replace(/^(\d{2})(\d{4,5})(\d{4})$/, '($1) $2-$3'); // Aplica a máscara
+        .replace(/\D/g, '')
+        .replace(/^(\d{2})(\d{4,5})(\d{4})$/, '($1) $2-$3');
   
       return formattedValue;
     };
 
     const formatCep  = (value) => {
       const formattedValue = value
-        .replace(/\D/g, '') // Remove caracteres não numéricos
-        .replace(/^(\d{5})(\d{3})$/, '$1-$2'); // Aplica a máscara
+        .replace(/\D/g, '')
+        .replace(/^(\d{5})(\d{3})$/, '$1-$2');
   
       return formattedValue;
     };
 
   function manipularMudanca(e) {
     const { value } = e.target;
-
+    //Mascaras para os campos de CPF, Telefone e CEP
     const formattedValueCpf = formatCpf(value);
     cpfRef.current.value = formattedValueCpf;
     const formattedValueTele = formatPhone(value);
     teleRef.current.value = formattedValueTele;
     const formattedValueCep = formatCep(value);
     cepRef.current.value = formattedValueCep;
-
+    
 
     const elemForm = e.currentTarget;
     const id = elemForm.id;
