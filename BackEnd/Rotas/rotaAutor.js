@@ -10,6 +10,7 @@ rotaAutor
 .put("/", autorCTRL.atualizar)
 .delete("/", autorCTRL.excluir)
 .get("/", autorCTRL.consultar)
+.get('/buscar/:nome', autorCTRL.consultarNome)
 .get("/:codigo", autorCTRL.consultarPeloCodigo);
 
 export default rotaAutor;

@@ -167,4 +167,27 @@ export default class AutorCTRL{
             });
         }
     }
+
+    consultarNome(requisicao, resposta){
+        resposta.type("application/json");
+        const nome = requisicao.params.nome;
+        if(requisicao.method === "GET"){
+            const autor = new Autor();
+            autor.consultarNome(nome).then((autores)=>{
+                    resposta.status(200).json(autores);
+            }).catch((erro) => {
+                resposta.status(500).json({
+                    status:false,
+                    mensagem: erro.mensagem
+                    })
+                });
+            }
+            
+        else{
+            resposta.status(400).json({
+                status:false,
+                mensagem:"Método não permitido, Consulte a documentação da API"
+            });
+        }
+    }
 }

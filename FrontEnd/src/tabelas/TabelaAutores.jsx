@@ -1,20 +1,21 @@
-import { Button, Table, Form, Container,} from "react-bootstrap";
+import { Button, Table, Form, Container, Row, Col} from "react-bootstrap";
 import { urlBase } from "../utilitarios/definicoes";
+import { useState } from "react";
 export default function TabelaAutores(props) {
 
-  function filtrarAlunos(e) {
-    const termoBusca = e.currentTarget.value;
-    fetch(urlBase + "/autor", {method:"GET"})
-    .then((resposta) => {
-      return resposta.json()
-    })
-    .then((listaAutores) => {
-      if (Array.isArray(listaAutores)){
-      const resultadoBusca = listaAutores.filter((autor) =>
-      autor.nome.toLowerCase().includes(termoBusca.toLowerCase()));
-      props.setAutores(resultadoBusca)}
-    })
-  }
+  const [termoDeBusca, setTermoDeBusca] = useState('');
+
+
+  const buscaAutor = () => {
+    if(termoDeBusca.length === 0){
+      props.buscar()
+    }else{
+      fetch(`${urlBase}/autor/buscar/${termoDeBusca}`)
+      .then((response) => response.json())
+      .then((data) => props.setAutores(data))
+      .catch((error) => console.error('Erro ao buscar os dados:', error));
+    }
+  };
 
 
 
@@ -31,16 +32,19 @@ export default function TabelaAutores(props) {
         >
           Cadastrar
         </Button>
-
-        <Form className="d-flex">
-          <Form.Control
-            className="BarraPesquisar"
-            type="text"
-            id="termoBusca"
-            onChange={filtrarAlunos}
-            placeholder="Pesquisar"
-          />
-        </Form>
+        <Row>
+          <Col className=" justify-content-end md-2">
+          <Form className="d-flex mb-2 mt-2">
+            <Form.Control
+              type="text"
+              value={termoDeBusca}
+              onChange={(e) => setTermoDeBusca(e.target.value)}
+              placeholder="Pesquisar nome do autor"
+            />
+            <Button className="BotaoPesquisar" type="button" onClick={buscaAutor}>Pesquisar</Button>
+          </Form>
+          </Col>
+        </Row>
         <Table striped bordered hover>
           <thead className="colorWhite">
             <tr>

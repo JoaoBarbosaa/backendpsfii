@@ -38,7 +38,7 @@ export default function TabelaCategorias(props) {
             type="text"
             id="termoBusca"
             onChange={filtrarCategorias}
-            placeholder="Pesquisar"
+            placeholder="Pesquisar por categoria"
           />
         </Form>
         <Table striped bordered hover>

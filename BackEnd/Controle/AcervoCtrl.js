@@ -176,4 +176,10 @@ export default class AcervoCtrl{
         }
 
     }
+
+
+
+
+
+    
 }

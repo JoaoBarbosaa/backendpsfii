@@ -40,7 +40,7 @@ export default class {
 
     async consultar(termo){
         const conexao = await conectar();
-        const sql = "SELECT * FROM autor WHERE nome LIKE ?"
+        const sql = "SELECT * FROM autor WHERE nome LIKE ? ORDER BY nome ASC"
         const valores = ['%' + termo + '%']
         const [rows] = await conexao.query(sql, valores);
         const listaAutor = [];
@@ -57,6 +57,19 @@ export default class {
         const conexao = await conectar();
         const sql = "SELECT * FROM autor WHERE codigo = ?"
         const valores = [codigo]
+        const [rows] = await conexao.query(sql, valores);
+        const listaAutor = [];
+        for(const row of rows){
+            const autor = new Autor(row['codigo'],row['nome'],row['nacionalidade']);
+            listaAutor.push(autor)
+        }
+        return listaAutor;
+    }
+
+    async consultarNome(term){
+        const conexao = await conectar();
+        const sql = "SELECT * FROM autor WHERE nome LIKE ?"
+        const valores = [`%${term}%`]
         const [rows] = await conexao.query(sql, valores);
         const listaAutor = [];
         for(const row of rows){

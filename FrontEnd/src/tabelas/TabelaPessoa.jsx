@@ -37,7 +37,7 @@ export default function TabelaPessoas(props) {
             type="text"
             id="termoBusca"
             onChange={filtrarPessoas}
-            placeholder="Pesquisar"
+            placeholder="Pesquisar por nome"
           />
         </Form>
         <Table striped bordered hover>

@@ -73,6 +73,11 @@ export default class Autor {
     const autorBD = new AutorBD();
     const autores = await autorBD.consultarCodigo(codigo);
     return autores
-}
-    
+  }
+  
+  async consultarNome(nome){
+    const autorBD = new AutorBD();
+    const autores = await autorBD.consultarNome(nome);
+    return autores
+  }
 }

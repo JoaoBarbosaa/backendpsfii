@@ -83,6 +83,7 @@ export default function TelaCadastroAutor(props){
             exibirTabela ? 
             <TabelaAutores listaAutores={autores} 
             setModoEdicao={setModoEdicao}
+            buscar={buscarAutor}
             setAutores={setAutores}
             exibirTabela={setExibirTabela}
             editarAutor={prepararAutorParaEdicao}

@@ -17,3 +17,4 @@ app.use('/categoria', rotaCategoria);
 app.listen(3020, "localhost", () => {
   console.log("api escutando na posta 3020");
 });
+

@@ -37,8 +37,8 @@ export default function TabelaLivro(props){
                             </Button>
                         </Col>
                         <Col className="d-flex justify-content-end md-2 ">
-                            <Form className="d-flex mb-2 mt-2">
-                            <Form.Control type="text" id="termoBusca" onChange={filtrarLivros} placeholder="Pesquisar"/>
+                            <Form className="">
+                            <Form.Control type="text" id="termoBusca" onChange={filtrarLivros} placeholder="Pesquisar por titulo"/>
 
                             </Form>
                         </Col>
