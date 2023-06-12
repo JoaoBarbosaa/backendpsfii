@@ -78,6 +78,7 @@ export default function TelaCadastroLivro(props){
                         exibirTabela ? 
                         <TabelaLivro listaLivros={livros} 
                                      setLivros={setLivros}
+                                     buscar={buscarLivros}
                                      exibirTabela={setExibirTabela}
                                      editarLivro={prepararTituloParaEdicao}
                                      excluirTitulo={apagarTitulo}

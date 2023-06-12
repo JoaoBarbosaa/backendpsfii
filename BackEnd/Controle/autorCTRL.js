@@ -182,7 +182,6 @@ export default class AutorCTRL{
                     })
                 });
             }
-            
         else{
             resposta.status(400).json({
                 status:false,

@@ -1,25 +1,26 @@
 import { Button, Table, Container, Row, Form, Col } from "react-bootstrap";
 import "./estilos/tabela.css";
 import { urlBase } from "../utilitarios/definicoes";
+import { useState } from "react";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 export default function TabelaLivro(props){
     
+    const [termoDeBusca, setTermoDeBusca] = useState('');
 
-    function filtrarLivros(e){
-        const termoBusca = e.currentTarget.value;
-        fetch(urlBase + "/acervos", {method:"GET"})
-        .then((resposta)=> {
-            return resposta.json()
-        })
-        .then((listaLivros)=>{
-            if (Array.isArray(listaLivros)){
-                const resultadoBusca = listaLivros.filter((livro) => 
-                livro.tituloDoLivro.toLowerCase().includes(termoBusca.toLowerCase()));
-                props.setLivros(resultadoBusca)
-            }
-        })
+    const buscarLivros = () => {
+        if(termoDeBusca.length === 0){
+            props.buscar()
+        }
+        else{
+            const url = (`${urlBase}/acervos/buscar/${termoDeBusca}`)
+            fetch(url)
+            .then((response) => response.json())
+            .then((data) => props.setLivros(data))
+            .catch((error) => console.error('Erro ao buscar os dados:', error));
+        }
     }
-      
+
       
 
     return (
@@ -36,10 +37,12 @@ export default function TabelaLivro(props){
                                 Cadastrar
                             </Button>
                         </Col>
-                        <Col className="d-flex justify-content-end md-2 ">
-                            <Form className="">
-                            <Form.Control type="text" id="termoBusca" onChange={filtrarLivros} placeholder="Pesquisar por titulo"/>
-
+                        <Col className="d-flex justify-content-end md-2">
+                            <Form className="d-flex">
+                            <Form.Control type="text" id="termoBusca" onChange={(e) => setTermoDeBusca(e.target.value)} placeholder="Pesquisar por título" />
+                            <Button className="BotaoPesquisar" type="button" onClick={buscarLivros}>
+                            <span className="bi bi-search"></span>
+                            </Button>
                             </Form>
                         </Col>
                     </Row>

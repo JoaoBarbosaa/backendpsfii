@@ -63,19 +63,19 @@ export default function FormLivro(props) {
                     <Form onoValidate validated={valido} onSubmit={manipulaEvento} className="p-5 border rounded mainForm" noValidate>
                     <h3 className="text-center mb-5 colorWhite">Cadastro de Título</h3>
                         <Row className="row mb-3">
-                            <Col>
-                                <Form.Group>
-                                    <Form.Label htmlFor="codigoRegisto" className="form-label">Codigo Registro</Form.Label>
-                                    <Form.Control  type="text" className="form-control" value={livro.codigoRegisto} placeholder="Não preencher" id="codigoRegisto" onChange={manipularMudanca}/>
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group>
-                                    <Form.Label htmlFor="tituloDoLivro" className="form-label">Titulo Do Livro</Form.Label>
-                                    <Form.Control  type="text" value={livro.tituloDoLivro} className="form-control" id="tituloDoLivro" onChange={manipularMudanca} required />
-                                    <Form.Control.Feedback type='invalid'>Titulo do Livro</Form.Control.Feedback>
-                                </Form.Group>
-                            </Col>
+                        <Col md={2}>
+                            <Form.Group>
+                                <Form.Label htmlFor="codigoRegisto" className="form-label">Codigo Registro</Form.Label>
+                                <Form.Control type="text" className="form-control" value={livro.codigoRegisto} placeholder="Automático" id="codigoRegisto" onChange={manipularMudanca} disabled />
+                            </Form.Group>
+                        </Col>
+                        <Col>
+                            <Form.Group>
+                                <Form.Label htmlFor="tituloDoLivro" className="form-label">Titulo Do Livro</Form.Label>
+                                <Form.Control type="text" value={livro.tituloDoLivro} className="form-control" id="tituloDoLivro" onChange={manipularMudanca} required />
+                                <Form.Control.Feedback type='invalid'>Titulo do Livro</Form.Control.Feedback>
+                            </Form.Group>
+                        </Col>
                         </Row>
                         
                         <Row className="row mb-3">

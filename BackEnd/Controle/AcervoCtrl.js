@@ -177,6 +177,30 @@ export default class AcervoCtrl{
 
     }
 
+    consultarTituloDoLivro(requisicao, resposta){
+        resposta.type("application/json")
+        const tituloDoLivro = requisicao.params['tituloDoLivro'];
+
+        if(requisicao.method === "GET"){
+            const acervo = new Acervo();
+            acervo.consultarTituloDoLivro(tituloDoLivro).then((acervo)=>{
+                resposta.status(200).json(acervo);
+
+        }).catch((erro) => {
+            resposta.status(500).json({
+                status: false,
+                mensagem: erro.message
+            })
+        });
+        } else {
+        resposta.status(400).json({
+            status:false,
+            mensagem:"Método não permitido! Consulte a documentação da API"
+        });
+        }
+
+    }
+
 
 
 

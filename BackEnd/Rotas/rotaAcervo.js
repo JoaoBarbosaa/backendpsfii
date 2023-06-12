@@ -8,7 +8,9 @@ rotaAcervo.post('/', acervoCtrl.gravar)
 .put('/', acervoCtrl.atualizar)
 .delete('/', acervoCtrl.excluir)
 .get('/', acervoCtrl.consultar)
+.get('/buscar/:tituloDoLivro', acervoCtrl.consultarTituloDoLivro)
 .get('/:codigoRegisto', acervoCtrl.consultarcodigoRegisto)
+
 
 
 export default rotaAcervo;

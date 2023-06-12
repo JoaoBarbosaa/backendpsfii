@@ -9,7 +9,6 @@ export default class Acervo{
     #anoDePublicacao;
 
 
-    //construtor 
     constructor(codigoRegisto, tituloDoLivro, editora, edicao, anoDePublicacao){
         this.#codigoRegisto = codigoRegisto;
         this.#tituloDoLivro = tituloDoLivro;
@@ -99,6 +98,12 @@ export default class Acervo{
         const acervo = await acervoBD.consultarcodigoRegisto(codigoRegisto);
         return acervo;
     } 
+
+    async consultarTituloDoLivro(tituloDoLivro){
+        const acervoBD = new AcervoBD();
+        const acervo = await acervoBD.consultarTituloDoLivro(tituloDoLivro);
+        return acervo
+      }
 
 
 }

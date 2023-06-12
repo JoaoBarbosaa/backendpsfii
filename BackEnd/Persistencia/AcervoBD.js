@@ -62,6 +62,21 @@ export default class AcervoBD{
         return listaLivros;
     }
 
+    async consultarTituloDoLivro(term){
+        const conexao = await conectar();
+        const sql = "SELECT * FROM acervo WHERE tituloDoLivro LIKE ?";
+        const valores = [`%${term}%`]
+        const [rows] = await conexao.query(sql, valores);
+
+        const listaLivros = [];
+
+        for(const row of rows){
+            const acervo = new Acervo(row['codigoRegisto'],row['tituloDoLivro'],row['editora'],row['edicao'],row['anoDePublicacao']);
+            listaLivros.push(acervo);
+        }
+        return listaLivros;
+    }
+
 
     
 }
