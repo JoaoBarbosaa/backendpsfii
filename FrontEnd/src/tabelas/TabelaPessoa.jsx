@@ -10,7 +10,7 @@ export default function TabelaPessoas(props) {
     if(termoDeBusca.length === 0){
       props.buscar()
     }else{
-      fetch(`${urlBase}/pessoa/buscar/${termoDeBusca}`)
+      fetch(`${urlBase}/pessoas/buscar/${termoDeBusca}`)
       .then((response) => response.json())
       .then((data) => props.setPessoas(data))
       .catch((error) => console.error('Erro ao buscar os dados:', error));

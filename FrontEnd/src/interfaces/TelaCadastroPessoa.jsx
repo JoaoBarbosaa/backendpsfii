@@ -50,7 +50,6 @@ export default function TelaCadastroPessoa(props) {
         });
     }
 
-
     function apagarPessoa(pessoa) {
         fetch(urlBase + "/pessoas", {
             method: "DELETE",
