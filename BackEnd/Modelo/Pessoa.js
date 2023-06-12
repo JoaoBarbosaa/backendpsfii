@@ -149,4 +149,10 @@ export default class Pessoa {
         return pessoas;
     }
 
+    async consultarNome(nome){
+      const pessoaBD = new PessoaBD();
+      const pessoas = await pessoaBD.consultarNome(nome);
+      return pessoas;
+    }
+
 }

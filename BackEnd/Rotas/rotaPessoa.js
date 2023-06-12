@@ -9,6 +9,7 @@ rotaPessoa
 .put('/', pessoaCTRL.atualizar)
 .delete('/', pessoaCTRL.excluir)
 .get('/', pessoaCTRL.consultar)
-.get('/:cpf', pessoaCTRL.consultarPeloCPF);
+.get('/:cpf', pessoaCTRL.consultarPeloCPF)
+.get('/buscar/:nome', pessoaCTRL.consultarNome);
 
 export default rotaPessoa;

@@ -1,22 +1,21 @@
-import { Button, Table, Form} from "react-bootstrap";
+import { Button, Table, Form, Row, Col} from "react-bootstrap";
 import { urlBase } from "../utilitarios/definicoes";
+import { useState } from "react";
 
 export default function TabelaPessoas(props) {
 
-  function filtrarPessoas(e) {
-    const termoBusca = e.currentTarget.value;
-    fetch(urlBase + "/pessoas", { method: "GET" })
-      .then((resposta) => {
-        return resposta.json()
-      })
-      .then((listaPessoas) => {
-        if (Array.isArray(listaPessoas)) {
-          const resultadoBusca = listaPessoas.filter((pessoa) => 
-          pessoa.nome.toLowerCase().includes(termoBusca.toLowerCase()));
-          props.setPessoas(resultadoBusca);
-        }
-      })
-  }
+  const [termoDeBusca, setTermoDeBusca] = useState('');
+
+  const buscaPessoa = () => {
+    if(termoDeBusca.length === 0){
+      props.buscar()
+    }else{
+      fetch(`${urlBase}/pessoa/buscar/${termoDeBusca}`)
+      .then((response) => response.json())
+      .then((data) => props.setPessoas(data))
+      .catch((error) => console.error('Erro ao buscar os dados:', error));
+    }
+  };
 
   return (
     <body id="corpo" className="colorwhite">
@@ -31,15 +30,20 @@ export default function TabelaPessoas(props) {
           Cadastrar
         </Button>
 
-        <Form className="d-flex">
-          <Form.Control
-            className="BarraPesquisar"
-            type="text"
-            id="termoBusca"
-            onChange={filtrarPessoas}
-            placeholder="Pesquisar por nome"
-          />
-        </Form>
+        <Row>
+          <Col className=" justify-content-end md-2">
+          <Form className="d-flex mb-2 mt-2">
+            <Form.Control
+              type="text"
+              value={termoDeBusca}
+              onChange={(e) => setTermoDeBusca(e.target.value)}
+              placeholder="Pesquisar nome da pessoa"
+            />
+            <Button className="BotaoPesquisar" type="button" onClick={buscaPessoa}>Pesquisar</Button>
+          </Form>
+          </Col>
+        </Row>
+
         <Table striped bordered hover>
           <thead className="colorwhite">
             <tr>

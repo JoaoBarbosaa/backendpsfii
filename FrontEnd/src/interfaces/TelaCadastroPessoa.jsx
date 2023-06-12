@@ -88,6 +88,7 @@ export default function TelaCadastroPessoa(props) {
                 {
                     exibirTabela ?
                         <TabelaPessoa listaPessoas={pessoas}
+                            buscar={buscarPessoas}
                             setPessoas={setPessoas}
                             exibirTabela={setExibirTabela}
                             editarPessoa={prepararPessoaParaEdicao}

@@ -176,4 +176,28 @@ export default class PessoaCTRL{
             });
         }
     }
+
+    consultarNome(requisicao, resposta){
+        resposta.type("application/json");
+        const nome = requisicao.params.nome;
+        if(requisicao.method === "GET"){
+            const pessoa = new Pessoa();
+            pessoa.consultarNome(nome).then((pessoas)=>{
+                    resposta.status(200).json(pessoas);
+            }).catch((erro) => {
+                resposta.status(500).json({
+                    status:false,
+                    mensagem: erro.mensagem
+                    })
+                });
+            }
+        else{
+            resposta.status(400).json({
+                status:false,
+                mensagem:"Método não permitido, Consulte a documentação da API"
+            });
+        }
+    }
+
+    
 }
