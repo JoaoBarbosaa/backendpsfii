@@ -17,6 +17,6 @@ app.use('/categoria', rotaCategoria);
 app.use('/usuario', rotaUsuario);
 
 app.listen(3020, "localhost", () => {
-  console.log("api escutando na posta 3020");
+  console.log("api escutando na porta 3020");
 });
 
