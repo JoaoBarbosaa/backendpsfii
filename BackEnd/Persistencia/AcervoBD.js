@@ -34,7 +34,7 @@ export default class AcervoBD{
 
     async consultar(termo){
         const conexao = await conectar();
-        const sql = "SELECT * FROM acervo WHERE tituloDoLivro LIKE ? ORDER BY nome ASC";
+        const sql = "SELECT * FROM acervo WHERE tituloDoLivro LIKE ? ORDER BY tituloDoLivro ASC";
         const valores = ['%' + termo + '%']
         const [rows] = await conexao.query(sql, valores);
 
