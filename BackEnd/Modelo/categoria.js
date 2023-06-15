@@ -59,4 +59,10 @@ export default class Categoria{
         const categoria = await catDB.consultarCodigo(codigo);
         return categoria;
     }
+
+    async consultarCategoria(tituloCategoria){
+        const CatDB = new CategoriaDB();
+        const categoria = await CatDB.consultarCategoria(tituloCategoria);
+        return categoria
+      }
 }

@@ -59,4 +59,19 @@ export default class {
         }
         return listaCategoria;
     }
+
+    async consultarCategoria(term){
+        const conexao = await conectar();
+        const sql = "SELECT * FROM categoria WHERE tituloCategoria LIKE ?";
+        const valores = [`%${term}%`]
+        const [rows] = await conexao.query(sql, valores);
+
+        const listaCategoria = [];
+
+        for(const row of rows){
+            const categoria = new Categoria(row['codigo'],row['categoria']);
+            listaCategoria.push(categoria);
+        }
+        return listaCategoria;
+    }
 }

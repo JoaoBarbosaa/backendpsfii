@@ -80,6 +80,7 @@ export default function TelaCadastroAssunto(props){
                 exibirTabela ? 
                 <TabelaCategoria listaCategorias={categorias} 
                 setModoEdicao={setModoEdicao}
+                buscar={buscarCategoria}
                 setCategorias={setCategorias}
                 exibirTabela={setExibirTabela}
                 editarCategoria={prepararCategoriaParaEdicao}

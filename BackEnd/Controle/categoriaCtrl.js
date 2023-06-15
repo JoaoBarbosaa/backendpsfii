@@ -163,4 +163,28 @@ export default class CategoriaCTRL{
 
         }    
     }
+
+        consultarCategoria(requisicao, resposta){
+        resposta.type("application/json")
+        const tituloCategoria = requisicao.params['tituloCategoria'];
+
+        if(requisicao.method === "GET"){
+            const categoria = new Categoria();
+            categoria.consultarCategoria(tituloCategoria).then((categoria)=>{
+                resposta.status(200).json(categoria);
+
+        }).catch((erro) => {
+            resposta.status(500).json({
+                status: false,
+                mensagem: erro.message
+            })
+        });
+        } else {
+        resposta.status(400).json({
+            status:false,
+            mensagem:"Método não permitido! Consulte a documentação da API"
+        });
+        }
+
+    }
 }

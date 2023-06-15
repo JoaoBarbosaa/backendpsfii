@@ -10,6 +10,7 @@ rotaCategoria
 .put('/', categoriaCtrl.atualizar)
 .delete('/', categoriaCtrl.exluir)
 .get('/', categoriaCtrl.consultar)
+.get('/buscar/:tituloCategoria', categoriaCtrl.consultarCategoria)
 .get('/:codigo', categoriaCtrl.consultarPeloCodigo);
 
 export default rotaCategoria;

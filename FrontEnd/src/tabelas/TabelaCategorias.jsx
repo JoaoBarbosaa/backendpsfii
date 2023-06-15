@@ -1,46 +1,52 @@
-import { Button, Table, Form, Container} from "react-bootstrap";
-import { urlBase } from "../utilitarios/definicoes.js";
+import { Button, Table, Form, Container, Row, Col } from "react-bootstrap";
+import "./estilos/tabela.css";
+import { urlBase } from "../utilitarios/definicoes";
+import { useState } from "react";
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 export default function TabelaCategorias(props) {
 
-  function filtrarCategorias(e) {
-    const termoBusca = e.currentTarget.value;
-    fetch(urlBase+"/categoria",{method:"GET"})
-    .then((resposta)=> {
-      return resposta.json()
-    })
-    .then((listaCategorias)=>{
-      if (Array.isArray(listaCategorias)){
-      const resultadoBusca = listaCategorias.filter((categoria) =>
-      categoria.categoria.toLowerCase().includes(termoBusca.toLowerCase()));
-      props.setCategorias(resultadoBusca)}
-    })
+  const [termoDeBusca, setTermoDeBusca] = useState('');
+
+  const buscarCategorias = () => {
+      if(termoDeBusca.length === 0){
+          props.buscar()
+      }
+      else{
+          const url = (`${urlBase}/categoria/buscar/${termoDeBusca}`)
+          fetch(url)
+          .then((response) => response.json())
+          .then((data) => props.setCategorias(data))
+          .catch((error) => console.error('Erro ao buscar os dados:', error));
+      }
   }
 
-
+    
 
   return (
-    <body id="corpo" className="colorwhite">
-      <Container className="border corpoTabela">
-        <h1 className="text-center">Tabela Cadastro de Categorias</h1>
-        <Button
-         variant="success"
-          onClick={() => {
-            props.exibirTabela(false);
-            props.setModoEdicao(false)
-          }}
-        >
-          Cadastrar
-        </Button>
-
-        <Form className="d-flex">
-          <Form.Control
-            className="BarraPesquisar"
-            type="text"
-            id="termoBusca"
-            onChange={filtrarCategorias}
-            placeholder="Pesquisar por categoria"
-          />
-        </Form>
+        <body id="corpo" className="colorwhite ">
+              <Container className="border mb-2 mt-2 corpoTabela" >
+                  <h2 className="text-center m-4 ">Categorias Cadastradas</h2>
+                  <Row className='mb-2 mt-2 '>
+                      <Col>
+                          <Button variant="success" 
+                          onClick={()=>{
+                              props.exibirTabela(false)
+                              props.setModoEdicao(false)
+                              }}>
+                              Cadastrar
+                          </Button>
+                      </Col>
+                      <Col className="d-flex justify-content-end md-2">
+                          <Form className="d-flex">
+                          <Form.Control type="text" id="termoBusca" onChange={(e) => setTermoDeBusca(e.target.value)} placeholder="Pesquisar por categoria" />
+                          <Button className="BotaoPesquisar" type="button" onClick={buscarCategorias}>
+                          <span className="bi bi-search"></span>
+                          </Button>
+                          </Form>
+                      </Col>
+                  </Row>
+        
         <Table striped bordered hover>
           <thead className="colorwhite">
             <tr>
