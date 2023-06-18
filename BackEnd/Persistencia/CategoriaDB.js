@@ -62,7 +62,7 @@ export default class {
 
     async consultarCategoria(term){
         const conexao = await conectar();
-        const sql = "SELECT * FROM categoria WHERE tituloCategoria LIKE ?";
+        const sql = "SELECT * FROM categoria WHERE categoria LIKE ?";
         const valores = [`%${term}%`]
         const [rows] = await conexao.query(sql, valores);
 
