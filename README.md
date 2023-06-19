@@ -19,8 +19,8 @@ Cadastro de Categorias
 Esse cadastro permite o cadastro de categorias no sistema, que vai ser utilizado no cadastro de títulos.
 
 Funcionalidades para sempre implementadas no futuro:
-Registrar entrada de exemplar
-Emprestimo de exemplar
-Renovação de emprestimo
-Devolução de exemplar
-Baixa de exemplar
+Registrar entrada de exemplar,
+Emprestimo de exemplar,
+Renovação de emprestimo,
+Devolução de exemplar,
+Baixa de exemplar.
