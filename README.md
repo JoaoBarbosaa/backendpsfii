@@ -6,6 +6,11 @@ da biblioteca, classificando-as de acordo com sua categoria de aluno, professor 
 o cadastro de autores, informando seus nomes e nacionalidades; e o cadastro de categorias, tendo como base o gênero do assunto dos exemplares. Nestes cadastros é possível que o bibliotecário faça a exclusão
 e alteração de informações, além de poder realizar a pesquisa dos cadastros já cadastrados no sistema.
 
+Tecnologia utilizadas no sistema:
+ReactJS
+NodeJS
+MySQL
+
 O Software possui as seguintes funcionalidades atualmente:
 Cadastro de Usuários (Bibliotecários)
 Esse cadastro tem a função de registar os bibliotecários no sistema para poderem ter acesso.
