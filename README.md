@@ -12,6 +12,7 @@ NodeJS
 MySQL
 
 O Software possui as seguintes funcionalidades atualmente:
+
 Cadastro de Usuários (Bibliotecários)
 Esse cadastro tem a função de registar os bibliotecários no sistema para poderem ter acesso.
 
