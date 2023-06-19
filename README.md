@@ -14,12 +14,16 @@ MySQL
 O Software possui as seguintes funcionalidades atualmente:
 Cadastro de Usuários (Bibliotecários)
 Esse cadastro tem a função de registar os bibliotecários no sistema para poderem ter acesso.
+
 Cadastro de Pessoas
 Este cadastro visa cadastrar as pessoas e vinculá-las no empréstimo de exemplar.
+
 Cadastro de Títulos
 Esse cadastro permite o bibliotecário cadastras os títulos
+
 Cadastro de Autores
 Este cadastro permite o registo de autores no sistema, o que será utilizado para o cadastro de títulos.
+
 Cadastro de Categorias
 Esse cadastro permite o cadastro de categorias no sistema, que vai ser utilizado no cadastro de títulos.
 
