@@ -22,7 +22,7 @@ e alteração de informações, além de poder realizar a pesquisa dos cadastros
 - [x] Cadastro de Categorias
 
 
-✅ Funcionalidades para sempre implementadas no futuro:
+✅ Funcionalidades para serem implementadas no futuro:
 - [ ] Registrar entrada de exemplar
 - [ ] Emprestimo de exemplar
 - [ ] Renovação de emprestimo
