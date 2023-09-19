@@ -10,3 +10,16 @@ color: rgba(0, 0, 0, 0.884);
 .Menu{
     padding-left: 1vh;
 }
+
+.btn-sair {
+    background-color: red;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn-sair:hover {
+    background-color: darkred;
+  }
+  

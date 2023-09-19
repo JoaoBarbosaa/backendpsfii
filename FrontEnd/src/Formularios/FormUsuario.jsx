@@ -92,7 +92,7 @@ export default function FormUsuario(props) {
 
           <Form.Group className="mb-3" controlId="FormSenha">
             <Form.Label>Senha</Form.Label>
-            <Form.Control type="password" required value={usuario.senha} id="senha" onChange={manipularMudanca} placeholder="Digite uma senha" minLength={10}/>
+            <Form.Control type="senha" required value={usuario.senha} id="senha" onChange={manipularMudanca} placeholder="Digite uma senha" minLength={10}/>
             <Form.Control.Feedback type="invalid">
               Digite uma senha valida com pelo menos 10 caracteres!
             </Form.Control.Feedback>
