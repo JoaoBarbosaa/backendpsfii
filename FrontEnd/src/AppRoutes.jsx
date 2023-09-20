@@ -8,6 +8,7 @@ import Tela404 from "./interfaces/Tela404.js";
 import TelaCadastroLivro from "./interfaces/TelaCadastroLivro.jsx";
 import TelaCadastroAutor from "./interfaces/TelaFormAutor.js";
 import TelaCadastroUsuario from "./interfaces/TelaFormUsuarios.js";
+import TelaCadastroExemplar from "./interfaces/TelaFormExemplar.jsx";
 import LoginPage from "./pages/LoginPage/index.jsx";
 import { AuthProvider, AuthContext } from "./contexts/auth.jsx"
 
@@ -34,6 +35,7 @@ const AppRoutes = () => {
                     <Route exact path="/cadastroAutor" element={<Private><TelaCadastroAutor /> </Private>} />
                     <Route exact path="/cadastroUsuario" element={<Private><TelaCadastroUsuario /> </Private>} />
                     <Route exact path="/" element={<Private><TelaMenu /> </Private>} />
+                    <Route exact path ="/exemplar" element={<Private><TelaCadastroExemplar /></Private>} />
                     <Route exact path="*" element={<Tela404 />} />
                 </Routes>
             </AuthProvider>

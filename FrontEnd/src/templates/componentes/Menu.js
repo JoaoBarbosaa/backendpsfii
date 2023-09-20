@@ -32,9 +32,7 @@ export default function Menu(props) {
               <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroPessoa'>Cadastro de Pessoa</Link></NavDropdown.Item>
               <NavDropdown.Item href="#"><Link className='linkDeco' to='/cadastroUsuario'>Cadastro de Usuários</Link></NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="#" disabled>
-              Exemplar
-            </Nav.Link>
+            <Nav.Link href="/exemplar" className='linkDeco'>Exemplar</Nav.Link>
             <Nav.Link href="#" disabled>
               Empréstimo
             </Nav.Link>
