@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import Button from "react-bootstrap/Button";
 import { AuthContext } from "../../contexts/auth.jsx";
 import "./styles.css"
 
@@ -17,8 +18,10 @@ const LoginPage = () => {
     }
 
     return (
-        <div id="login">
+        <div id="corpo" className="login">
+            <div className="mainForm">
             <h1 className="title">Login do Sistema</h1>
+            <hr />
             <p>{String(authenticated)}</p>
             <form action="form" onSubmit={handleSubmit}>
                 <div className="field">
@@ -44,9 +47,10 @@ const LoginPage = () => {
                     />
                 </div>
                 <div className="actions">
-                    <button type="submit">Entrar</button>
+                    <Button type="submit" className="botao">Entrar</Button>
                 </div>
             </form>
+            </div>
         </div>
     );
 };
