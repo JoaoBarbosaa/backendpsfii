@@ -48,7 +48,10 @@ export default class ExemplarDB{
     async consultar(termo){
         const listaExemplar = [];
         const conexao = await conectar();
-        const sql = "SELECT e.codigo, e.quantidade, e.dataCadastro, e.codigoAcervo, a.tituloDoLivro FROM exemplar as e INNER JOIN acervo as a ON e.codigoAcervo = a.codigoRegisto WHERE a.tituloDoLivro LIKE ? ORDER BY e.codigo;";
+        const sql = `SELECT e.codigo, e.quantidade, e.dataCadastro, e.codigoAcervo, a.tituloDoLivro 
+                        FROM exemplar as e INNER JOIN acervo as a 
+                        ON e.codigoAcervo = a.codigoRegisto 
+                        WHERE a.tituloDoLivro LIKE ? ORDER BY e.codigo;`;
         const parametros = ['%' + termo + '%'];
       
         const [rows] = await conexao.query(sql, parametros);

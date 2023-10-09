@@ -158,7 +158,7 @@ export default function FormExemplar(props) {
             <Form.Label>Selecione o Título:</Form.Label>
             <CaixaSelecao
               enderecoFonteDados={urlBase + "/acervos"}
-              campoChave={"codigoRegistro"}
+              campoChave={"codigoRegisto"}
               campoExibicao={"tituloDoLivro"}
               funcaoSelecao={setTituloSelecionado}
               valor={tituloSelecionado}

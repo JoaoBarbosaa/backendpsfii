@@ -31,7 +31,7 @@ export default function TelaFormExemplar(props){
             quantidade: exemplar.quantidade,
             dataCadastro: exemplar.dataCadastro,
             acervo: {
-                codigo: exemplar.acervo.codigoRegistro
+                codigo: exemplar.acervo.codigoRegisto
             },
             
         });
@@ -86,7 +86,7 @@ export default function TelaFormExemplar(props){
 
     useEffect(() =>{
         buscarExemplar();
-    },[buscarExemplar])
+    },[])
 
     if (erro){
         return <div>
