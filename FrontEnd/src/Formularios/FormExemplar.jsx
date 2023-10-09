@@ -54,10 +54,9 @@ export default function FormExemplar(props) {
               alert("Não foi possível inserir o exemplar");
             } else {
               alert("Exemplar inserido com sucesso");
-              // Corrija aqui para acessar as funções corretamente
               props.setModoEdicao(false);
               props.exibirTabela(true);
-              console.log(exemplar.acervo); // Aqui você pode acessar a propriedade "acervo" do exemplar
+              console.log(exemplar.acervo); 
             }
           })
           .catch((error) => {
