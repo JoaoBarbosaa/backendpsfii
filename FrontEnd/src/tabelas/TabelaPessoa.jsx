@@ -62,6 +62,12 @@ export default function TabelaPessoas(props) {
           </thead>
           <tbody>
             {props.listaPessoas?.map((pessoa) => {
+              const dataEmprestimo = new Date(pessoa.dataNasc);
+              const dia = String(dataEmprestimo.getDate()).padStart(2, '0');
+              const mes = String(dataEmprestimo.getMonth() + 1).padStart(2, '0'); // Adicione 1 ao mês, pois ele é baseado em zero
+              const ano = dataEmprestimo.getFullYear();
+              const dataFormatada = `${dia}/${mes}/${ano}`;
+
               return (
                 <tr key={pessoa.cpf}>
                   <td id="colorwhite">{pessoa.cpf}</td>
@@ -73,7 +79,7 @@ export default function TabelaPessoas(props) {
                   <td id="colorwhite">{pessoa.cidade}</td>
                   <td id="colorwhite">{pessoa.endereco}</td>
                   <td id="colorwhite">{pessoa.cep}</td>
-                  <td id="colorwhite">{pessoa.dataNasc}</td>
+                  <td id="colorwhite">{dataFormatada}</td>
                   <td>
                     <Button variant="warning" onClick={()=>{
                       if(

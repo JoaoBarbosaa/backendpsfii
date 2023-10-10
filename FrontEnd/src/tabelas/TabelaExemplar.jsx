@@ -34,12 +34,19 @@ export default function TabelaExemplar(props) {
           </thead>
           <tbody>
             {props.listaExemplar?.map((exemplar, i) => {
+              
+              const dataEmprestimo = new Date(exemplar.dataCadastro);
+              const dia = String(dataEmprestimo.getDate()).padStart(2, '0');
+              const mes = String(dataEmprestimo.getMonth() + 1).padStart(2, '0'); // Adicione 1 ao mês, pois ele é baseado em zero
+              const ano = dataEmprestimo.getFullYear();
+              const dataFormatada = `${dia}/${mes}/${ano}`;
+
               return (
                 <tr key={i}>
                   <td id="colorwhite">{exemplar.codigo}</td>
                   <td id="colorwhite">{exemplar.acervo.titulo}</td>
                   <td id="colorwhite">{exemplar.quantidade}</td>
-                  <td id="colorwhite">{exemplar.dataCadastro}</td>
+                  <td id="colorwhite">{dataFormatada}</td>
                   <td>
                     <Button variant="warning" onClick={() => { props.editarExemplar(exemplar)}}>
                       <svg
