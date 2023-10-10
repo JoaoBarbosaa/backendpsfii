@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 10/10/2023 às 00:10
+-- Tempo de geração: 10/10/2023 às 02:33
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.0.28
 
@@ -50,7 +50,8 @@ INSERT INTO `acervo` (`codigoRegisto`, `tituloDoLivro`, `editora`, `edicao`, `an
 (78, 'Hora do aprender', 'Consiga ', '10 edição', '2021-02-05'),
 (79, 'teclado 1', 'aprender', '5 edição', '2021-08-21'),
 (80, 'html', 'aprender', '4 edição', '2022-02-05'),
-(82, 'teste', 'aprender', '5 edicao', '2021-02-05');
+(82, 'teste', 'aprender', '5 edicao', '2021-02-05'),
+(83, 'A bela e a Fera', 'aprender ', '5 edição', '2023-10-04');
 
 -- --------------------------------------------------------
 
@@ -100,6 +101,47 @@ INSERT INTO `categoria` (`codigo`, `categoria`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `emprestimo`
+--
+
+CREATE TABLE `emprestimo` (
+  `codigo` int(11) NOT NULL,
+  `dataEmprestimo` date NOT NULL,
+  `cpfPessoa` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `emprestimo`
+--
+
+INSERT INTO `emprestimo` (`codigo`, `dataEmprestimo`, `cpfPessoa`) VALUES
+(1, '2023-10-10', '15935798565'),
+(2, '2023-10-05', '12345689012'),
+(3, '2023-05-10', '25896314798');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `emprestimo_exemplar`
+--
+
+CREATE TABLE `emprestimo_exemplar` (
+  `codigoEmprestimo` int(11) NOT NULL,
+  `codigoExemplar` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `emprestimo_exemplar`
+--
+
+INSERT INTO `emprestimo_exemplar` (`codigoEmprestimo`, `codigoExemplar`) VALUES
+(1, 1),
+(2, 4),
+(3, 2);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `exemplar`
 --
 
@@ -115,8 +157,10 @@ CREATE TABLE `exemplar` (
 --
 
 INSERT INTO `exemplar` (`codigo`, `quantidade`, `dataCadastro`, `codigoAcervo`) VALUES
-(1, 4, '2023-10-03', 65),
-(2, 2, '2023-10-18', 10);
+(1, 6, '2023-10-03', 83),
+(2, 2, '2023-10-18', 10),
+(3, 5, '2023-10-09', 75),
+(4, 2, '2023-10-09', 65);
 
 -- --------------------------------------------------------
 
@@ -126,16 +170,16 @@ INSERT INTO `exemplar` (`codigo`, `quantidade`, `dataCadastro`, `codigoAcervo`) 
 
 CREATE TABLE `pessoa` (
   `cpf` varchar(16) NOT NULL,
-  `categoria` varchar(16) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `sexo` varchar(16) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `telefone` varchar(20) NOT NULL,
-  `cidade` varchar(50) NOT NULL,
-  `endereco` varchar(100) NOT NULL,
-  `cep` varchar(16) NOT NULL,
-  `dataNasc` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `categoria` varchar(16) DEFAULT NULL,
+  `nome` varchar(100) DEFAULT NULL,
+  `sexo` varchar(16) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `telefone` varchar(20) DEFAULT NULL,
+  `cidade` varchar(50) DEFAULT NULL,
+  `endereco` varchar(100) DEFAULT NULL,
+  `cep` varchar(16) DEFAULT NULL,
+  `dataNasc` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `pessoa`
@@ -190,6 +234,20 @@ ALTER TABLE `categoria`
   ADD PRIMARY KEY (`codigo`);
 
 --
+-- Índices de tabela `emprestimo`
+--
+ALTER TABLE `emprestimo`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `fk_pessoa` (`cpfPessoa`);
+
+--
+-- Índices de tabela `emprestimo_exemplar`
+--
+ALTER TABLE `emprestimo_exemplar`
+  ADD PRIMARY KEY (`codigoEmprestimo`,`codigoExemplar`),
+  ADD KEY `fk_emprestimo_exemplar_exemp` (`codigoExemplar`);
+
+--
 -- Índices de tabela `exemplar`
 --
 ALTER TABLE `exemplar`
@@ -216,7 +274,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `acervo`
 --
 ALTER TABLE `acervo`
-  MODIFY `codigoRegisto` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `codigoRegisto` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT de tabela `autor`
@@ -231,14 +289,33 @@ ALTER TABLE `categoria`
   MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT de tabela `emprestimo`
+--
+ALTER TABLE `emprestimo`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de tabela `exemplar`
 --
 ALTER TABLE `exemplar`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restrições para tabelas despejadas
 --
+
+--
+-- Restrições para tabelas `emprestimo`
+--
+ALTER TABLE `emprestimo`
+  ADD CONSTRAINT `fk_pessoa` FOREIGN KEY (`cpfPessoa`) REFERENCES `pessoa` (`cpf`);
+
+--
+-- Restrições para tabelas `emprestimo_exemplar`
+--
+ALTER TABLE `emprestimo_exemplar`
+  ADD CONSTRAINT `fk_emprestimo_exemplar_emp` FOREIGN KEY (`codigoEmprestimo`) REFERENCES `emprestimo` (`codigo`),
+  ADD CONSTRAINT `fk_emprestimo_exemplar_exemp` FOREIGN KEY (`codigoExemplar`) REFERENCES `exemplar` (`codigo`);
 
 --
 -- Restrições para tabelas `exemplar`

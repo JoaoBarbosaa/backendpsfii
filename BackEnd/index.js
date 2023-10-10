@@ -5,6 +5,8 @@ import rotaAcervo from './Rotas/rotaAcervo.js';
 import rotaCategoria from './Rotas/rotaCategoria.js';
 import rotaUsuario from './Rotas/rotaUsuario.js';
 import rotaExemplar from './Rotas/rotaExemplar.js'
+import rotaEmprestimo from './Rotas/rotaEmprestimo.js'
+
 import cors from 'cors'
 const app = new express();
 
@@ -17,6 +19,7 @@ app.use('/acervos', rotaAcervo);
 app.use('/categoria', rotaCategoria);
 app.use('/usuario', rotaUsuario);
 app.use('/exemplar', rotaExemplar);
+app.use('/emprestimo', rotaEmprestimo);
 
 app.listen(3020, "localhost", () => {
   console.log("api escutando na porta 3020");
