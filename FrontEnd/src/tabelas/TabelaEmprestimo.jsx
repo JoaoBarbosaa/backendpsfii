@@ -37,7 +37,8 @@ export default function TabelaEmprestimo(props) {
                             <th>CPF</th>
                             <th>Categoria</th>
                             <th>codigo Exemplar</th>
-                            <th>Título Exemplar</th>
+                            <th>codigo do Titulo</th>
+                            <th>Titulo</th>
                             <th>Ação</th>
                         </tr>
                     </thead>
@@ -70,9 +71,15 @@ export default function TabelaEmprestimo(props) {
                                     </td>
                                     <td id="colorwhite">
                                         {emprestimo.listaExemplares.map((exemplar, index) => (
-                                            <div key={index}>{exemplar.exemplar.acervo.titulo}</div>
+                                            <div key={index}>{exemplar.exemplar.codigo}</div>
                                         ))}
                                     </td>
+                                    <td id="colorwhite">
+                                        {emprestimo.listaExemplares.map((exemplar, index) => (
+                                            <div key={index}>{exemplar.exemplar.titulodolivro}</div>
+                                        ))}
+                                    </td>
+
                                     <td>
                                         <Button variant="danger"
                                             onClick={() => {
