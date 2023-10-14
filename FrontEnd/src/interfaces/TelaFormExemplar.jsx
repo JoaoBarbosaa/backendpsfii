@@ -15,11 +15,12 @@ export default function TelaFormExemplar(props){
     const [processado, setProcessado] = useState (false);
     const [exemplarEmEdicao, setExemplarEmEdicao] = useState({
         codigo: "",
-        titulo: "",
         quantidade: "",
         dataCadastro: "",
+        status: "",
         acervo: {
             codigo: "",
+            titulo: "",
         }
     });
     
@@ -27,11 +28,12 @@ export default function TelaFormExemplar(props){
         setModoEdicao(true);
         setExemplarEmEdicao({
             codigo: exemplar.codigo,
-            titulo: exemplar.acervo.tituloDoLivro,
             quantidade: exemplar.quantidade,
             dataCadastro: exemplar.dataCadastro,
+            status: exemplar.status,
             acervo: {
-                codigo: exemplar.acervo.codigoRegisto
+                codigo: exemplar.acervo.codigoRegisto,
+                titulo: exemplar.acervo.tituloDoLivro,
             },
             
         });
@@ -82,11 +84,16 @@ export default function TelaFormExemplar(props){
         });
     }
     
-    
 
     useEffect(() =>{
         buscarExemplar();
     },[])
+
+    useEffect(() => {
+        if(exibirTabela){
+            buscarExemplar();
+        }
+    }, [exibirTabela])
 
     if (erro){
         return <div>

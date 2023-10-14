@@ -89,8 +89,11 @@ export default function Formulario(props) {
 
             });
     }
-    
+
     const manipulaSubmissao = (evento) => {
+        evento.preventDefault();
+        evento.stopPropagation();
+
         const form = evento.currentTarget;
 
         if (form.checkValidity()) {
@@ -100,8 +103,7 @@ export default function Formulario(props) {
         else {
             setValidado(true);
         }
-        evento.preventDefault();
-        evento.stopPropagation();
+  
     };
 
 
@@ -149,36 +151,40 @@ export default function Formulario(props) {
                         </Col>
 
                     </Row>
-                    <Form.Group className="mb-3" controlId="pessoa">
-                        <Form.Label>Selecione o Pessoa:</Form.Label>
-                        <CaixaSelecao
-                            enderecoFonteDados={urlBase + "/pessoas"}
-                            campoChave={"cpf"}
-                            campoExibicao={"nome"}
-                            funcaoSelecao={setPessoaSelecionada}
-                            valor={pessoaSelecionada}
-                            id="pessoa"
-                            required
-                        />
-                    </Form.Group>
+                    <Row>
+                        <Col>
+                            <Form.Group className="mb-3" controlId="pessoa">
+                                <Form.Label>Selecione o Pessoa:</Form.Label>
+                                <CaixaSelecao
+                                    enderecoFonteDados={urlBase + "/pessoas"}
+                                    campoChave={"cpf"}
+                                    campoExibicao={"nome"}
+                                    funcaoSelecao={setPessoaSelecionada}
+                                    valor={pessoaSelecionada}
+                                    id="pessoa"
+                                    required
+                                />
+                            </Form.Group>
+                        </Col>
 
+                    </Row>
                     <Container>
 
                         <Row>
-                            <Col md={4}>
+                            <Col>
                                 <Form.Group className="mb-3" controlId="exemplar">
                                     <Form.Label>Selecione o Exemplar:</Form.Label>
                                     <CaixaSelecao
                                         enderecoFonteDados={`${urlBase}/exemplar`}
                                         campoChave="codigo"
-                                        campoExibicao="codigo"
+                                        campoExibicao="acervo,titulo"
                                         funcaoSelecao={setExemplarSelecionado}
                                         valor={exemplarSelecionado}
                                         id="exemplar"
                                     />
                                 </Form.Group>
                             </Col>
-
+{/* 
                             <Col md={7}>
                                 <Form.Label>Titulo</Form.Label>
                                 <Form.Control
@@ -189,10 +195,23 @@ export default function Formulario(props) {
                                     disabled
                                     required
                                 />
-                            </Col>
+                            </Col>  */}
                         </Row>
 
                         <Row>
+
+                        <Col md={4}>
+                                <Form.Label>Codigo</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    onChange={manipularMudanca}
+                                    value={exemplarSelecionado.codigo}
+                                    nome="exemplarSelecionado"
+                                    disabled
+                                    required
+                                />
+                            </Col>
+
                             <Col md={4}>
                                 <Form.Label>Quantidade</Form.Label>
                                 <Form.Control
@@ -231,10 +250,12 @@ export default function Formulario(props) {
                                     {
                                         exemplar: {
                                             codigo: exemplarSelecionado.codigo
+                                          
                                         }
                                     }
                                 ]
-                            };
+                            }
+                            
                             setListaEmprestimosSelecionados([...listaEmprestimosSelecionados, newItem]);
                         }}>
                             <Button>

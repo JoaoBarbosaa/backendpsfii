@@ -7,21 +7,21 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 export default function TabelaExemplar(props) {
 
   return (
-        <body id="corpo" className="colorwhite ">
-              <Container className="border mb-2 mt-2 corpoTabela" >
-                  <h2 className="text-center m-4 ">Exemplares Cadastrados</h2>
-                  <Row className='mb-2 mt-2 '>
-                      <Col>
-                          <Button variant="success" 
-                          onClick={()=>{
-                              props.exibirTabela(false)
-                              props.setModoEdicao(false)
-                              }}>
-                              Cadastrar
-                          </Button>
-                      </Col>
-                  </Row>
-        
+    <body id="corpo" className="colorwhite ">
+      <Container className="border mb-2 mt-2 corpoTabela" >
+        <h2 className="text-center m-4 ">Exemplares Cadastrados</h2>
+        <Row className='mb-2 mt-2 '>
+          <Col>
+            <Button variant="success"
+              onClick={() => {
+                props.exibirTabela(false)
+                props.setModoEdicao(false)
+              }}>
+              Cadastrar
+            </Button>
+          </Col>
+        </Row>
+
         <Table striped bordered hover className="text-center">
           <thead className="colorwhite">
             <tr>
@@ -29,16 +29,17 @@ export default function TabelaExemplar(props) {
               <th>Titulo</th>
               <th>Quantidade</th>
               <th>Data de Cadastro</th>
+              <th>Status</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody>
             {props.listaExemplar?.map((exemplar, i) => {
-              
-              const dataEmprestimo = new Date(exemplar.dataCadastro);
-              const dia = String(dataEmprestimo.getDate()).padStart(2, '0');
-              const mes = String(dataEmprestimo.getMonth() + 1).padStart(2, '0'); // Adicione 1 ao mês, pois ele é baseado em zero
-              const ano = dataEmprestimo.getFullYear();
+
+              const dataCadastro = new Date(exemplar.dataCadastro);
+              const dia = String(dataCadastro.getDate()).padStart(2, '0');
+              const mes = String(dataCadastro.getMonth() + 1).padStart(2, '0'); // Adicione 1 ao mês, pois ele é baseado em zero
+              const ano = dataCadastro.getFullYear();
               const dataFormatada = `${dia}/${mes}/${ano}`;
 
               return (
@@ -47,8 +48,9 @@ export default function TabelaExemplar(props) {
                   <td id="colorwhite">{exemplar.acervo.titulo}</td>
                   <td id="colorwhite">{exemplar.quantidade}</td>
                   <td id="colorwhite">{dataFormatada}</td>
+                  <td id="colorwhite">{exemplar.status}</td>
                   <td>
-                    <Button variant="warning" onClick={() => { props.editarExemplar(exemplar)}}>
+                    <Button variant="warning" onClick={() => { props.editarExemplar(exemplar) }}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -69,7 +71,7 @@ export default function TabelaExemplar(props) {
                           props.excluirExemplar(exemplar);
                         }
                       }}
-                      >
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"

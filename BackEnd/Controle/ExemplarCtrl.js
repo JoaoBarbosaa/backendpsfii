@@ -10,7 +10,7 @@ export default class ExemplarCTRL{
           const dados = requisicao.body;
         
           // Verifica se os dados necessários foram fornecidos
-          if (!dados.quantidade || !dados.dataCadastro || !dados.acervo || !dados.acervo.codigoRegisto) {
+          if (!dados.quantidade || !dados.dataCadastro || !dados.acervo || !dados.status || !dados.acervo.codigoRegisto) {
             resposta.json({
               status: false,
               mensagem: "Dados incompletos. Certifique-se de fornecer quantidade, dataCadastro e acervo com código."
@@ -21,6 +21,7 @@ export default class ExemplarCTRL{
           // Cria o objeto exemplar
           const quantidade = dados.quantidade;
           const dataCadastro = dados.dataCadastro;
+          const status = dados.status;
           const codigoAcervo = dados.acervo.codigoRegisto;
           const acervo = new Acervo(codigoAcervo); // Certifique-se de passar o código do acervo
       
@@ -28,7 +29,7 @@ export default class ExemplarCTRL{
             .then((acervoEncontrado) => {
                 if (acervoEncontrado && acervoEncontrado.length > 0) { // Verifica se acervoEncontrado não está vazio
                 const primeiroAcervo = acervoEncontrado[0]; // Acesse o primeiro objeto na lista
-                const exemplar = new Exemplar(0, quantidade, dataCadastro, primeiroAcervo);
+                const exemplar = new Exemplar(0, quantidade, dataCadastro, status, primeiroAcervo);
           
                 exemplar.gravar()
                     .then((exemplarGravado) => {
@@ -38,6 +39,7 @@ export default class ExemplarCTRL{
                         codigo: exemplarGravado.codigo,
                         quantidade: exemplarGravado.quantidade,
                         dataCadastro: exemplarGravado.dataCadastro,
+                        status: exemplarGravado.status,
                         acervo: {
                             codigo: exemplarGravado.acervo.codigoRegisto
                         }
@@ -75,7 +77,7 @@ export default class ExemplarCTRL{
             const dados = requisicao.body;
           
 
-            if (!dados.codigo || !dados.quantidade || !dados.dataCadastro || !dados.acervo || !dados.acervo.codigoRegisto) {
+            if (!dados.codigo || !dados.quantidade || !dados.dataCadastro || !dados.acervo || dados.codigoAcervo) {
               resposta.json({
                 status: false,
                 mensagem: "Dados incompletos. Certifique-se de fornecer quantidade, dataCadastro e acervo com código."
@@ -86,6 +88,7 @@ export default class ExemplarCTRL{
             const codigo = dados.codigo;
             const quantidade = dados.quantidade;
             const dataCadastro = dados.dataCadastro;
+            const status = dados.status;
             const codigoAcervo = dados.acervo.codigoRegisto;
             const acervo = new Acervo(codigoAcervo);
           
@@ -93,7 +96,7 @@ export default class ExemplarCTRL{
               .then((acervoEncontrado) => {
                 if (acervoEncontrado && acervoEncontrado.length > 0) {
                   const primeiroAcervo = acervoEncontrado[0];
-                  const exemplar = new Exemplar(dados.codigo, quantidade, dataCadastro, primeiroAcervo);
+                  const exemplar = new Exemplar(codigo, quantidade, dataCadastro, status, primeiroAcervo);
           
                   exemplar.atualizar()
                     .then((exemplarAtualizado) => {
@@ -103,6 +106,7 @@ export default class ExemplarCTRL{
                           codigo: exemplarAtualizado.codigo,
                           quantidade: exemplarAtualizado.quantidade,
                           dataCadastro: exemplarAtualizado.dataCadastro,
+                          status: exemplarAtualizado.status,
                           acervo: {
                             codigo: exemplarAtualizado.acervo.codigoRegisto,
                             titulo: exemplarAtualizado.acervo.tituloDoLivro
