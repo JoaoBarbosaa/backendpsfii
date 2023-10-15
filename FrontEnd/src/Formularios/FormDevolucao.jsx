@@ -31,7 +31,7 @@ export default function Formulario(props) {
                 setListaPessoa(dados);
             })
             .then(() => {
-                fetch(urlBase + "/exemplares")
+                fetch(urlBase + "/exemplar")
                     .then((resposta) => resposta.json())
                     .then((dados) => {
                         setListaExemplares(dados);

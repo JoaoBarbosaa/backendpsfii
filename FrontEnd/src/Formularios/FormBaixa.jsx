@@ -90,7 +90,6 @@ export default function FormBaixa(props) {
                   onChange={manipularMudanca} disabled />
               </Form.Group>
             </Col>
-            </Row>
             <Col>
               <Form.Group className="mb-3" controlId="motivBaixa">
                 <Form.Label>Motivo da Baixa</Form.Label>
@@ -107,15 +106,17 @@ export default function FormBaixa(props) {
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
+          </Row>
 
           <Row>
+
             <Col>
               <Form.Group className="mb-3" controlId="titulo">
                 <Form.Label>Selecione o Exemplar</Form.Label>
                 <CaixaSelecao
                   enderecoFonteDados={urlBase + "/exemplar"}
                   campoChave={"codigo"}
-                  campoExibicao={"codigo"}
+                  campoExibicao="acervo,titulo"
                   funcaoSelecao={setTituloSelecionado}
                   valor={tituloSelecionado}
                   id="exemplar"
