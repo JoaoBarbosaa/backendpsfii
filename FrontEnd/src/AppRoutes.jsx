@@ -13,6 +13,7 @@ import TelaCadastroBaixa from "./interfaces/TelaFormBaixa.jsx";
 import LoginPage from "./pages/LoginPage/index.jsx";
 import { AuthProvider, AuthContext } from "./contexts/auth.jsx"
 import TelaFormEmprestimo from "./interfaces/TelaFormEmprestimo.jsx";
+import TelaDevolucao from "./interfaces/TelaCadastroDevolucao.jsx";
 
 const AppRoutes = () => {
 
@@ -40,6 +41,7 @@ const AppRoutes = () => {
                     <Route exact path ="/exemplar" element={<Private><TelaCadastroExemplar /></Private>} />
                     <Route exact path ="/baixa" element={<Private><TelaCadastroBaixa /></Private>} />
                     <Route exact path ="/emprestimo" element={<Private><TelaFormEmprestimo /></Private>} />
+                    <Route exact path ="/devolucao" element={<Private><TelaDevolucao /></Private>} />
                     <Route exact path="*" element={<Tela404 />} />
                 </Routes>
             </AuthProvider>
