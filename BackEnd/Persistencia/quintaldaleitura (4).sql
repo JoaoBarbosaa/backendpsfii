@@ -327,3 +327,44 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+
+CREATE TABLE `devolucao` (
+  `codigo` int(11) NOT NULL,
+  `dataDevolucao` date NOT NULL,
+  `cpfPessoa` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `devolucao` (`codigo`, `dataDevolucao`, `cpfPessoa`) VALUES
+(1, '2023-10-15', '15935798565'),
+(2, '2023-10-10', '12345689012'),
+(3, '2023-05-19', '25896314798'),
+(4, '2023-10-20', '15935798565'),
+(5, '2023-10-13', '15935798565');
+
+CREATE TABLE `devolucao_exemplar` (
+  `codigoDevolucao` int(11) NOT NULL,
+  `codigoExemplar` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `devolucao_exemplar` (`codigoDevolucao`, `codigoExemplar`) VALUES
+(1, 1),
+(2, 4),
+(3, 2),
+(4, 2),
+(5, 3);
+
+
+ALTER TABLE `devolucao`
+  ADD PRIMARY KEY (`codigo`),
+  ADD CONSTRAINT `pessoa_fk` FOREIGN KEY (`cpfPessoa`) REFERENCES `pessoa` (`cpf`);
+
+ALTER TABLE `devolucao_exemplar`
+  ADD PRIMARY KEY (`codigoDevolucao`,`codigoExemplar`),
+  ADD KEY `fk_devolucao_exemplar_exemp` (`codigoExemplar`);
+
+
+ALTER TABLE `devolucao`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
