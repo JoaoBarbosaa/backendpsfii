@@ -6,8 +6,8 @@ import "./estilos/tabela.css";
 export default function TabelaItensDevolucao(props) {
 
     return (
-        <Container className= "m-2 border">
-            <Table striped bordered hover >
+        <Container className="m-2 border">
+            <Table striped bordered hover>
                 <thead className="colorwhite">
                     <tr>
                         <th>Código do Titulo</th>
