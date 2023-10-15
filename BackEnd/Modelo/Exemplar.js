@@ -6,12 +6,14 @@ export default class Exemplar{
     #codigo;
     #quantidade;
     #dataCadastro;
+    #status
     #acervo;
 
-    constructor(codigo=0, quantidade=0, dataCadastro="", acervo={}){
+    constructor(codigo=0, quantidade=0, dataCadastro="", status="", acervo={}){
         this.#codigo = codigo;
         this.#quantidade = quantidade;
         this.#dataCadastro = dataCadastro;
+        this.#status = status;
         this.#acervo = acervo;
     }
 
@@ -35,6 +37,14 @@ export default class Exemplar{
     set dataCadastro(novaDataCadastro){
         this.#dataCadastro = novaDataCadastro;
     }
+
+    get status(){
+        return this.#status;
+    }
+    set status(novoStatus){
+        this.#status = novoStatus;
+    }
+
     get acervo(){
         return this.#acervo;
     }
@@ -48,6 +58,7 @@ export default class Exemplar{
             "codigo"      :this.#codigo,
             "quantidade"  :this.#quantidade,
             "dataCadastro":this.#dataCadastro,
+            "status"      :this.#status,
             "acervo"      :this.#acervo
         }
     }

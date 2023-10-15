@@ -39,6 +39,7 @@ export default class Emprestimo{
         this.#pessoa = novaPessoa;
     }
 
+
     get listaExemplares(){
         return this.#listaExemplares;
     }

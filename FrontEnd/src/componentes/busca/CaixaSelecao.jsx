@@ -59,14 +59,17 @@ export default function CaixaSelecao({
                 funcaoSelecao(dados[pos]);
               }
             }}>
-            {
-              dados.map((item) => {
-                return <option key={item[campoChave]} 
-                  value={item[campoChave]}>
-                  {item[campoExibicao]}
-                </option>
-              })
-            }
+            {dados.map((item) => {
+                            let exibicao = campoExibicao.split(",");
+
+                            return (
+                                <option key={item[campoChave]} value={item[campoChave]}>
+                                    {exibicao.length > 1
+                                        ? item[exibicao[0]][exibicao[1]]
+                                        : item[campoExibicao]}
+                                </option>
+                            );
+                        })}
           </Form.Select>
         </Col>
         <Col md={1}>

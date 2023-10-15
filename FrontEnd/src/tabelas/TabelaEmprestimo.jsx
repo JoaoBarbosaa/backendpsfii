@@ -36,8 +36,6 @@ export default function TabelaEmprestimo(props) {
                             <th>Nome</th>
                             <th>CPF</th>
                             <th>Categoria</th>
-                            <th>codigo Exemplar</th>
-                            <th>codigo do Titulo</th>
                             <th>Titulo</th>
                             <th>Ação</th>
                         </tr>
@@ -65,20 +63,17 @@ export default function TabelaEmprestimo(props) {
                                     <td id="colorwhite">{cpfFormatado}</td>
                                     <td id="colorwhite">{emprestimo.pessoa.categoria}</td>
                                     <td id="colorwhite">
-                                        {emprestimo.listaExemplares.map((exemplar, index) => (
-                                            <div key={index}>{exemplar.exemplar.codigo}</div>
-                                        ))}
+                                        {emprestimo.listaExemplares.map((exemplar, index) => {
+                                            if (exemplar && exemplar.exemplar && exemplar.exemplar.acervo) {
+
+                                                const titulo = exemplar.exemplar.acervo.titulo;
+                                                return <div key={index}>{titulo}</div>;
+                                            } else {
+                                                return <div key={index}>Título não definido</div>;
+                                            }
+                                        })}
                                     </td>
-                                    <td id="colorwhite">
-                                        {emprestimo.listaExemplares.map((exemplar, index) => (
-                                            <div key={index}>{exemplar.exemplar.codigo}</div>
-                                        ))}
-                                    </td>
-                                    <td id="colorwhite">
-                                        {emprestimo.listaExemplares.map((exemplar, index) => (
-                                            <div key={index}>{exemplar.exemplar.titulodolivro}</div>
-                                        ))}
-                                    </td>
+
 
                                     <td>
                                         <Button variant="danger"

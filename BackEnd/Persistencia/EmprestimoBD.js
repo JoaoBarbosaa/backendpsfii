@@ -36,7 +36,7 @@ export default class EmprestimoBD{
     
             try {
                 // Atualiza os dados do empréstimo na tabela 'emprestimo'
-                const sql = "UPDATE emprestimo SET dataEmprestimo = ?, cpfPessoa = ? WHERE codigo = ?";
+                const sql = "UPDATE emprestimo SET dataEmprestimo = ?, cpfPessoa = ?WHERE codigo = ?";
                 const valores = [emprestimo.dataEmprestimo, emprestimo.pessoa.cpf, emprestimo.codigo];
                 await conexao.query(sql, valores);
     
@@ -119,7 +119,7 @@ export default class EmprestimoBD{
             for (const item of itensEmprestimo) {
                 const acervo = {
                     codigo: item['codigoAcervo'],
-                    titulo: item['titulo']
+                    titulo: item['tituloDoLivro']
                 };
 
                 const exemplar = {
@@ -182,7 +182,7 @@ export default class EmprestimoBD{
             for (const item of itensEmprestimo) {
                 const acervo = {
                     codigo: item['codigoAcervo'],
-                    titulo: item['titulo']
+                    titulo: item['tituloDoLivro']
                 };
 
                 const exemplar = {
