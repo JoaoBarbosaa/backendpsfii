@@ -116,7 +116,7 @@ export default function Formulario(props) {
                 >
                     <h1 className="text-center colorWhite">Cadastro de Devolução</h1>
                     <Row>
-                        <Col md={5}>
+                        <Col md={6}>
                             <Form.Group>
                                 <Form.Label htmlFor="codigo" className="form-label">Código</Form.Label>
                                 <Form.Control
@@ -130,7 +130,7 @@ export default function Formulario(props) {
                                 />
                             </Form.Group>
                         </Col>
-                        <Col md={5}>
+                        <Col md={6}>
                             <Form.Group className="mb-3" controlId="dataDevolucao">
                                 <Form.Label>Data da Devolução</Form.Label>
                                 <Form.Control
