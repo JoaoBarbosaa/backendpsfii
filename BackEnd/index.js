@@ -5,7 +5,8 @@ import rotaAcervo from './Rotas/rotaAcervo.js';
 import rotaCategoria from './Rotas/rotaCategoria.js';
 import rotaUsuario from './Rotas/rotaUsuario.js';
 import rotaExemplar from './Rotas/rotaExemplar.js'
-import rotaEmprestimo from './Rotas/rotaEmprestimo.js'
+import rotaEmprestimo from './Rotas/rotaEmprestimo.js';
+import rotaDevolucao from './Rotas/rotaDevolucao.js';
 
 import cors from 'cors'
 const app = new express();
