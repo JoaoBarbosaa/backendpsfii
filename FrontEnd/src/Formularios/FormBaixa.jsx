@@ -90,7 +90,8 @@ export default function FormBaixa(props) {
                   onChange={manipularMudanca} disabled />
               </Form.Group>
             </Col>
-            <Col md={4}>
+            </Row>
+            <Col>
               <Form.Group className="mb-3" controlId="motivBaixa">
                 <Form.Label>Motivo da Baixa</Form.Label>
                 <Form.Control
@@ -106,10 +107,8 @@ export default function FormBaixa(props) {
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
-          </Row>
 
           <Row>
-
             <Col>
               <Form.Group className="mb-3" controlId="titulo">
                 <Form.Label>Selecione o Exemplar</Form.Label>
