@@ -8,9 +8,9 @@ const exemplarCtrl = new ExemplarCTRL();
 
 rotaExemplar.post('/', exemplarCtrl.gravar)
 .put('/', exemplarCtrl.atualizar)
-.delete('/', exemplarCtrl.exluir)
+.delete('/', exemplarCtrl.excluir)
 .get('/', exemplarCtrl.consultar)
 // .get('/buscar/:titulo', exemplarCtrl.consultarExemplar)
-// .get('/:codigo', exemplarCtrl.consultarPeloCodigo);
+.get('/:codigo', exemplarCtrl.consultarCodigo);
 
 export default rotaExemplar;

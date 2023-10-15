@@ -137,7 +137,7 @@ export default class ExemplarCTRL{
           }
     }
 
-    exluir(requisicao, resposta){
+    excluir(requisicao, resposta){
         resposta.type("application/json");
 
         if(requisicao.method === "DELETE" && requisicao.is('application/json')){
@@ -192,6 +192,28 @@ export default class ExemplarCTRL{
         }
     }
 
-    
+      
+    consultarCodigo(requisicao, resposta){
+      resposta.type("application/json")
+      const codigo = requisicao.params['codigo'];
 
+      if(requisicao.method === "GET"){
+          const exemplar = new Exemplar();
+          exemplar.consultarCodigo(codigo).then((exemplar)=>{
+              resposta.json(exemplar);
+
+      }).catch((erro) => {
+          resposta.json({
+              status: false,
+              mensagem: erro.message
+          })
+      });
+      } else {
+      resposta.status(400).json({
+          status:false,
+          mensagem:"Método não permitido! Consulte a documentação da API"
+      });
+      }
+
+  }
 }

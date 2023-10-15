@@ -76,4 +76,34 @@ export default class ExemplarDB {
 
         return listaExemplar;
     }
+
+    
+    async consultarCodigo(codigo) {
+        const listaExemplar = [];
+        const conexao = await conectar();
+        const sql = `SELECT e.codigo, e.quantidade, e.dataCadastro, e.status, e.codigoAcervo, a.tituloDoLivro 
+                        FROM exemplar as e INNER JOIN acervo as a 
+                        ON e.codigoAcervo = a.codigoRegisto 
+                        WHERE e.codigo = ?`;
+        const parametros = [codigo];
+
+        const [rows] = await conexao.query(sql, parametros);
+
+
+        for (const row of rows) {
+            const exemplarFormatado = {
+                codigo: row.codigo,
+                quantidade: row.quantidade,
+                dataCadastro: row.dataCadastro,
+                status: row.status,
+                acervo: {
+                    codigo: row.codigoAcervo,
+                    titulo: row.tituloDoLivro
+                }
+            };
+            listaExemplar.push(exemplarFormatado);
+        }
+
+        return listaExemplar;
+    }
 }

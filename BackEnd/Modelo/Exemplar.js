@@ -85,4 +85,9 @@ export default class Exemplar{
         return exemplar;
     }
 
+    async consultarCodigo(codigo){
+        const exemplarDB = new ExemplarDB();
+        const exemplar = await exemplarDB.consultarCodigo(codigo);
+        return exemplar;
+    }
 }

@@ -45,7 +45,7 @@ export default function Menu(props) {
             <Nav.Link href="#" disabled>
               Devolução
             </Nav.Link>
-            <Nav.Link href="#" disabled>
+            <Nav.Link href="/baixa">
               Baixa
             </Nav.Link>
           </Nav>
