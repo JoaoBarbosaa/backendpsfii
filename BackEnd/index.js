@@ -6,7 +6,6 @@ import rotaCategoria from './Rotas/rotaCategoria.js';
 import rotaUsuario from './Rotas/rotaUsuario.js';
 import rotaExemplar from './Rotas/rotaExemplar.js'
 import rotaEmprestimo from './Rotas/rotaEmprestimo.js'
-import rotaBaixa from './Rotas/rotaBaixa.js'
 
 import cors from 'cors'
 const app = new express();
@@ -21,6 +20,7 @@ app.use('/categoria', rotaCategoria);
 app.use('/usuario', rotaUsuario);
 app.use('/exemplar', rotaExemplar);
 app.use('/emprestimo', rotaEmprestimo);
+app.use('/devolucao', rotaDevolucao);
 app.use('/baixa', rotaBaixa);
 
 app.listen(3020, "localhost", () => {
