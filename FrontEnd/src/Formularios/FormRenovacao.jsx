@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { Row, Col } from 'react-bootstrap';
 import { urlBase } from "../utilitarios/definicoes.js";
-import TabelaRenovacao from '../tabelas/TabelaRenovacao.jsx';
+import TabelaItensRenovacao from '../tabelas/TabelaItensRenovacao.jsx';
 import CaixaSelecao from '../componentes/busca/CaixaSelecao.jsx';
 
 
@@ -19,7 +19,7 @@ export default function Formulario(props) {
 
     const [emprestimo, setEmprestimo] = useState({
         codigo: "",
-        dataRenovacao: "",
+        dataEmprestimo: "",
         pessoa: {
             cpf: pessoaSelecionada.cpf
         },
@@ -89,8 +89,11 @@ export default function Formulario(props) {
 
             });
     }
-    
+
     const manipulaSubmissao = (evento) => {
+        evento.preventDefault();
+        evento.stopPropagation();
+
         const form = evento.currentTarget;
 
         if (form.checkValidity()) {
@@ -100,8 +103,7 @@ export default function Formulario(props) {
         else {
             setValidado(true);
         }
-        evento.preventDefault();
-        evento.stopPropagation();
+  
     };
 
 
@@ -115,7 +117,7 @@ export default function Formulario(props) {
                     onSubmit={manipulaSubmissao}
                     className="mainForm"
                 >
-                    <h1 className="text-center colorWhite">Cadastro de Emprestimo</h1>
+                    <h1 className="text-center colorWhite">Renovação de Emprestimo</h1>
                     <Row>
                         <Col md={5}>
                             <Form.Group>
@@ -134,7 +136,7 @@ export default function Formulario(props) {
 
                         <Col md={5}>
                             <Form.Group className="mb-3" controlId="dataEmprestimo">
-                                <Form.Label>Data do Emprestimo</Form.Label>
+                                <Form.Label>Data da Renovacao</Form.Label>
                                 <Form.Control
                                     type="date"
                                     id="dataEmprestimo"
@@ -143,42 +145,46 @@ export default function Formulario(props) {
                                     required
                                 />
                                 <Form.Control.Feedback type="invalid">
-                                    Selecione uma data de Emprestimo válida
+                                    Selecione uma data de Renovacao válida
                                 </Form.Control.Feedback>
                             </Form.Group>
                         </Col>
 
                     </Row>
-                    <Form.Group className="mb-3" controlId="pessoa">
-                        <Form.Label>Selecione o Pessoa:</Form.Label>
-                        <CaixaSelecao
-                            enderecoFonteDados={urlBase + "/pessoas"}
-                            campoChave={"cpf"}
-                            campoExibicao={"nome"}
-                            funcaoSelecao={setPessoaSelecionada}
-                            valor={pessoaSelecionada}
-                            id="pessoa"
-                            required
-                        />
-                    </Form.Group>
+                    <Row>
+                        <Col>
+                            <Form.Group className="mb-3" controlId="pessoa">
+                                <Form.Label>Selecione o Pessoa:</Form.Label>
+                                <CaixaSelecao
+                                    enderecoFonteDados={urlBase + "/pessoas"}
+                                    campoChave={"cpf"}
+                                    campoExibicao={"nome"}
+                                    funcaoSelecao={setPessoaSelecionada}
+                                    valor={pessoaSelecionada}
+                                    id="pessoa"
+                                    required
+                                />
+                            </Form.Group>
+                        </Col>
 
+                    </Row>
                     <Container>
 
                         <Row>
-                            <Col md={4}>
+                            <Col>
                                 <Form.Group className="mb-3" controlId="exemplar">
                                     <Form.Label>Selecione o Exemplar:</Form.Label>
                                     <CaixaSelecao
                                         enderecoFonteDados={`${urlBase}/exemplar`}
                                         campoChave="codigo"
-                                        campoExibicao="codigo"
+                                        campoExibicao="acervo,titulo"
                                         funcaoSelecao={setExemplarSelecionado}
                                         valor={exemplarSelecionado}
                                         id="exemplar"
                                     />
                                 </Form.Group>
                             </Col>
-
+{/* 
                             <Col md={7}>
                                 <Form.Label>Titulo</Form.Label>
                                 <Form.Control
@@ -189,10 +195,23 @@ export default function Formulario(props) {
                                     disabled
                                     required
                                 />
-                            </Col>
+                            </Col>  */}
                         </Row>
 
                         <Row>
+
+                        <Col md={4}>
+                                <Form.Label>Codigo</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    onChange={manipularMudanca}
+                                    value={exemplarSelecionado.codigo}
+                                    nome="exemplarSelecionado"
+                                    disabled
+                                    required
+                                />
+                            </Col>
+
                             <Col md={4}>
                                 <Form.Label>Quantidade</Form.Label>
                                 <Form.Control
@@ -231,10 +250,12 @@ export default function Formulario(props) {
                                     {
                                         exemplar: {
                                             codigo: exemplarSelecionado.codigo
+                                          
                                         }
                                     }
                                 ]
-                            };
+                            }
+                            
                             setListaEmprestimosSelecionados([...listaEmprestimosSelecionados, newItem]);
                         }}>
                             <Button>
@@ -251,7 +272,7 @@ export default function Formulario(props) {
                         </Col>
 
                         <Row>
-                            <TabelaRenovacao
+                            <TabelaItensRenovacao
                                 listaItens={listaEmprestimosSelecionados}
                                 dadosEmprestimo={emprestimo}
                                 setEmprestimo={setEmprestimo}

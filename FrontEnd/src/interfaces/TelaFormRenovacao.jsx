@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Spinner } from "react-bootstrap";
-import Formulario from "../Formularios/FormRenovarEmprestimo.jsx";
+import Formulario from "../Formularios/FormRenovacao.jsx";
 import { urlBase } from "../utilitarios/definicoes.js";
 import TabelaRenovacao from "../tabelas/TabelaRenovacao.jsx";
 import Pagina from "../templates/componentes/Pagina.js";

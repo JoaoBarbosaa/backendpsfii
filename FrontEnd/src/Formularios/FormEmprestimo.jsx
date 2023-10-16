@@ -19,7 +19,7 @@ export default function Formulario(props) {
 
     const [emprestimo, setEmprestimo] = useState({
         codigo: "",
-        dataEmprestimo: "",
+        dataRenovacao: "",
         pessoa: {
             cpf: pessoaSelecionada.cpf
         },
@@ -117,7 +117,7 @@ export default function Formulario(props) {
                     onSubmit={manipulaSubmissao}
                     className="mainForm"
                 >
-                    <h1 className="text-center colorWhite">Cadastro de Emprestimo</h1>
+                    <h1 className="text-center colorWhite">Renovação de Exemplar</h1>
                     <Row>
                         <Col md={5}>
                             <Form.Group>
@@ -136,7 +136,7 @@ export default function Formulario(props) {
 
                         <Col md={5}>
                             <Form.Group className="mb-3" controlId="dataEmprestimo">
-                                <Form.Label>Data do Emprestimo</Form.Label>
+                                <Form.Label>Data da Renovacao</Form.Label>
                                 <Form.Control
                                     type="date"
                                     id="dataEmprestimo"
@@ -145,7 +145,7 @@ export default function Formulario(props) {
                                     required
                                 />
                                 <Form.Control.Feedback type="invalid">
-                                    Selecione uma data de Emprestimo válida
+                                    Selecione uma data de Renovacao válida
                                 </Form.Control.Feedback>
                             </Form.Group>
                         </Col>
