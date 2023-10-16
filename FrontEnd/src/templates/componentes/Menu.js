@@ -39,7 +39,7 @@ export default function Menu(props) {
               Empréstimo
             </Nav.Link>
             
-            <Nav.Link href="/renovar">
+            <Nav.Link href="/renovacao">
               Renovar
             </Nav.Link>
 

@@ -15,7 +15,7 @@ export default function TabelaRenovacao(props) {
 
 
             <Container className="border mb-2 mt-2 corpoTabela" >
-                <h2 className="text-center m-4">Empréstimos Cadastrados</h2>
+                <h2 className="text-center m-4">Renovação Cadastradas</h2>
                 <Row className='mb-2 mt-2 '>
                     <Col>
                         <Button variant="success"
