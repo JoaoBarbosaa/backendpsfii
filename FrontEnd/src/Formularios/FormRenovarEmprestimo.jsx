@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { Row, Col } from 'react-bootstrap';
 import { urlBase } from "../utilitarios/definicoes.js";
-import TabelaItensEmprestimo from '../tabelas/TabelaRenovacao.jsx';
+import TabelaRenovacao from '../tabelas/TabelaRenovacao.jsx';
 import CaixaSelecao from '../componentes/busca/CaixaSelecao.jsx';
 
 
@@ -251,7 +251,7 @@ export default function Formulario(props) {
                         </Col>
 
                         <Row>
-                            <TabelaItensEmprestimo
+                            <TabelaRenovacao
                                 listaItens={listaEmprestimosSelecionados}
                                 dadosEmprestimo={emprestimo}
                                 setEmprestimo={setEmprestimo}

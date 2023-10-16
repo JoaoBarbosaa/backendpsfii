@@ -1,46 +1,98 @@
 import React, { useState } from "react";
-import { Button, Container, Table } from "react-bootstrap";
-import 'bootstrap-icons/font/bootstrap-icons.css';
+import { Button, Table, Container, Row, Col } from "react-bootstrap";
 import "./estilos/tabela.css";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 export default function TabelaRenovacao(props) {
 
+    const [termoDeBusca, setTermoDeBusca] = useState('');
+    const [exemplar, setExemplar] = useState([]);
+    const [acervoLista, setAcervoLista] = useState([]);
+
     return (
-        <Container className="m-2 border">
-            <Table striped bordered hover>
-                <thead className="colorwhite">
-                    <tr>
-                        <th>Código Titulo</th>
-                        <th>Data da Renovação</th>
-                        <th>pessoa</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        props.listaItens?.map((item, indice) => {
+
+        <body id="corpo" className="colorwhite ">
+
+
+            <Container className="border mb-2 mt-2 corpoTabela" >
+                <h2 className="text-center m-4">Empréstimos Cadastrados</h2>
+                <Row className='mb-2 mt-2 '>
+                    <Col>
+                        <Button variant="success"
+                            onClick={() => {
+                                props.exibirTabela(false);
+                                props.setModoEdicao(false);
+                            }}>
+                            Cadastrar
+                        </Button>
+                    </Col>
+                </Row>
+
+                <Table striped bordered hover className="text-center">
+                    <thead className="colorwhite">
+                        <tr>
+                            <th>Código</th>
+                            <th>Data da Renovação</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Categoria</th>
+                            <th>Titulo</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {props.listaEmprestimos?.map((emprestimo, indice) => {
+
+                            const dataEmprestimo = new Date(emprestimo.dataEmprestimo);
+                            const dia = String(dataEmprestimo.getDate()).padStart(2, '0');
+                            const mes = String(dataEmprestimo.getMonth() + 1).padStart(2, '0'); // Adicione 1 ao mês, pois ele é baseado em zero
+                            const ano = dataEmprestimo.getFullYear();
+                            const dataFormatada = `${dia}/${mes}/${ano}`;
+
+                            const cpf = emprestimo.pessoa.cpf;
+                            const cpfLimpo = cpf.replace(/\D/g, '');
+                            const cpfFormatado = cpfLimpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+
+
                             return (
-                                <tr key={indice} >
-                                    <td id="colorwhite">{item.codigo}</td>
-                                    <td id="colorwhite">{item.dataRenovacao}</td>
-                                    <td id="colorwhite">{item.pessoa.cpf}</td>
+                                <tr key={indice}>
+                                    <td id="colorwhite">{emprestimo.codigo}</td>
+                                    <td id="colorwhite">{dataFormatada}</td>
+                                    <td id="colorwhite">{emprestimo.pessoa.nome}</td>
+                                    <td id="colorwhite">{cpfFormatado}</td>
+                                    <td id="colorwhite">{emprestimo.pessoa.categoria}</td>
+                                    <td id="colorwhite">
+                                        {emprestimo.listaExemplares.map((exemplar, index) => {
+                                            if (exemplar && exemplar.exemplar && exemplar.exemplar.acervo) {
+
+                                                const titulo = exemplar.exemplar.acervo.titulo;
+                                                return <div key={index}>{titulo}</div>;
+                                            } else {
+                                                return <div key={index}>Título não definido</div>;
+                                            }
+                                        })}
+                                    </td>
+
+
                                     <td>
-                                        <Button onClick={() => {
-                                            const lista = props.listaItens.filter((prod) => prod.codigo !== item.codigo);
-                                            props.setRenovacao({ ...props.dadosRenovacao, listaRenovacao: lista });
-                                            props.setListaItens(lista);
-                                        }}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-bag-dash" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M5.5 10a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z" />
-                                                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
-                                            </svg>
+                                        <Button variant="danger"
+                                            onClick={() => {
+                                                if (window.confirm("Deseja realmente excluir o empréstimo?")) {
+                                                    props.excluirEmprestimo(emprestimo);
+                                                }
+                                            }}
+                                        >
+                                            <i className="bi bi-trash"></i>
                                         </Button>
                                     </td>
                                 </tr>
                             );
-                        })
-                    }
-                </tbody>
-            </Table>
-        </Container>
+                        })}
+                    </tbody>
+                </Table>
+
+            </Container>
+        </body>
     );
 }

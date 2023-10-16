@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Spinner } from "react-bootstrap";
 import Formulario from "../Formularios/FormRenovarEmprestimo.jsx";
 import { urlBase } from "../utilitarios/definicoes.js";
-import TabelaEmprestimo from "../tabelas/TabelaRenovacao.jsx";
+import TabelaRenovacao from "../tabelas/TabelaRenovacao.jsx";
 import Pagina from "../templates/componentes/Pagina.js";
 import { set } from "react-hook-form";
 
@@ -10,16 +10,16 @@ import { set } from "react-hook-form";
 export default function TelaFormRenovacao(props) {
 
     const [exibirTabela, setExibirTabela] = useState(true);
-    const [renovacao, setRenovacao] = useState([]);
+    const [emprestimos, setEmprestimos] = useState([]);
     const [modoEdicao, setModoEdicao] = useState(false);
     const [erro, setErro] = useState(null);
     const [processado, setProcessado] = useState(false);
     
-    function apagarRenovacao(renovacao) {
-        fetch(urlBase + "/renovacao", {
+    function apagarEmprestimo(emprestimo) {
+        fetch(urlBase + "/emprestimo", {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(renovacao),
+            body: JSON.stringify(emprestimo),
         })
             .then((resposta) => {
                 return resposta.json();
@@ -28,13 +28,13 @@ export default function TelaFormRenovacao(props) {
                 if (retorno.resultado) {
                     alert("Não foi possível excluir o empréstimo");
                 } else {
-                    buscarRenovacao();
+                    buscarEmprestimos();
                 }
             });
     }
 
-    function buscarRenovacao() {
-        fetch(urlBase + "/renovacao", {
+    function buscarEmprestimos() {
+        fetch(urlBase + "/emprestimo", {
             method: "GET"
         })
             .then((resposta) => {
@@ -43,7 +43,7 @@ export default function TelaFormRenovacao(props) {
             .then((dados) => {
                 if (Array.isArray(dados)) {
                     setProcessado(true);
-                    setRenovacao(dados);
+                    setEmprestimos(dados);
                 } else {
                     setProcessado(true);
                     setErro(dados.status);
@@ -52,8 +52,14 @@ export default function TelaFormRenovacao(props) {
     }
 
     useEffect(() => {
-        buscarRenovacao();
+        buscarEmprestimos();
     }, []); 
+
+    useEffect(() => {
+        if(exibirTabela){
+            buscarEmprestimos();
+        }
+    }, [exibirTabela]);
 
     if (erro) {
         return (
@@ -72,7 +78,7 @@ export default function TelaFormRenovacao(props) {
             <Pagina>
                 <div>
                     {exibirTabela ? (
-                        <TabelaEmprestimo
+                        <TabelaRenovacao
                             listaEmprestimos={emprestimos}
                             exibirTabela={setExibirTabela}
                             excluirEmprestimo={apagarEmprestimo}

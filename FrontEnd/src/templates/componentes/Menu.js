@@ -39,15 +39,18 @@ export default function Menu(props) {
               Empréstimo
             </Nav.Link>
             
-            <Nav.Link href="#" disabled>
+            <Nav.Link href="/renovar">
               Renovar
             </Nav.Link>
+
             <Nav.Link href="/devolucao">
               Devolução
             </Nav.Link>
+
             <Nav.Link href="/baixa">
               Baixa
             </Nav.Link>
+            
           </Nav>
           <Form className="d-flex">
             <Form.Control
