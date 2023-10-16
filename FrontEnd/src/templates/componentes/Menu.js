@@ -42,10 +42,10 @@ export default function Menu(props) {
             <Nav.Link href="#" disabled>
               Renovar
             </Nav.Link>
-            <Nav.Link href="#" disabled>
+            <Nav.Link href="/devolucao">
               Devolução
             </Nav.Link>
-            <Nav.Link href="#" disabled>
+            <Nav.Link href="/baixa">
               Baixa
             </Nav.Link>
           </Nav>
