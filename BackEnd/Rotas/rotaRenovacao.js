@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import EmprestimoCTRL from '../Controle/EmprestimoCTRL.js';
+import RenovacaoCTRL from '../Controle/RenovacaoCtrl.js';
 
 const rotaEmprestimo = Router();
-const emprestimoCtrl = new EmprestimoCTRL();
+const emprestimoCtrl = new RenovacaoCTRL();
 
 rotaEmprestimo.get("/", emprestimoCtrl.consultar)
 .post("/", emprestimoCtrl.gravar)

@@ -1,9 +1,9 @@
-import Emprestimo from "../Modelo/Emprestimo.js";
+import Renovacao from "../Modelo/Renovacao.js";
 import Exemplar from "../Modelo/Exemplar.js";
 import Pessoa from "../Modelo/Pessoa.js";
-import ItemEmprestimo from "../Modelo/itemEmprestimo.js";
+import ItemRenovacao from "../Modelo/itemRenovacao.js";
 
-export default class EmprestimoCtrl {
+export default class RenovacaoCtrl {
 
 
     gravar(requisicao, resposta) {
@@ -21,10 +21,10 @@ export default class EmprestimoCtrl {
   
         for (const item of listaExemplar) {
           const exemplar = new Exemplar(item.exemplar.codigo)
-          const itemEmprestimo = new ItemEmprestimo(exemplar)
-          listaEmprestimos.push(itemEmprestimo)
+          const itemRenovacao = new ItemRenovacao(exemplar)
+          listaEmprestimos.push(itemRenovacao)
         }
-        const emprestimo = new Emprestimo(0, dataEmprestimo, pessoa, listaEmprestimos)
+        const emprestimo = new Renovacao(0, dataEmprestimo, pessoa, listaEmprestimos)
         emprestimo.gravar().then(() => {
           resposta.json({
             status: true,
@@ -59,11 +59,11 @@ export default class EmprestimoCtrl {
   
         for (const item of listaExemplar) {
           const exemplar = new Exemplar(item.exemplar.codigo);
-          const itemEmprestimo = new ItemEmprestimo(exemplar);
-          listaEmprestimos.push(itemEmprestimo);
+          const itemRenovacao = new ItemRenovacao(exemplar);
+          listaEmprestimos.push(itemRenovacao);
         }
   
-        const emprestimo = new Emprestimo(codigo, dataEmprestimo, pessoa, listaEmprestimos);
+        const emprestimo = new Renovacao(codigo, dataEmprestimo, pessoa, listaEmprestimos);
   
         try {
           await emprestimo.alterar();
@@ -131,7 +131,7 @@ export default class EmprestimoCtrl {
   
         const dados = requisicao.body;
         const codigo = dados.codigo;
-        const emprestimo = new Emprestimo(codigo);
+        const emprestimo = new Renovacao(codigo);
         
         emprestimo.excluir().then(() => {
           resposta.json({

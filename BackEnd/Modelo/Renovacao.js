@@ -1,7 +1,7 @@
-import EmprestimoBD from "../Persistencia/EmprestimoBD.js"
+import RenovacaoBD from "../Persistencia/RenovacaoBD.js"
 
 
-export default class Emprestimo{
+export default class Renovacao{
 
     #codigo
     #dataEmprestimo
@@ -58,27 +58,27 @@ export default class Emprestimo{
     }
 
     async gravar() {
-        const emprestimoDAO = new EmprestimoBD();
+        const emprestimoDAO = new RenovacaoBD();
         return await emprestimoDAO.gravar(this);
     }
 
     async alterar() {
-        const emprestimoDAO = new EmprestimoBD();
+        const emprestimoDAO = new RenovacaoBD();
         return await emprestimoDAO.alterar(this);
     }
 
     async excluir() {
-        const emprestimoDAO = new EmprestimoBD();
+        const emprestimoDAO = new RenovacaoBD();
         return await emprestimoDAO.excluir(this);
     }
 
     async consultar() {
-        const emprestimoDAO = new EmprestimoBD();
+        const emprestimoDAO = new RenovacaoBD();
         return await emprestimoDAO.consultar();
     }
 
     async consultarCodigo(codigo) {
-        const emprestimoDAO = new EmprestimoBD();
+        const emprestimoDAO = new RenovacaoBD();
         return await emprestimoDAO.consultarCodigo(codigo);
     }
 

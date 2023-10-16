@@ -1,11 +1,11 @@
 import conectar from "./Conexao.js";
-import Emprestimo from "../Modelo/Emprestimo.js";
+import Renovacao from "../Modelo/Renovacao.js";
 import Pessoa from "../Modelo/Pessoa.js";
 
-export default class EmprestimoBD{
+export default class RenovacaoBD{
 
     async gravar(emprestimo) {
-        if (emprestimo instanceof Emprestimo) {
+        if (emprestimo instanceof Renovacao) {
             const conexao = await conectar();
 
             try {
@@ -31,7 +31,7 @@ export default class EmprestimoBD{
 
 
     async alterar(emprestimo) {
-        if (emprestimo instanceof Emprestimo) {
+        if (emprestimo instanceof Renovacao) {
             const conexao = await conectar();
     
             try {
@@ -60,7 +60,7 @@ export default class EmprestimoBD{
     
 
     async excluir(emprestimo) {
-        if (emprestimo instanceof Emprestimo) {
+        if (emprestimo instanceof Renovacao) {
             const conexao = await conectar();
     
             try {
@@ -102,7 +102,7 @@ export default class EmprestimoBD{
 
         for (const emprestimoData of emprestimos) {
             const pessoa = new Pessoa(emprestimoData['cpfPessoa'], emprestimoData['categoria'], emprestimoData['nome']);
-            const emprestimo = new Emprestimo(emprestimoData['codigo'], emprestimoData['dataEmprestimo'], pessoa, []);
+            const emprestimo = new Renovacao(emprestimoData['codigo'], emprestimoData['dataEmprestimo'], pessoa, []);
 
             const sqlItem = `
             SELECT *
@@ -165,7 +165,7 @@ export default class EmprestimoBD{
 
         for (const emprestimoData of emprestimos) {
             const pessoa = new Pessoa(emprestimoData['cpfPessoa'], emprestimoData['categoria'], emprestimoData['nome']);
-            const emprestimo = new Emprestimo(emprestimoData['codigo'], emprestimoData['dataEmprestimo'], pessoa, []);
+            const emprestimo = new Renovacao(emprestimoData['codigo'], emprestimoData['dataEmprestimo'], pessoa, []);
 
             const sqlItem = `
             SELECT *
