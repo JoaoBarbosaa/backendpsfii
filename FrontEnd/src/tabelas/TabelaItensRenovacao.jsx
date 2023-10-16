@@ -11,7 +11,7 @@ export default function TabelaItensRenovacao(props) {
                 <thead className="colorwhite">
                     <tr>
                         <th>Código Titulo</th>
-                        <th>Data do Empréstimo</th>
+                        <th>Data da Renovação</th>
                         <th>pessoa</th>
                     </tr>
                 </thead>
