@@ -1,5 +1,5 @@
 import Renovacao from "../Modelo/Renovacao.js";
-import Exemplar from "../Modelo/Exemplar.js";
+import Emprestimo from "../Modelo/Emprestimo.js";
 import Pessoa from "../Modelo/Pessoa.js";
 import ItemRenovacao from "../Modelo/itemRenovacao.js";
 
@@ -20,7 +20,7 @@ export default class RenovacaoCtrl {
         const listaEmprestimos = [];
   
         for (const item of listaExemplar) {
-          const exemplar = new Exemplar(item.exemplar.codigo)
+          const exemplar = new Emprestimo(item.exemplar.codigo)
           const itemRenovacao = new ItemRenovacao(exemplar)
           listaEmprestimos.push(itemRenovacao)
         }
@@ -58,7 +58,7 @@ export default class RenovacaoCtrl {
         const listaEmprestimos = [];
   
         for (const item of listaExemplar) {
-          const exemplar = new Exemplar(item.exemplar.codigo);
+          const exemplar = new Emprestimo(item.exemplar.codigo);
           const itemRenovacao = new ItemRenovacao(exemplar);
           listaEmprestimos.push(itemRenovacao);
         }
