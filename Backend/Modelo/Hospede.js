@@ -1,81 +1,48 @@
+// Hospede.js
 import HospedeBD from "../Persistencia/HospedeBD.js";
 
 export default class Hospede {
-
-    #cpf;
+    #codigo;
     #nome;
-    #rg;
     #email;
-    #telefone;
+    #telefones;
     #endereco;
 
-    constructor(cpf, nome, rg, email, telefone, endereco) {
-        this.#cpf = cpf;
+    constructor(codigo, nome, email, telefones, endereco) {
+        this.#codigo = codigo;
         this.#nome = nome;
-        this.#rg = rg;
         this.#email = email;
-        this.#telefone = telefone;
+        this.#telefones = telefones || [];
         this.#endereco = endereco;
     }
 
-    //METODO CPF
-    get cpf() {
-        return this.#cpf;
-    }
-    set cpf(novoCpf) {
-        this.#cpf = novoCpf;
+    get codigo() {
+        return this.#codigo;
     }
 
-    //METODO NOME
-    get nome() {
-        return this.#nome;
-    }
-    set nome(novoNome) {
-        this.#nome = novoNome;
+    set codigo(novoCodigo) {
+
+        this.#codigo = novoCodigo;
     }
 
-    //METODO RG
-    get rg() {
-        return this.#rg;
-    }
-    set rg(novoRg) {
-        this.#rg = novoRg;
+    get telefones() {
+        return this.#telefones;
     }
 
-    //METODO EMAIL
-    get email() {
-        return this.#email;
-    }
-    set email(novoEmail) {
-        this.#email = novoEmail;
+    set telefones(novosTelefones) {
+        this.#telefones = novosTelefones;
     }
 
-    //METODO TELEFONE
-    get telefone() {
-        return this.#telefone;
-    }
-    set telefone(novoTel) {
-        this.#telefone = novoTel;
-    }
-
-    //METODO ENDEREÇO
-    get endereco() {
-        return this.#endereco;
-    }
-    set endereco(novoEnd) {
-        this.#endereco = novoEnd;
-    }
-
+    // Métodos para adicionar, remover, consultar telefones, etc.
 
     toJSON() {
         return {
-            "cpf": this.#cpf,
+            "codigo": this.#codigo,
             "nome": this.#nome,
-            "rg": this.#rg,
             "email": this.#email,
-            "telefone": this.#telefone,
+            "telefones": this.#telefones.map(telefone => telefone.toJSON()),
             "endereco": this.#endereco,
-        }
+        };
     }
 
     async gravar() {
@@ -105,10 +72,9 @@ export default class Hospede {
         return hospedes;
     }
 
-    async consultarNome(nome){
-      const hospedeBD = new HospedeBD();
-      const hospedes = await hospedeBD.consultarNome(nome);
-      return hospedes;
+    async consultarNome(nome) {
+        const hospedeBD = new HospedeBD();
+        const hospedes = await hospedeBD.consultarNome(nome);
+        return hospedes;
     }
-
 }
