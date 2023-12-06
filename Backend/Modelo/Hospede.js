@@ -1,28 +1,27 @@
-// Hospede.js
 import HospedeBD from "../Persistencia/HospedeBD.js";
 
 export default class Hospede {
-    #codigo;
+    #idhospede;
     #nome;
     #email;
     #telefones;
     #endereco;
 
-    constructor(codigo, nome, email, telefones, endereco) {
-        this.#codigo = codigo;
+    constructor(idhospede, nome, email, telefones, endereco) {
+        this.#idhospede = idhospede;
         this.#nome = nome;
         this.#email = email;
         this.#telefones = telefones || [];
         this.#endereco = endereco;
     }
 
-    get codigo() {
-        return this.#codigo;
+    get idhospede() {
+        return this.#idhospede;
     }
 
-    set codigo(novoCodigo) {
+    set idhospede(novoidhospede) {
 
-        this.#codigo = novoCodigo;
+        this.#idhospede = novoidhospede;
     }
 
     get telefones() {
@@ -37,7 +36,7 @@ export default class Hospede {
 
     toJSON() {
         return {
-            "codigo": this.#codigo,
+            "idhospede": this.#idhospede,
             "nome": this.#nome,
             "email": this.#email,
             "telefones": this.#telefones.map(telefone => telefone.toJSON()),
@@ -47,7 +46,7 @@ export default class Hospede {
 
     async gravar() {
         const hospedeBD = new HospedeBD();
-        await hospedeBD.adicionar(this);
+        this.idhospede = await hospedeBD.incluir(this);
     }
 
     async atualizar() {
@@ -66,9 +65,9 @@ export default class Hospede {
         return hospedes;
     }
 
-    async consultarCPF(cpf) {
+    async consultaridhospede(idhospede) {
         const hospedeBD = new HospedeBD();
-        const hospedes = await hospedeBD.consultarCPF(cpf);
+        const hospedes = await hospedeBD.consultaridhospede(idhospede);
         return hospedes;
     }
 

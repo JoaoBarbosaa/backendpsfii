@@ -1,4 +1,4 @@
-import Hospede from "../Modelo/Hospede.js";
+import Hospede from "../Modelo/Hospede.js/index.js";
 import conectar from "./Conexao.js";
 
 export default class HospedeBD {
@@ -10,7 +10,8 @@ export default class HospedeBD {
             const sql = "INSERT INTO hospede(cpf,nome,rg,email,telefone,endereco)\
                                             VALUES(?,?,?,?,?,?)";
             const valores = [hospede.cpf, hospede.nome, hospede.rg, hospede.email, hospede.telefone, hospede.endereco];
-            await conexao.query(sql, valores);
+            const resultado =  await conexao.query(sql,valores);
+            return await resultado[0].insertID;
         }
 
     }
@@ -19,9 +20,9 @@ export default class HospedeBD {
 
         if (hospede instanceof Hospede) {
             const conexao = await conectar();
-            const sql = "UPDATE hospede SET nome=?,rg=?,email=?,telefone=?,endereco=?\
-                                             WHERE cpf=?";
-            const valores = [hospede.nome, hospede.rg, hospede.email, hospede.telefone, hospede.endereco, hospede.cpf];
+            const sql = "UPDATE hospede SET cpf=? nome=?,rg=?,email=?,telefone=?,endereco=?\
+                                             WHERE idhospede=?";
+            const valores = [hospede.cpf, hospede.nome, hospede.rg, hospede.email, hospede.telefone, hospede.endereco, hospede.idhospede];
             await conexao.query(sql, valores);
         }
 
@@ -31,8 +32,8 @@ export default class HospedeBD {
 
         if (hospede instanceof Hospede) {
             const conexao = await conectar();
-            const sql = "DELETE FROM hospede WHERE cpf=?";
-            const valores = [hospede.cpf];
+            const sql = "DELETE FROM hospede WHERE idhospede=?";
+            const valores = [hospede.idhospede];
             await conexao.query(sql, valores);
         }
 
@@ -46,21 +47,21 @@ export default class HospedeBD {
         const [rows] = await conexao.query(sql, valores);
         const listaHospedes = [];
         for (const row of rows) {
-            const hospede = new Hospede(row['cpf'], row['nome'], row['rg'], row['email'], row['telefone'], row['endereco']);
+            const hospede = new Hospede(row['idhospede'], row['cpf'], row['nome'], row['rg'], row['email'], row['telefone'], row['endereco']);
             listaHospedes.push(hospede);
         }
         return listaHospedes;
     }
 
-    async consultarCPF(cpf) {
+    async consultaridhospede(idhospede) {
 
         const conexao = await conectar();
-        const sql = "SELECT * FROM hospede WHERE cpf = ?";
-        const valores = [cpf]
+        const sql = "SELECT * FROM hospede WHERE idhospede = ?";
+        const valores = [idhospede]
         const [rows] = await conexao.query(sql, valores);
         const listaHospedes = [];
         for (const row of rows) {
-            const hospede = new Hospede(row['cpf'], row['nome'], row['rg'], row['email'], row['telefone'], row['endereco']);
+            const hospede = new Hospede(row['idhospede'], row['cpf'], row['nome'], row['rg'], row['email'], row['telefone'], row['endereco']);
             listaHospedes.push(hospede);
         }
         return listaHospedes;
@@ -73,7 +74,7 @@ export default class HospedeBD {
         const [rows] = await conexao.query(sql, valores);
         const listaHospedes = [];
         for (const row of rows) {
-            const hospede = new Hospede(row['cpf'], row['nome'], row['rg'], row['email'], row['telefone'], row['endereco']);
+            const hospede = new Hospede(row['idhospede'],row['cpf'], row['nome'], row['rg'], row['email'], row['telefone'], row['endereco']);
             listaHospedes.push(hospede);
         }
         return listaHospedes;

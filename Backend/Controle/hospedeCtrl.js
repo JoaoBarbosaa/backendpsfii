@@ -15,10 +15,11 @@ export default class HospedeCTRL{
             const endereco = dados.endereco;
             if( cpf && nome && rg && email && telefone && endereco )
             {
-                const hospede = new Hospede(cpf,nome,rg,email,telefone,endereco);
+                const hospede = new Hospede(0,cpf,nome,rg,email,telefone,endereco);
                 hospede.gravar().then(()=>{
                     resposta.status(200).json({
                         status: true,
+                        idhospede: hospede.idhospede,
                         mensagem:"Hóspede gravado com sucesso!!!"
                     });
                 }).catch((erro) => {
@@ -49,15 +50,16 @@ export default class HospedeCTRL{
 
         if(requisicao.method === "PUT" && requisicao.is('application/json')){
             const dados = requisicao.body;
+            const idhospede = dados.idhospede;
             const cpf = dados.cpf;
             const nome = dados.nome;
             const rg = dados.rg;
             const email = dados.email;
             const telefone = dados.telefone;
             const endereco = dados.endereco;
-            if( cpf && nome && rg && email && telefone && endereco )
+            if( idhospede && cpf && nome && rg && email && telefone && endereco )
             {
-                const hospede = new Hospede(cpf,nome,rg,email,telefone,endereco);
+                const hospede = new Hospede(idhospede,cpf,nome,rg,email,telefone,endereco);
                 hospede.atualizar().then(()=>{
                     resposta.status(200).json({
                         status: true,
@@ -91,10 +93,10 @@ export default class HospedeCTRL{
 
         if(requisicao.method === "DELETE" && requisicao.is('application/json')){
             const dados = requisicao.body;
-            const cpf = dados.cpf;
-            if(cpf)
+            const idhospede = dados.idhospede;
+            if(idhospede)
             {
-                const hospede = new Hospede(cpf);
+                const hospede = new Hospede(idhospede);
                 hospede.removerDoBancoDeDados().then(()=>{
                     resposta.status(200).json({
                         status: true,
@@ -111,7 +113,7 @@ export default class HospedeCTRL{
             {
                 resposta.status(400).json({
                     status: false,
-                    mensagem: "Informe o CPF do hóspede de forma adequada"
+                    mensagem: "Informe todos os dados do hóspede de forma adequada"
                 });
             }
         }
@@ -145,14 +147,14 @@ export default class HospedeCTRL{
         }
     }
 
-    consultarPeloCPF(requisicao,resposta){
+    consultarPeloCodigo(requisicao,resposta){
         resposta.type("application/json");
 
-        const cpf = requisicao.params['cpf'];
+        const idhospede = requisicao.params['idhospede'];
 
         if(requisicao.method === "GET"){
             const hospede = new Hospede();
-            hospede.consultarCPF(cpf).then((hospede)=>{
+            hospede.consultarPeloCodigo(idhospede).then((hospede)=>{
                     resposta.status(200).json(hospede);
             }).catch((erro) => {
                 resposta.status(500).json({
