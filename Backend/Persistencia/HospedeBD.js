@@ -4,17 +4,33 @@ import conectar from "./Conexao.js";
 export default class HospedeBD {
 
     async adicionar(hospede) {
+        const conexao = await conectar();
+        let sql, valores;
 
-        if (hospede instanceof Hospede) {
+        if (hospede instanceof PessoaFisica) {
+            sql = "INSERT INTO pessoa_fisica(cpf, nome, rg, email, telefone, endereco) VALUES (?, ?, ?, ?, ?, ?)";
+            valores = [hospede.cpf, hospede.nome, hospede.rg, hospede.email, hospede.telefone, hospede.endereco];
+        } else if (hospede instanceof PessoaJuridica) {
+            sql = "INSERT INTO pessoa_juridica(cnpj, nome, email, telefone, endereco) VALUES (?, ?, ?, ?, ?)";
+            valores = [hospede.cnpj, hospede.nome, hospede.email, hospede.telefone, hospede.endereco];
+        } else if (hospede instanceof Hospede) {
+            sql = "INSERT INTO hospede(nome, email, telefone, endereco) VALUES (?, ?, ?, ?)";
+            valores = [hospede.nome, hospede.email, hospede.telefone, hospede.endereco];
+        }
+
+        await conexao.query(sql, valores);
+    }
+
+
+        /*if (hospede instanceof Hospede) {
             const conexao = await conectar();
             const sql = "INSERT INTO hospede(cpf,nome,rg,email,telefone,endereco)\
                                             VALUES(?,?,?,?,?,?)";
             const valores = [hospede.cpf, hospede.nome, hospede.rg, hospede.email, hospede.telefone, hospede.endereco];
             const resultado =  await conexao.query(sql,valores);
             return await resultado[0].insertID;
-        }
+        }*/
 
-    }
 
     async alterar(hospede) {
 
