@@ -1,6 +1,7 @@
 
-import conectar from "./Conexao.js";
 import Telefone from "../Modelo/Telefone.js";
+import conectar from "./Conexao.js";
+
 
 export default class TelefoneDB {
 

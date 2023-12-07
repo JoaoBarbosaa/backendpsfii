@@ -60,7 +60,7 @@ export default class HospedeBD {
         const termoCnpj = termo ? `%${termo}%` : '%';
     
         const sql = `
-            SELECT
+        SELECT
             h.codigo,
             h.nome,
             h.endereco,
@@ -68,14 +68,20 @@ export default class HospedeBD {
             pf.cpf,
             pf.rg,
             NULL AS cnpj,
-            'Pessoa Física' AS tipo
-            FROM hospede h
+            'Pessoa Física' AS tipo,
+            t.codigo AS codigoTelefone,
+            t.ddd,
+            t.numero
+        FROM
+            hospede h
             LEFT JOIN pessoafisica pf ON h.codigo = pf.hospede_codigo
-            WHERE pf.cpf LIKE ?
+            LEFT JOIN telefone t ON h.codigo = t.codHospede
+        WHERE
+            pf.cpf LIKE ?
     
-            UNION
+        UNION
     
-            SELECT
+        SELECT
             h.codigo,
             h.nome,
             h.endereco,
@@ -83,11 +89,18 @@ export default class HospedeBD {
             NULL AS cpf,
             NULL AS rg,
             pj.cnpj,
-            'Pessoa Jurídica' AS tipo
-            FROM hospede h
+            'Pessoa Jurídica' AS tipo,
+            t.codigo AS codigoTelefone,
+            t.ddd,
+            t.numero
+        FROM
+            hospede h
             LEFT JOIN pessoajuridica pj ON h.codigo = pj.hospede_codigo
-            WHERE pj.cnpj LIKE ?
-        `;
+            LEFT JOIN telefone t ON h.codigo = t.codHospede
+        WHERE
+            pj.cnpj LIKE ?
+    `;
+
     
         const valores = [termoCpf, termoCnpj];
         const [rows] = await conexao.query(sql, valores);
@@ -101,6 +114,12 @@ export default class HospedeBD {
                 nome: rows[i].nome,
                 endereco: rows[i].endereco,
                 email: rows[i].email,
+                tipo: rows[i].tipo,
+                telefones: {
+                    codigoTelefone: rows[i].codigoTelefone,
+                    ddd: rows[i].ddd,
+                    numero: rows[i].numero
+                }
                 
             };
     

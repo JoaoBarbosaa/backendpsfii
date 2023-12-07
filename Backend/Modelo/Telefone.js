@@ -1,4 +1,5 @@
-import TelefoneDB from "../Persistencia/TelefoneDB";
+import TelefoneDB from "../Persistencia/TelefoneDB.js";
+
 
 export default class Telefone{
 

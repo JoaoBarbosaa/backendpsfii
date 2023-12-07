@@ -1,5 +1,4 @@
 import mysql from 'mysql2/promise';
-import HospedeBD from './HospedeBD';
 
 export default async function conectar(){
 

@@ -6,11 +6,12 @@ const rotaTelefone = new Router();
 const telefoneCtrl = new TelefoneCtrl();
 
 
-rotaTelefone.post('/', exemplarCtrl.gravar)
-.put('/', exemplarCtrl.atualizar)
-.delete('/', exemplarCtrl.excluir)
+rotaTelefone
+// .post('/', exemplarCtrl.gravar)
+// .put('/', exemplarCtrl.atualizar)
+// .delete('/', exemplarCtrl.excluir)
 .get('/', telefoneCtrl.consultar)
 // .get('/buscar/:titulo', exemplarCtrl.consultarExemplar)
-.get('/:codigo', exemplarCtrl.consultarCodigo);
+// .get('/:codigo', exemplarCtrl.consultarCodigo);
 
 export default rotaTelefone;
