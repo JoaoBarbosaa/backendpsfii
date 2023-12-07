@@ -14,6 +14,7 @@ export default class Telefone{
         this.#codHospede = codHospede;
     }
 
+    //METODO CODIGO
     get codigo(){
         return this.#codigo;
     }
@@ -21,6 +22,7 @@ export default class Telefone{
         this.#codigo = novoCodigo;
     }
 
+    //METODO DDD
     get ddd(){
         return this.#ddd;
     }
@@ -28,6 +30,7 @@ export default class Telefone{
         this.#ddd = novoDDD;
     }
 
+    //METODO NUMERO
     get numero(){
         return this.#numero;
     }
@@ -36,6 +39,7 @@ export default class Telefone{
         this.#numero = novoNumero;
     }
 
+    //METODO CODIGO HOSPEDE
     get codHospede(){
         return this.#codHospede;
     }

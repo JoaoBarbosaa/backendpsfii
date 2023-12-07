@@ -1,15 +1,15 @@
-// PessoaJuridica.js
-import Hospede from "../Persistencia/Conexao.js";
+import Hospede from "./Hospede.js";
 
 export default class PessoaJuridica{
     #cnpj;
     #hospede;
 
-    constructor(codigo, nome, email, telefones, endereco, cnpj) {
-        this.#hospede = new Hospede(codigo, nome, email, telefones, endereco);
+    constructor(codigo, nome, email, endereco, cnpj) {
+        this.#hospede = new Hospede(codigo, nome, email, endereco);
         this.#cnpj = cnpj;
     }
 
+    //METODO CNPJ
     get cnpj() {
         return this.#cnpj;
     }

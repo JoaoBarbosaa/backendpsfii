@@ -1,17 +1,17 @@
-import Hospede from "../Persistencia/Conexao.js";
+import Hospede from "./Hospede.js";
 
 export default class PessoaFisica {
     #cpf;
     #rg;
     #hospede;
   
-    constructor(codigo, nome, email, telefone, endereco, cpf, rg) {
-      this.#hospede = new Hospede(codigo, nome, email, telefone, endereco);
+    constructor(codigo, nome, email, endereco, cpf, rg) {
+      this.#hospede = new Hospede(codigo, nome, email, endereco);
       this.#cpf = cpf;
       this.#rg = rg;
     }
 
-
+    //METODO CPF
     get cpf() {
         return this.#cpf;
     }
@@ -20,6 +20,7 @@ export default class PessoaFisica {
         this.#cpf = novoCpf;
     }
 
+    //METODO RG
     get rg() {
         return this.#rg;
     }
