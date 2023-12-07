@@ -1,171 +1,132 @@
-import Hospede from "../Persistencia/Conexao.js";
+import Hospede from "../Modelo/Hospede.js";
 import PessoaFisica from "../Modelo/PessoaFisica.js";
 import PessoaJuridica from "../Modelo/PessoaJuridica.js";
 
 export default class HospedeCTRL {
 
-    //aplicar pessoafisica e pessoa juridica
+    //Aplicar pessoa fisica e pessoa juridica
     async gravar(requisicao, resposta) {
         resposta.type("application/json");
 
-        if(requisicao.method === "POST" && requisicao.is('application/json')) {
+        try {
+            if (requisicao.method !== "POST" || !requisicao.is('application/json')) {
+                throw new Error("Método não permitido ou hóspede não fornecido em formato JSON!");
+            }
+
             const dados = requisicao.body;
-            const cpf = dados.cpf;
-            const nome = dados.nome;
-            const rg = dados.rg;
-            const email = dados.email;
-            const telefone = dados.telefone;
-            const endereco = dados.endereco;
-            if( cpf && nome && rg && email && telefone && endereco )
-            {
-                const hospede = new Hospede(0,cpf,nome,rg,email,telefone,endereco);
-                hospede.gravar().then(()=>{
-                    resposta.status(200).json({
-                        status: true,
-                        idhospede: hospede.idhospede,
-                        mensagem:"Hóspede gravado com sucesso!!!"
-                    });
-                }).catch((erro) => {
-                    resposta.status(500).json({
-                        status: false,
-                        mensagem: erro.message
-                    })
-                });
+
+            let hospede;
+
+            if (dados.cpf) {
+                hospede = new PessoaFisica(dados.codigo, dados.nome, dados.endereco, dados.email, dados.cpf, dados.rg);
+                await hospede.gravar();
+            } else if (dados.cnpj) {
+                hospede = new PessoaJuridica(dados.codigo, dados.nome, dados.telefone, dados.email, dados.endereco, dados.cnpj);
+                await hospede.gravar();
+            } else {
+                hospede = new Hospede(dados.codigo, dados.nome, dados.endereco, dados.email);
+                await hospede.gravar();
             }
-            else
-            {
-                resposta.status(400).json({
-                    status: false,
-                    mensagem: "Informe todos os dados do hóspede de forma adequada"
-                });
-            }
-        }
-        else{
-            resposta.status(400).json({
-                status:false,
-                mensagem:"Método não permitido ou hóspede não fornecido em formato JSON!"
+
+
+            resposta.status(200).json({
+                status: true,
+                mensagem: "Hóspede gravado com sucesso!!!"
+            });
+
+        } catch (erro) {
+            resposta.status(500).json({
+                status: false,
+                mensagem: erro.message
             });
         }
     }
 
-    // async gravar(requisicao, resposta) {
-    //     resposta.type("application/json");
-    
-    //     try {
-    //         if (requisicao.method !== "POST" || !requisicao.is('application/json')) {
-    //             throw new Error("Método não permitido ou hóspede não fornecido em formato JSON!");
-    //         }
-    
-    //         const dados = requisicao.body;
-    
-    //         let hospede;
-    
-    //         if (dados.cpf) {
-    //             hospede = new PessoaFisica(dados.codigo, dados.nome, dados.endereco, dados.email, dados.cpf, dados.rg);
-    //             await hospede.gravar();
-    //         } else if (dados.cnpj) {
-    //             hospede = new PessoaJuridica(dados.codigo, dados.nome, dados.telefone, dados.email, dados.endereco, dados.cnpj);
-    //             await hospede.gravar();
-    //         } else {
-    //             hospede = new Hospede(dados.codigo, dados.nome, dados.endereco, dados.email);
-    //             await hospede.gravar();
-    //         }
-    
-    
-    //         resposta.status(200).json({
-    //             status: true,
-    //             mensagem: "Hóspede gravado com sucesso!!!"
-    //         });
-    
-    //     } catch (erro) {
-    //         resposta.status(500).json({
-    //             status: false,
-    //             mensagem: erro.message
-    //         });
-    //     }
-    // }
+    async atualizar(requisicao, resposta) {
+        resposta.type("application/json");
 
-    // async atualizar(requisicao, resposta) {
-    //     resposta.type("application/json");
+        try {
+            if (requisicao.method === "PUT" && requisicao.is('application/json')) {
+                const dados = requisicao.body;
 
-    //     try {
-    //         if (requisicao.method === "PUT" && requisicao.is('application/json')) {
-    //             const dados = requisicao.body;
+                if (dados.tipo === "fisica") {
+                    const pessoaFisica = new PessoaFisica(dados.codigo, dados.nome, dados.email, dados.telefone, dados.endereco, dados.cpf, dados.rg);
+                    await pessoaFisica.atualizar();
+                } else if (dados.tipo === "juridica") {
+                    const pessoaJuridica = new PessoaJuridica(dados.codigo, dados.nome, dados.email, dados.telefone, dados.endereco, dados.cnpj);
+                    await pessoaJuridica.atualizar();
+                } else {
+                    const hospede = new Hospede(dados.codigo, dados.nome, dados.email, dados.telefone, dados.endereco);
+                    await hospede.atualizar();
+                }
 
-    //             if (dados.tipo === "fisica") {
-    //                 const pessoaFisica = new PessoaFisica(dados.codigo, dados.nome, dados.email, dados.telefone, dados.endereco, dados.cpf, dados.rg);
-    //                 await pessoaFisica.atualizar();
-    //             } else if (dados.tipo === "juridica") {
-    //                 const pessoaJuridica = new PessoaJuridica(dados.codigo, dados.nome, dados.email, dados.telefone, dados.endereco, dados.cnpj);
-    //                 await pessoaJuridica.atualizar();
-    //             } else {
-    //                 const hospede = new Hospede(dados.codigo, dados.nome, dados.email, dados.telefone, dados.endereco);
-    //                 await hospede.atualizar();
-    //             }
+                resposta.status(200).json({
+                    status: true,
+                    mensagem: "Hóspede atualizado com sucesso!!!"
+                });
 
-    //             resposta.status(200).json({
-    //                 status: true,
-    //                 mensagem: "Hóspede atualizado com sucesso!!!"
-    //             });
+            } else {
+                resposta.status(400).json({
+                    status: false,
+                    mensagem: "Método não permitido ou hóspede não fornecido em formato JSON!"
+                });
+            }
+        } catch (erro) {
+            resposta.status(500).json({
+                status: false,
+                mensagem: erro.message
+            });
+        }
+    }
 
-    //         } else {
-    //             resposta.status(400).json({
-    //                 status: false,
-    //                 mensagem: "Método não permitido ou hóspede não fornecido em formato JSON!"
-    //             });
-    //         }
-    //     } catch (erro) {
-    //         resposta.status(500).json({
-    //             status: false,
-    //             mensagem: erro.message
-    //         });
-    //     }
-    // }
+    async excluir(requisicao, resposta) {
+        resposta.type("application/json");
 
-    // async excluir(requisicao, resposta) {
-    //     resposta.type("application/json");
+        try {
+            if (requisicao.method === "DELETE" && requisicao.is('application/json')) {
+                const dados = requisicao.body;
 
-    //     try {
-    //         if (requisicao.method === "DELETE" && requisicao.is('application/json')) {
-    //             const dados = requisicao.body;
+                if (dados.tipo === "fisica") {
+                    const pessoaFisica = new PessoaFisica(dados.codigo, dados.nome, dados.email, dados.telefone, dados.endereco, dados.cpf, dados.rg);
+                    await pessoaFisica.removerDoBancoDeDados();
+                } else if (dados.tipo === "juridica") {
+                    const pessoaJuridica = new PessoaJuridica(dados.codigo, dados.nome, dados.email, dados.telefone, dados.endereco, dados.cnpj);
+                    await pessoaJuridica.removerDoBancoDeDados();
+                } else {
+                    const hospede = new Hospede(dados.codigo);
+                    await hospede.removerDoBancoDeDados();
+                }
 
-    //             if (dados.tipo === "fisica") {
-    //                 const pessoaFisica = new PessoaFisica(dados.codigo, dados.nome, dados.email, dados.telefone, dados.endereco, dados.cpf, dados.rg);
-    //                 await pessoaFisica.removerDoBancoDeDados();
-    //             } else if (dados.tipo === "juridica") {
-    //                 const pessoaJuridica = new PessoaJuridica(dados.codigo, dados.nome, dados.email, dados.telefone, dados.endereco, dados.cnpj);
-    //                 await pessoaJuridica.removerDoBancoDeDados();
-    //             } else {
-    //                 const hospede = new Hospede(dados.codigo);
-    //                 await hospede.removerDoBancoDeDados();
-    //             }
+                resposta.status(200).json({
+                    status: true,
+                    mensagem: "Hóspede excluído com sucesso!!!"
+                });
 
-    //             resposta.status(200).json({
-    //                 status: true,
-    //                 mensagem: "Hóspede excluído com sucesso!!!"
-    //             });
+            } else {
+                resposta.status(400).json({
+                    status: false,
+                    mensagem: "Método não permitido ou hóspede não fornecido em formato JSON!"
+                });
+            }
+        } catch (erro) {
+            resposta.status(500).json({
+                status: false,
+                mensagem: erro.message
+            });
+        }
+    }
 
-    //         } else {
-    //             resposta.status(400).json({
-    //                 status: false,
-    //                 mensagem: "Método não permitido ou hóspede não fornecido em formato JSON!"
-    //             });
-    //         }
-    //     } catch (erro) {
-    //         resposta.status(500).json({
-    //             status: false,
-    //             mensagem: erro.message
-    //         });
-    //     }
-    // }
+
+
+
 
     async consultar(requisicao, resposta) {
         resposta.type("application/json");
-    
+
         if (requisicao.method === "GET") {
             const termo = requisicao.query.termo || "";
             const hospede = new Hospede(); // Use a mesma instância
-    
+
             hospede.consultar(termo)
                 .then((hospedes) => {
                     resposta.json(hospedes);
@@ -183,8 +144,6 @@ export default class HospedeCTRL {
             });
         }
     }
-    
-    
 
     async consultarPeloCPF(requisicao, resposta) {
         resposta.type("application/json");

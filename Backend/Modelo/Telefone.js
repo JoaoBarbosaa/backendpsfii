@@ -48,8 +48,6 @@ export default class Telefone{
         this.#codHospede = novoCodHospede;
     }
 
-    
-
     toJSON(){
         return {
             "codigo"      :this.#codigo,
