@@ -1,17 +1,32 @@
-// PessoaFisica.js
-import Hospede from "./Hospede";
+import Hospede from "../Persistencia/Conexao.js";
 
-export default class PessoaFisica extends Hospede {
+export default class PessoaFisica {
     #cpf;
     #rg;
-
-    constructor(nome, email, telefone, endereco, cpf, rg) {
-        super(nome, email, telefone, endereco);
-        this.#cpf = cpf;
-        this.#rg = rg;
+    #hospede;
+  
+    constructor(codigo, nome, email, telefone, endereco, cpf, rg) {
+      this.#hospede = new Hospede(codigo, nome, email, telefone, endereco);
+      this.#cpf = cpf;
+      this.#rg = rg;
     }
 
-    // Métodos específicos de PessoaFisica, se necessário
+
+    get cpf() {
+        return this.#cpf;
+    }
+
+    set cpf(novoCpf) {
+        this.#cpf = novoCpf;
+    }
+
+    get rg() {
+        return this.#rg;
+    }
+
+    set rg(novoRg) {
+        this.#rg = novoRg;
+    }
 
     toJSON() {
         return {

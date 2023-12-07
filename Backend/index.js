@@ -1,7 +1,7 @@
-import express from "express";
-import rotaPessoa from "./Rotas/HospedePessoa.js";
-import rotaExemplar from './Rotas/rotaExemplar.js';
+import express from 'express';
 import cors from 'cors'
+import rotaHospede from "./Rotas/Hospede.js";
+import rotaTelefone from './Rotas/rotaTelefone.js';
 
 const app = new express();
 
@@ -9,8 +9,9 @@ app.use(cors({origin:"*"}));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use("/pessoas", rotaPessoa);
-app.use('/exemplar', rotaExemplar);
+app.use("/hospede", rotaHospede);
+app.use("/telefone", rotaTelefone);
+
 
 app.listen(3020, "localhost", () => {
   console.log("Escutando na porta 3020");
