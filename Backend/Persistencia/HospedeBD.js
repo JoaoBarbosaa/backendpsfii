@@ -6,58 +6,94 @@ import conectar from "./Conexao.js";
 
 export default class HospedeBD {
 
-    //inserir telefone
-    async incluir(hospede) {
+    async gravar(hospede) {
         const conexao = await conectar();
-    
-        const inserirHospedeSQL = "INSERT INTO hospede (nome, email, endereco) VALUES (?, ?, ?)";
-        const valoresHospede = [hospede.nome, hospede.email, hospede.endereco];
-        const [resultadoHospede] = await conexao.query(inserirHospedeSQL, valoresHospede);
-    
-        // Verifica se a inserção no hospede foi bem-sucedida
-        if (resultadoHospede.affectedRows !== 1) {
+
+        const sql = "INSERT INTO hospede (nome, email, endereco) VALUES (?, ?, ?)";
+        const valores = [hospede.nome, hospede.email, hospede.endereco];
+
+        const [resultado] = await conexao.query(sql, valores);
+
+        if (resultado.affectedRows !== 1) {
             throw new Error("Falha ao inserir hospede.");
         }
+
+        return resultado.insertId;
+    }
+
+    async gravarPessoaFisica(hospede) {
+        const conexao = await conectar();
+
+        const sql = "INSERT INTO pessoafisica (hospede_codigo, cpf, rg) VALUES (?, ?, ?)";
+        const valores = [hospede.codigo, hospede.cpf, hospede.rg];
+
+        const [resultado] = await conexao.query(sql, valores);
+
+        if (resultado.affectedRows !== 1) {
+            throw new Error("Falha ao inserir pessoa física.");
+        }
+
+        return resultado.insertId;
+    }
+
+    async gravarPessoaJuridica(hospede) {
+        const conexao = await conectar();
+
+        const sql = "INSERT INTO pessoajuridica (hospede_codigo, cnpj) VALUES (?, ?)";
+        const valores = [hospede.codigo, hospede.cnpj];
+
+        const [resultado] = await conexao.query(sql, valores);
+
+        if (resultado.affectedRows !== 1) {
+            throw new Error("Falha ao inserir pessoa jurídica.");
+        }
+
+        return resultado.insertId;
+    }
     
-        // Obtém o último ID inserido na tabela hospede
-        const ultimoIdHospede = resultadoHospede.insertId;
+    async atualizar(hospede) {
+        const conexao = await conectar();
+
+        const sql = "UPDATE hospede SET nome = ?, email = ?, endereco = ? WHERE codigo = ?";
+        const valores = [hospede.nome, hospede.email, hospede.endereco, hospede.codigo];
+
+        const [resultado] = await conexao.query(sql, valores);
+
+        if (resultado.affectedRows !== 1) {
+            throw new Error("Falha ao atualizar o hóspede.");
+        }
+    }
+
+    async excluir(codigo) {
+        const conexao = await conectar();
     
-        // Verifica se o hospede é Pessoa Física
-        if (hospede instanceof PessoaFisica) {
-            const inserirPessoaFisicaSQL = "INSERT INTO pessoafisica (cpf, rg, hospede_codigo) VALUES (?, ?, ?)";
-            const valoresPessoaFisica = [hospede.cpf, hospede.rg, ultimoIdHospede];
+        const excluirPessoaFisicaSQL = "DELETE FROM pessoafisica WHERE hospede_codigo = ?";
+        await conexao.query(excluirPessoaFisicaSQL, [codigo]);
+        
+        // Excluir dados da tabela pessoa juridica
+        const excluirPessoaJuridicaSQL = "DELETE FROM pessoajuridica WHERE hospede_codigo = ?";
+        await conexao.query(excluirPessoaJuridicaSQL, [codigo]);
+        // Excluir dados da tabela hospede
+        const excluirHospedeSQL = "DELETE FROM hospede WHERE codigo = ?";
+        const [resultadoExclusao] = await conexao.query(excluirHospedeSQL, [codigo]);
     
-            // Tenta inserir na tabela pessoafisica
-            const [resultadoPessoaFisica] = await conexao.query(inserirPessoaFisicaSQL, valoresPessoaFisica);
-    
-            // Verifica se a inserção na pessoafisica foi bem-sucedida
-            if (resultadoPessoaFisica.affectedRows !== 1) {
-                throw new Error("Falha ao inserir dados na tabela pessoafisica.");
-            }
-        } else if (hospede instanceof PessoaJuridica) {
-            const inserirPessoaJuridicaSQL = "INSERT INTO pessoajuridica (cnpj, hospede_codigo) VALUES (?, ?)";
-            const valoresPessoaJuridica = [hospede.cnpj, ultimoIdHospede];
-    
-            // Tenta inserir na tabela pessoajuridica
-            const [resultadoPessoaJuridica] = await conexao.query(inserirPessoaJuridicaSQL, valoresPessoaJuridica);
-    
-            // Verifica se a inserção na pessoajuridica foi bem-sucedida
-            if (resultadoPessoaJuridica.affectedRows !== 1) {
-                throw new Error("Falha ao inserir dados na tabela pessoajuridica.");
-            }
+        // Verificar se a exclusão foi bem-sucedida
+        if (resultadoExclusao.affectedRows !== 1) {
+            throw new Error("Falha ao excluir hospede.");
         }
     
-        // Retorna o ID do hospede inserido
-        return ultimoIdHospede;
+        // Retorna true para indicar que a exclusão foi bem-sucedida
+        return true;
     }
+
 
 
     async consultar(termo) {
         const conexao = await conectar();
-    
+
         const termoCpf = termo ? `%${termo}%` : '%';
         const termoCnpj = termo ? `%${termo}%` : '%';
-    
+
         const sql = `
         SELECT
             h.codigo,
@@ -100,13 +136,12 @@ export default class HospedeBD {
             pj.cnpj LIKE ?
     `;
 
-    
+
         const valores = [termoCpf, termoCnpj];
         const [rows] = await conexao.query(sql, valores);
-        console.log('Valores:', valores);
-    
+        
         const resultadoFinal = [];
-    
+
         for (let i = 0; i < rows.length; i++) {
             const item = {
                 codigo: rows[i].codigo,
@@ -119,26 +154,25 @@ export default class HospedeBD {
                     ddd: rows[i].ddd,
                     numero: rows[i].numero
                 }
-                
+
             };
-    
+
             if (rows[i].tipo === 'Pessoa Física') {
                 item.cpf = rows[i].cpf;
                 item.rg = rows[i].rg;
             } else if (rows[i].tipo === 'Pessoa Jurídica') {
                 item.cnpj = rows[i].cnpj;
             }
-    
+
             resultadoFinal.push(item);
         }
-    
-        console.log('Resultado Final:', resultadoFinal);
+
         return resultadoFinal;
     }
 
     async consultarCodigo(codigo) {
         const conexao = await conectar();
-    
+
         const sql = `
         -- Consulta para Pessoa Física
         SELECT
@@ -183,13 +217,12 @@ export default class HospedeBD {
             h.codigo = ? AND pj.cnpj IS NOT NULL
         
         `;
-    
+
         const valores = [codigo, codigo];
         const [rows] = await conexao.query(sql, valores);
-        console.log('Valores:', valores);
-    
+
         const resultadoFinal = [];
-    
+
         for (let i = 0; i < rows.length; i++) {
             const item = {
                 codigo: rows[i].codigo,
@@ -203,20 +236,19 @@ export default class HospedeBD {
                     numero: rows[i].numero
                 }
             };
-    
+
             if (rows[i].tipo === 'Pessoa Física') {
                 item.cpf = rows[i].cpf;
                 item.rg = rows[i].rg;
             } else if (rows[i].tipo === 'Pessoa Jurídica') {
                 item.cnpj = rows[i].cnpj;
             }
-    
+
             resultadoFinal.push(item);
         }
-    
-        console.log('Resultado Final:', resultadoFinal);
+
         return resultadoFinal;
     }
-    
+
 
 }

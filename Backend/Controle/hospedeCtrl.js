@@ -7,41 +7,38 @@ export default class HospedeCTRL {
     //Aplicar pessoa fisica e pessoa juridica
     async gravar(requisicao, resposta) {
         resposta.type("application/json");
-
-        try {
-            if (requisicao.method !== "POST" || !requisicao.is('application/json')) {
-                throw new Error("Método não permitido ou hóspede não fornecido em formato JSON!");
-            }
-
+    
+        if (requisicao.method === "POST" && requisicao.body) {
             const dados = requisicao.body;
-
-            let hospede;
-
-            if (dados.cpf) {
-                hospede = new PessoaFisica(dados.codigo, dados.nome, dados.endereco, dados.email, dados.cpf, dados.rg);
-                await hospede.gravar();
-            } else if (dados.cnpj) {
-                hospede = new PessoaJuridica(dados.codigo, dados.nome, dados.telefone, dados.email, dados.endereco, dados.cnpj);
-                await hospede.gravar();
-            } else {
-                hospede = new Hospede(dados.codigo, dados.nome, dados.endereco, dados.email);
-                await hospede.gravar();
+    
+            // Cria o objeto hospede
+            const hospede = new Hospede(0, dados.nome, dados.email, dados.endereco);
+    
+            // Verifica se o hospede é Pessoa Física
+            if (dados.tipo === "pessoa fisica") {
+    
+                // Configura os dados da pessoa fisica diretamente no objeto hospede
+                hospede.cpf = dados.cpf;
+                hospede.rg = dados.rg;
+    
+            } else if (dados.tipo === "pessoa juridica") {
+    
+                // Configura os dados da pessoa juridica diretamente no objeto hospede
+                hospede.cnpj = dados.cnpj;
+    
             }
-
-
+    
+            // Insere o hospede
+            await hospede.gravar();
+    
+            // Retorna o status da operação
             resposta.status(200).json({
                 status: true,
                 mensagem: "Hóspede gravado com sucesso!!!"
             });
-
-        } catch (erro) {
-            resposta.status(500).json({
-                status: false,
-                mensagem: erro.message
-            });
         }
     }
-
+    
     async atualizar(requisicao, resposta) {
         resposta.type("application/json");
 
@@ -86,11 +83,11 @@ export default class HospedeCTRL {
             if (requisicao.method === "DELETE" && requisicao.is('application/json')) {
                 const dados = requisicao.body;
 
-                if (dados.tipo === "fisica") {
-                    const pessoaFisica = new PessoaFisica(dados.codigo, dados.nome, dados.email, dados.telefone, dados.endereco, dados.cpf, dados.rg);
+                if (dados.tipo === "Pessoa Física") {
+                    const pessoaFisica = new PessoaFisica(dados.codigo, dados.nome, dados.email, dados.endereco, dados.cpf, dados.rg);
                     await pessoaFisica.removerDoBancoDeDados();
-                } else if (dados.tipo === "juridica") {
-                    const pessoaJuridica = new PessoaJuridica(dados.codigo, dados.nome, dados.email, dados.telefone, dados.endereco, dados.cnpj);
+                } else if (dados.tipo === "Pessoa Jurídica") {
+                    const pessoaJuridica = new PessoaJuridica(dados.codigo, dados.nome, dados.email, dados.endereco, dados.cnpj);
                     await pessoaJuridica.removerDoBancoDeDados();
                 } else {
                     const hospede = new Hospede(dados.codigo);
@@ -115,9 +112,6 @@ export default class HospedeCTRL {
             });
         }
     }
-
-
-
 
 
     async consultar(requisicao, resposta) {

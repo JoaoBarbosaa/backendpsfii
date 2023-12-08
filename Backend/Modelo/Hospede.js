@@ -1,14 +1,16 @@
 import HospedeBD from "../Persistencia/HospedeBD.js";
+import PessoaFisica from "./PessoaFisica.js";
+import PessoaJuridica from "./PessoaJuridica.js";
 
 
-export default class Hospede{
+export default class Hospede {
 
     #codigo;
     #nome;
     #email;
     #endereco;
 
-    constructor(codigo=0, nome, email, endereco) {
+    constructor(codigo = 0, nome, email, endereco) {
         this.#codigo = codigo;
         this.#nome = nome;
         this.#email = email;
@@ -22,7 +24,7 @@ export default class Hospede{
     set codigo(novoCodigo) {
         this.#codigo = novoCodigo;
     }
-    
+
     //METODO NOME
     get nome() {
         return this.#nome;
@@ -58,8 +60,24 @@ export default class Hospede{
 
     async gravar() {
         const hospedeBD = new HospedeBD();
-        this.codigo = await hospedeBD.incluir(this);
+
+        // Verifica se é uma PessoaFisica e inserir na tabela pessoafisica
+        if (this instanceof PessoaFisica) {
+            await hospedeBD.gravarPessoaFisica(this);
+        }
+
+        // Verifica se é uma PessoaJuridica e inserir na tabela pessoajuridica
+        if (this instanceof PessoaJuridica) {
+            await hospedeBD.gravarPessoaJuridica(this);
+        }
+
+        // Insere o hospede na tabela principal
+        this.codigo = await hospedeBD.gravar(this);
     }
+
+
+
+
 
     async atualizar() {
         const hospedeBD = new HospedeBD();

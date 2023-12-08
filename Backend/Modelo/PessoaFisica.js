@@ -1,3 +1,4 @@
+import HospedeBD from "../Persistencia/HospedeBD.js";
 import Hospede from "./Hospede.js";
 
 export default class PessoaFisica {
@@ -36,4 +37,11 @@ export default class PessoaFisica {
             "rg": this.#rg,
         };
     }
+
+    async gravar() {
+
+        const hospedeBD = new HospedeBD();
+        this.codigo = await hospedeBD.incluirPessoaFisica(this);
+    }
+
 }

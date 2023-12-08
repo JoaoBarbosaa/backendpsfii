@@ -1,3 +1,4 @@
+import HospedeBD from "../Persistencia/HospedeBD.js";
 import Hospede from "./Hospede.js";
 
 export default class PessoaJuridica{
@@ -23,6 +24,12 @@ export default class PessoaJuridica{
             ...super.toJSON(), // Herda os atributos da classe pai
             "cnpj": this.#cnpj,
         };
+    }
+
+    async gravar() {
+
+        const hospedeBD = new HospedeBD();
+        this.codigo = await hospedeBD.incluirPessoaJuridica(this);
     }
 }
 
