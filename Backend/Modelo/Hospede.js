@@ -60,23 +60,8 @@ export default class Hospede {
 
     async gravar() {
         const hospedeBD = new HospedeBD();
-
-        // Verifica se é uma PessoaFisica e inserir na tabela pessoafisica
-        if (this instanceof PessoaFisica) {
-            await hospedeBD.gravarPessoaFisica(this);
-        }
-
-        // Verifica se é uma PessoaJuridica e inserir na tabela pessoajuridica
-        if (this instanceof PessoaJuridica) {
-            await hospedeBD.gravarPessoaJuridica(this);
-        }
-
-        // Insere o hospede na tabela principal
-        this.codigo = await hospedeBD.gravar(this);
+        this.codigo = await hospedeBD.gravarHospede(this);
     }
-
-
-
 
 
     async atualizar() {

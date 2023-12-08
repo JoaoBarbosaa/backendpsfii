@@ -6,8 +6,8 @@ const hospedeCTRL = new HospedeCTRL();
 
 rotaHospede
 .post('/', hospedeCTRL.gravar)
-.put('/', hospedeCTRL.atualizar)
-.delete('/', hospedeCTRL.excluir)
+// .put('/', hospedeCTRL.atualizar)
+// .delete('/', hospedeCTRL.excluir)
 .get('/', hospedeCTRL.consultar)
 .get('/:codigo', hospedeCTRL.consultarCodigo)
 
