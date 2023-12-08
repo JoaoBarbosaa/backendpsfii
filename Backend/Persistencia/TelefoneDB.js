@@ -74,8 +74,6 @@ export default class TelefoneDB {
             const hospedeFormatado = {
                 codigoHospede: row.codigoHospede,
                 nome: row.nome,
-                endereco: row.endereco,
-                email: row.email,
                 telefones: []
             };
 
@@ -92,6 +90,22 @@ export default class TelefoneDB {
         }
 
         return listaHospedes;
+    }
+
+    async consultarCodigo(codigo) {
+        const conexao = await conectar();
+        const sql = "SELECT * FROM telefone WHERE codigo = ?";
+        const parametros = [codigo]; 
+        const [rows] = await conexao.query(sql, parametros);
+
+        const listaTelefone = [];
+      
+        for(const row of rows){
+            const  telefone = new Telefone(row['codigo'], row['ddd'], row['numero'], row['codHospede']);
+            listaTelefone.push(telefone);
+        }
+        
+        return listaTelefone;
     }
 
 

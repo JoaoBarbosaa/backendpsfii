@@ -89,6 +89,27 @@ export default class TelefoneCtrl {
 		}
 	}
 
+	consultarCodigo(requisicao, resposta) {
+		resposta.type("application/json");
+
+		const codigo = requisicao.parametro['codigo']
+
+		if(requisicao.method === "GET"){
+			const telefone = new Telefone();
+
+			telefone.consultarCodigo(codigo)
+				.then((telefoneEncontrado) => {
+					resposta.json(telefoneEncontrado);
+				})
+				.catch((erro) => {
+					resposta.json({
+						status: false,
+						mensagem: erro.message
+					})
+				});
+		}
+	}
+
 	atualizar(requisicao, resposta) {
 		resposta.type("application/json");
 

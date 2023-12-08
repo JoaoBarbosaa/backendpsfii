@@ -11,6 +11,6 @@ rotaTelefone
 .put('/', telefoneCtrl.atualizar)
 .delete('/', telefoneCtrl.excluir)
 .get('/', telefoneCtrl.consultar)
-
+.get('/:codigo', telefoneCtrl.consultarCodigo);
 
 export default rotaTelefone;
