@@ -21,7 +21,7 @@ export default class PessoaJuridica{
 
     toJSON() {
         return {
-            ...super.toJSON(), // Herda os atributos da classe pai
+            
             "cnpj": this.#cnpj,
         };
     }

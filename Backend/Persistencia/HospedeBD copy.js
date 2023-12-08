@@ -10,90 +10,72 @@ export default class HospedeBD {
     const conexao = await conectar();
 
     try {
-      const sql = "INSERT INTO hospede (nome, email, endereco) VALUES (?, ?, ?)";
-      const valores = [hospede.nome, hospede.email, hospede.endereco];
+        const sql = "INSERT INTO hospede (nome, email, endereco) VALUES (?, ?, ?)";
+        const valores = [hospede.nome, hospede.email, hospede.endereco];
 
-      const [resultado] = await conexao.query(sql, valores);
+        const [resultado] = await conexao.query(sql, valores);
 
-      hospede.codigo = resultado.insertId;
+        hospede.codigo = resultado.insertId;
 
-      // Verifica se é uma PessoaFisica
-      if (hospede instanceof PessoaFisica) {
-        const sqlPessoaFisica = "INSERT INTO pessoafisica (cpf, rg, hospede_codigo) VALUES (?, ?, ?)";
-        const valoresPessoaFisica = [hospede.cpf, hospede.rg, resultado.insertId];
-        await conexao.query(sqlPessoaFisica, valoresPessoaFisica);
-      }
-      // Verifica se é uma PessoaJuridica
-      else if (hospede instanceof PessoaJuridica) {
-        const sqlPessoaJuridica = "INSERT INTO pessoajuridica (cnpj, hospede_codigo) VALUES (?, ?)";
-        const valoresPessoaJuridica = [hospede.cnpj, resultado.insertId];
-        await conexao.query(sqlPessoaJuridica, valoresPessoaJuridica);
-      }
+        // Verifica se é uma PessoaFisica
+        if (hospede instanceof PessoaFisica) {
+            const sqlPessoaFisica = "INSERT INTO pessoafisica (cpf, rg, hospede_codigo) VALUES (?, ?, ?)";
+            const valoresPessoaFisica = [hospede.cpf, hospede.rg, resultado.insertId];
+            await conexao.query(sqlPessoaFisica, valoresPessoaFisica);
+        }
+        // Verifica se é uma PessoaJuridica
+        else if (hospede instanceof PessoaJuridica) {
+            const sqlPessoaJuridica = "INSERT INTO pessoajuridica (cnpj, hospede_codigo) VALUES (?, ?)";
+            const valoresPessoaJuridica = [hospede.cnpj, resultado.insertId];
+            await conexao.query(sqlPessoaJuridica, valoresPessoaJuridica);
+        }
 
-      return resultado.insertId;
+        return resultado.insertId;
     } catch (erro) {
-      throw erro;
+        throw erro;
+    }
+}
+
+    
+
+
+
+
+  async atualizar(hospede) {
+    const conexao = await conectar();
+
+    const sql = "UPDATE hospede SET nome = ?, email = ?, endereco = ? WHERE codigo = ?";
+    const valores = [hospede.nome, hospede.email, hospede.endereco, hospede.codigo];
+
+    const [resultado] = await conexao.query(sql, valores);
+
+    if (resultado.affectedRows !== 1) {
+      throw new Error("Falha ao atualizar o hóspede.");
     }
   }
 
+  async excluir(codigo) {
+    const conexao = await conectar();
 
-  async alterar(hospede) {
-    if(hospede instanceof Hospede) {
-        const conexao = await conectar();
+    const excluirPessoaFisicaSQL = "DELETE FROM pessoafisica WHERE hospede_codigo = ?";
+    await conexao.query(excluirPessoaFisicaSQL, [codigo]);
 
-        try {
-            // Atualizar registros relacionados em pessoafisica
-            const sqlPessoaFisica = "UPDATE pessoafisica SET cpf = ?, rg = ? WHERE hospede_codigo = ?";
-            const valoresPessoaFisica = [hospede.cpf, hospede.rg, hospede.codigo];
-            await conexao.query(sqlPessoaFisica, valoresPessoaFisica);
+    // Excluir dados da tabela pessoa juridica
+    const excluirPessoaJuridicaSQL = "DELETE FROM pessoajuridica WHERE hospede_codigo = ?";
+    await conexao.query(excluirPessoaJuridicaSQL, [codigo]);
+    // Excluir dados da tabela hospede
+    const excluirHospedeSQL = "DELETE FROM hospede WHERE codigo = ?";
+    const [resultadoExclusao] = await conexao.query(excluirHospedeSQL, [codigo]);
 
-            // Atualizar registros relacionados em pessoajuridica
-            const sqlPessoaJuridica = "UPDATE pessoajuridica SET cnpj = ? WHERE hospede_codigo = ?";
-            const valoresPessoaJuridica = [hospede.cnpj, hospede.codigo];
-            await conexao.query(sqlPessoaJuridica, valoresPessoaJuridica);
-
-            // Finalmente, atualizar o registro na tabela hospede
-            const sqlHospede = "UPDATE hospede SET nome = ?, endereco = ?, email = ? WHERE codigo = ?";
-            const valoresHospede = [hospede.nome, hospede.endereco, hospede.email, hospede.codigo];
-            await conexao.query(sqlHospede, valoresHospede);
-        }
-        catch(erro) {
-            throw erro;
-        }
+    // Verificar se a exclusão foi bem-sucedida
+    if (resultadoExclusao.affectedRows !== 1) {
+      throw new Error("Falha ao excluir hospede.");
     }
-}
 
+    // Retorna true para indicar que a exclusão foi bem-sucedida
+    return true;
+  }
 
-
-  //funcionando Excluir e consultar
-
-  async excluir(hospede) {
-    if(hospede instanceof Hospede) {
-      const conexao = await conectar();
-
-      try {
-        const sqlPessoaFisica = "DELETE FROM pessoafisica WHERE hospede_codigo = ?";
-        const valoresPessoaFisica = [hospede.codigo];
-        await conexao.query(sqlPessoaFisica, valoresPessoaFisica);
-  
-        // Excluir registros relacionados em pessoajuridica
-        const sqlPessoaJuridica = "DELETE FROM pessoajuridica WHERE hospede_codigo = ?";
-        const valoresPessoaJuridica = [hospede.codigo];
-        await conexao.query(sqlPessoaJuridica, valoresPessoaJuridica);
-  
-        // Finalmente, excluir o registro na tabela hospede
-        const sqlHospede = "DELETE FROM hospede WHERE codigo = ?";
-        const valoresHospede = [hospede.codigo];
-        await conexao.query(sqlHospede, valoresHospede);
-
-
-      }
-      catch(erro) {
-        throw erro;
-      }
-
-    }
-}
 
 
   async consultar(termo) {

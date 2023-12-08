@@ -32,7 +32,7 @@ export default class PessoaFisica {
 
     toJSON() {
         return {
-            ...super.toJSON(), // Herda os atributos da classe pai
+           
             "cpf": this.#cpf,
             "rg": this.#rg,
         };

@@ -6,95 +6,70 @@ import conectar from "./Conexao.js";
 
 export default class HospedeBD {
 
+
   async gravarHospede(hospede) {
     const conexao = await conectar();
 
-    try {
-      const sql = "INSERT INTO hospede (nome, email, endereco) VALUES (?, ?, ?)";
-      const valores = [hospede.nome, hospede.email, hospede.endereco];
+    const inserirHospedeSQL = "INSERT INTO hospede (nome, email, endereco) VALUES (?, ?, ?)";
+    const valoresHospede = [hospede.nome, hospede.email, hospede.endereco];
+    const [resultadoHospede] = await conexao.query(inserirHospedeSQL, valoresHospede);
 
-      const [resultado] = await conexao.query(sql, valores);
-
-      hospede.codigo = resultado.insertId;
-
-      // Verifica se é uma PessoaFisica
-      if (hospede instanceof PessoaFisica) {
-        const sqlPessoaFisica = "INSERT INTO pessoafisica (cpf, rg, hospede_codigo) VALUES (?, ?, ?)";
-        const valoresPessoaFisica = [hospede.cpf, hospede.rg, resultado.insertId];
-        await conexao.query(sqlPessoaFisica, valoresPessoaFisica);
-      }
-      // Verifica se é uma PessoaJuridica
-      else if (hospede instanceof PessoaJuridica) {
-        const sqlPessoaJuridica = "INSERT INTO pessoajuridica (cnpj, hospede_codigo) VALUES (?, ?)";
-        const valoresPessoaJuridica = [hospede.cnpj, resultado.insertId];
-        await conexao.query(sqlPessoaJuridica, valoresPessoaJuridica);
-      }
-
-      return resultado.insertId;
-    } catch (erro) {
-      throw erro;
+    // Verifica se a inserção no hospede foi bem-sucedida
+    if (resultadoHospede.affectedRows !== 1) {
+      throw new Error("Falha ao inserir hospede.");
     }
+
+    // Obtém o último ID inserido na tabela hospede
+    const ultimoIdHospede = resultadoHospede.insertId;
+
+    // Verifica se o hospede é Pessoa Física
+    if (hospede instanceof PessoaFisica) {
+      const inserirPessoaFisicaSQL = "INSERT INTO pessoafisica (cpf, rg, hospede_codigo) VALUES (?, ?, ?)";
+      const valoresPessoaFisica = [hospede.cpf, hospede.rg, ultimoIdHospede];
+
+      // Tenta inserir na tabela pessoafisica
+      const [resultadoPessoaFisica] = await conexao.query(inserirPessoaFisicaSQL, valoresPessoaFisica);
+
+      // Verifica se a inserção na pessoafisica foi bem-sucedida
+      if (resultadoPessoaFisica.affectedRows !== 1) {
+        throw new Error("Falha ao inserir dados na tabela pessoafisica.");
+      }
+    } else if (hospede instanceof PessoaJuridica) {
+      const inserirPessoaJuridicaSQL = "INSERT INTO pessoajuridica (cnpj, hospede_codigo) VALUES (?, ?)";
+      const valoresPessoaJuridica = [hospede.cnpj, ultimoIdHospede];
+
+      // Tenta inserir na tabela pessoajuridica
+      const [resultadoPessoaJuridica] = await conexao.query(inserirPessoaJuridicaSQL, valoresPessoaJuridica);
+
+      // Verifica se a inserção na pessoajuridica foi bem-sucedida
+      if (resultadoPessoaJuridica.affectedRows !== 1) {
+        throw new Error("Falha ao inserir dados na tabela pessoajuridica.");
+      }
+    }
+
+    // Retorna o ID do hospede inserido
+    return ultimoIdHospede;
   }
 
+  async gravarTelefone(telefone) {
+    const conexao = await conectar();
 
-  async alterar(hospede) {
-    if(hospede instanceof Hospede) {
-        const conexao = await conectar();
+    const inserirTelefoneSQL = "INSERT INTO telefone (ddd, numero, codHospede) VALUES (?, ?, ?)";
+    const valoresTelefone = [telefone.ddd, telefone.numero, telefone.codHospede];
+    const [resultadoTelefone] = await conexao.query(inserirTelefoneSQL, valoresTelefone);
 
-        try {
-            // Atualizar registros relacionados em pessoafisica
-            const sqlPessoaFisica = "UPDATE pessoafisica SET cpf = ?, rg = ? WHERE hospede_codigo = ?";
-            const valoresPessoaFisica = [hospede.cpf, hospede.rg, hospede.codigo];
-            await conexao.query(sqlPessoaFisica, valoresPessoaFisica);
-
-            // Atualizar registros relacionados em pessoajuridica
-            const sqlPessoaJuridica = "UPDATE pessoajuridica SET cnpj = ? WHERE hospede_codigo = ?";
-            const valoresPessoaJuridica = [hospede.cnpj, hospede.codigo];
-            await conexao.query(sqlPessoaJuridica, valoresPessoaJuridica);
-
-            // Finalmente, atualizar o registro na tabela hospede
-            const sqlHospede = "UPDATE hospede SET nome = ?, endereco = ?, email = ? WHERE codigo = ?";
-            const valoresHospede = [hospede.nome, hospede.endereco, hospede.email, hospede.codigo];
-            await conexao.query(sqlHospede, valoresHospede);
-        }
-        catch(erro) {
-            throw erro;
-        }
+    // Verifica se a inserção no telefone foi bem-sucedida
+    if (resultadoTelefone.affectedRows !== 1) {
+      throw new Error("Falha ao inserir telefone.");
     }
-}
 
+    // Obtém o último ID inserido na tabela telefone
+    const ultimoIdTelefone = resultadoTelefone.insertId;
 
-
-  //funcionando Excluir e consultar
-
-  async excluir(hospede) {
-    if(hospede instanceof Hospede) {
-      const conexao = await conectar();
-
-      try {
-        const sqlPessoaFisica = "DELETE FROM pessoafisica WHERE hospede_codigo = ?";
-        const valoresPessoaFisica = [hospede.codigo];
-        await conexao.query(sqlPessoaFisica, valoresPessoaFisica);
+    // Retorna o ID do telefone inserido
+    return ultimoIdTelefone;
+  }
   
-        // Excluir registros relacionados em pessoajuridica
-        const sqlPessoaJuridica = "DELETE FROM pessoajuridica WHERE hospede_codigo = ?";
-        const valoresPessoaJuridica = [hospede.codigo];
-        await conexao.query(sqlPessoaJuridica, valoresPessoaJuridica);
-  
-        // Finalmente, excluir o registro na tabela hospede
-        const sqlHospede = "DELETE FROM hospede WHERE codigo = ?";
-        const valoresHospede = [hospede.codigo];
-        await conexao.query(sqlHospede, valoresHospede);
-
-
-      }
-      catch(erro) {
-        throw erro;
-      }
-
-    }
-}
-
 
   async consultar(termo) {
     const conexao = await conectar();

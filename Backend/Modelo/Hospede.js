@@ -60,7 +60,7 @@ export default class Hospede {
 
     async gravar() {
         const hospedeBD = new HospedeBD();
-        this.codigo = await hospedeBD.gravarHospede(this);
+        this.#codigo = await hospedeBD.gravarHospede(this);
     }
 
 
