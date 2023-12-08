@@ -7,32 +7,36 @@ import conectar from "./Conexao.js";
 export default class HospedeBD {
 
   async gravarHospede(hospede) {
-    const conexao = await conectar();
+    if (hospede instanceof Hospede) {
+        const conexao = await conectar();
 
-    try {
-      const sql = "INSERT INTO hospede (nome, endereco, email) VALUES (?, ?, ?)";
-      const valores = [hospede.nome,  hospede.endereco, hospede.email];
+        try {
+            const sqlHospede = "INSERT INTO hospede (nome, endereco, email) VALUES (?, ?, ?)";
+            const valoresHospede = [hospede.nome, hospede.endereco, hospede.email];
 
-      const [resultado] = await conexao.query(sql, valores);
+            const [resultadoHospede] = await conexao.query(sqlHospede, valoresHospede);
 
-      hospede.codigo = resultado[0].insertId;
+            hospede.codigo = resultadoHospede.insertId;
 
-      // Verifica se é uma PessoaFisica
-      if (hospede instanceof PessoaFisica) {
-        const sqlPessoaFisica = "INSERT INTO pessoafisica (cpf, rg, hospede_codigo) VALUES (?, ?, ?)";
-        const valoresPessoaFisica = [hospede.cpf, hospede.rg, resultado.insertId];
-        await conexao.query(sqlPessoaFisica, valoresPessoaFisica);
-      }
-      // Verifica se é uma PessoaJuridica
-      else if (hospede instanceof PessoaJuridica) {
-        const sqlPessoaJuridica = "INSERT INTO pessoajuridica (cnpj, hospede_codigo) VALUES (?, ?)";
-        const valoresPessoaJuridica = [hospede.cnpj, resultado.insertId];
-        await conexao.query(sqlPessoaJuridica, valoresPessoaJuridica);
-      }
-    } catch (erro) {
-      throw erro;
+            // Verifica se é uma PessoaFisica ou PessoaJuridica
+            if (hospede instanceof PessoaFisica) {
+                const sqlPessoaFisica = "INSERT INTO pessoafisica (cpf, rg, hospede_codigo) VALUES (?, ?, ?)";
+                const valoresPessoaFisica = [hospede.cpf, hospede.rg, resultadoHospede.insertId];
+                await conexao.query(sqlPessoaFisica, valoresPessoaFisica);
+            } else if (hospede instanceof PessoaJuridica) {
+                const sqlPessoaJuridica = "INSERT INTO pessoajuridica (cnpj, hospede_codigo) VALUES (?, ?)";
+                const valoresPessoaJuridica = [hospede.cnpj, resultadoHospede.insertId];
+                await conexao.query(sqlPessoaJuridica, valoresPessoaJuridica);
+            }
+
+            return resultadoHospede.insertId;
+        } catch (erro) {
+            throw erro;
+        }
     }
-  }
+}
+
+
 
     //funcionando Excluir e consultar
 

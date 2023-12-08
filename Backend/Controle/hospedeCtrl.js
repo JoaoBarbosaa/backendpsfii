@@ -9,42 +9,42 @@ export default class HospedeCTRL {
     async gravar(requisicao, resposta) {
         resposta.type("application/json");
     
-        if (requisicao.method === "POST") {
+        if (requisicao.method === "POST" && requisicao.is('application/json')) {
             const dados = requisicao.body;
-            const codigo = dados.codigo;
             const nome = dados.nome;
             const endereco = dados.endereco;
             const email = dados.email;
             const tipo = dados.tipo;
-            
-
-            const hospede = new Hospede(codigo, nome, endereco, email);
-
-            if (tipo === "pessoa fisica") {
-                const cpf = dados.cpf;
-                const rg = dados.rg;
-                hospede.cpf = cpf;
-                hospede.rg = rg;
-            }
-            else if (tipo === "pessoa juridica") {
-                const cnpj = dados.cnpj;
-                hospede.cnpj = cnpj;
-            }
     
-            hospede.atualizar().then(() => {
-                resposta.json({
-                    status: true,
-                    mensagem: "Hóspede atualizado com sucesso!"
+            if (nome && email && endereco && tipo) {
+                const hospede = new Hospede(0, nome, endereco, email, tipo);
+                hospede.gravar(tipo).then(() => {
+                    resposta.status(200).json({
+                        status: true,
+                        codigo: hospede.codigo,
+                        mensagem: "Hóspede gravado com sucesso!!!"
+                    });
+                }).catch((erro) => {
+                    resposta.status(500).json({
+                        status: false,
+                        mensagem: erro.message
+                    });
+                });
+            } else {
+                resposta.status(400).json({
+                    status: false,
+                    mensagem: "Informe todos os dados do hóspede de forma adequada"
                 });
             }
-            ).catch((erro) => {
-                resposta.status(500).json({
-                    status: false,
-                    mensagem: erro.message
-                });
+        } else {
+            resposta.status(400).json({
+                status: false,
+                mensagem: "Método não permitido ou hóspede não fornecido em formato JSON!"
             });
         }
     }
+    
+
 
     // Atualizar, excluir e consultar Funcionando
     async atualizar(requisicao, resposta) {
