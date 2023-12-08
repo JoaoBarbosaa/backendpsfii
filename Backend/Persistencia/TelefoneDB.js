@@ -16,15 +16,16 @@ export default class TelefoneDB {
                 telefone.hospede.codigo
             ];
             const resultado = await conexao.query(sql, parametros);
-            return await resultado[0].insertID;
+            return await resultado[0].insertId;
         }
     }
+
 
     async alterar(telefone) {
 
         if (telefone instanceof Telefone) {
             const conexao = await conectar();
-            const sql = "UPDATE telefone SET ddd =?, numero=?, codHospede  WHERE codigo=?"
+            const sql = "UPDATE telefone SET ddd =?, numero=?, codHospede=?  WHERE codigo=?"
             const valores = [
                 telefone.ddd,
                 telefone.numero,
@@ -35,9 +36,6 @@ export default class TelefoneDB {
 
         }
     }
-
-
-
 
     async excluir(telefone) {
 
@@ -69,9 +67,9 @@ export default class TelefoneDB {
             WHERE
                 h.nome LIKE ?;`;
         const parametros = ['%' + termo + '%'];
-    
+
         const [rows] = await conexao.query(sql, parametros);
-    
+
         for (const row of rows) {
             const hospedeFormatado = {
                 codigoHospede: row.codigoHospede,
@@ -80,7 +78,7 @@ export default class TelefoneDB {
                 email: row.email,
                 telefones: []
             };
-    
+
             if (row.codigoTelefone) {
                 const telefone = {
                     codigoTelefone: row.codigoTelefone,
@@ -89,12 +87,12 @@ export default class TelefoneDB {
                 };
                 hospedeFormatado.telefones.push(telefone);
             }
-    
+
             listaHospedes.push(hospedeFormatado);
         }
-    
+
         return listaHospedes;
     }
-    
-    
+
+
 }

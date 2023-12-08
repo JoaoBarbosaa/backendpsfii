@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors'
-import rotaHospede from "./Rotas/Hospede.js";
+
 import rotaTelefone from './Rotas/rotaTelefone.js';
+import rotaHospede from './Rotas/rotaHospede.js';
 
 const app = new express();
 

@@ -145,51 +145,24 @@ export default class HospedeCTRL {
         }
     }
 
-    async consultarPeloCPF(requisicao, resposta) {
+    async consultarCodigo(requisicao, resposta) {
         resposta.type("application/json");
+        const codigo = requisicao.params['codigo'];
 
-        try {
-            const cpf = requisicao.params['cpf'];
-
-            if (requisicao.method === "GET") {
-                const hospede = new Hospede();
-                const hospedes = await hospede.consultarCPF(cpf);
-                resposta.status(200).json(hospedes);
-            } else {
-                resposta.status(400).json({
+        if (requisicao.method === "GET") {
+            const hospede = new Hospede();
+            hospede.consultarCodigo(codigo).then((hospede) => {
+                resposta.json(hospede);
+            }).catch((erro) => {
+                resposta.status(500).json({
                     status: false,
-                    mensagem: "Método não permitido!"
+                    mensagem: erro.message
                 });
-            }
-        } catch (erro) {
-            resposta.status(500).json({
-                status: false,
-                mensagem: erro.message
             });
-        }
-    }
-
-    async consultarPeloCNPJ(requisicao, resposta) {
-
-        resposta.type("application/json");
-
-        try {
-            const cnpj = requisicao.params['cnpj'];
-
-            if (requisicao.method === "GET") {
-                const hospede = new Hospede();
-                const hospedes = await hospede.consultarCNPJ(cnpj);
-                resposta.status(200).json(hospedes);
-            } else {
-                resposta.status(400).json({
-                    status: false,
-                    mensagem: "Método não permitido!"
-                });
-            }
-        } catch (erro) {
-            resposta.status(500).json({
+        } else {
+            resposta.status(400).json({
                 status: false,
-                mensagem: erro.message
+                mensagem: "Método não permitido!"
             });
         }
     }

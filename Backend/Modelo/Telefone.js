@@ -6,13 +6,13 @@ export default class Telefone{
     #codigo;
     #ddd;
     #numero
-    #codHospede;
+    #hospede;
 
-    constructor(codigo, ddd, numero, codHospede){
+    constructor(codigo=0, ddd, numero, hospede){
         this.#codigo = codigo;
         this.#ddd = ddd;
         this.#numero = numero;
-        this.#codHospede = codHospede;
+        this.#hospede = hospede;
     }
 
     //METODO CODIGO
@@ -41,12 +41,12 @@ export default class Telefone{
     }
 
     //METODO CODIGO HOSPEDE
-    get codHospede(){
-        return this.#codHospede;
+    get hospede(){
+        return this.#hospede;
     }
 
-    set codHospede(novoCodHospede){
-        this.#codHospede = novoCodHospede;
+    set hospede(novohospede){
+        this.#hospede = novohospede;
     }
 
     toJSON(){
@@ -54,7 +54,7 @@ export default class Telefone{
             "codigo"      :this.#codigo,
             "ddd"         :this.#ddd,
             "numero"      :this.#numero,
-            "codHospede"  :this.#codHospede
+            "hospede"  :this.#hospede
 
         }
     }
@@ -70,7 +70,7 @@ export default class Telefone{
     }
 
 
-    async remover(){
+    async excluir(){
         const telefoneDB = new TelefoneDB();
         await telefoneDB.excluir(this);
     }

@@ -9,7 +9,7 @@ rotaHospede
 .put('/', hospedeCTRL.atualizar)
 .delete('/', hospedeCTRL.excluir)
 .get('/', hospedeCTRL.consultar)
-.get('/:idhospede', hospedeCTRL.consultaridhospede)
-.get('/buscar/:nome', hospedeCTRL.consultarNome);
+.get('/:codigo', hospedeCTRL.consultarCodigo)
+
 
 export default rotaHospede;

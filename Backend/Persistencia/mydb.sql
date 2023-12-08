@@ -67,7 +67,7 @@ CREATE TABLE `telefone` (
   `codigo` int(11) NOT NULL,
   `ddd` varchar(5) NOT NULL,
   `numero` varchar(20) NOT NULL,
-  `codHospede` int(11) DEFAULT NULL
+  `hospede` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --

@@ -7,11 +7,10 @@ const telefoneCtrl = new TelefoneCtrl();
 
 
 rotaTelefone
-// .post('/', exemplarCtrl.gravar)
-// .put('/', exemplarCtrl.atualizar)
-// .delete('/', exemplarCtrl.excluir)
+.post('/', telefoneCtrl.gravar)
+.put('/', telefoneCtrl.atualizar)
+.delete('/', telefoneCtrl.excluir)
 .get('/', telefoneCtrl.consultar)
-// .get('/buscar/:titulo', exemplarCtrl.consultarExemplar)
-// .get('/:codigo', exemplarCtrl.consultarCodigo);
+
 
 export default rotaTelefone;
