@@ -10,12 +10,12 @@ export default class HospedeBD {
     const conexao = await conectar();
 
     try {
-      const sql = "INSERT INTO hospede (nome, email, endereco) VALUES (?, ?, ?)";
-      const valores = [hospede.nome, hospede.email, hospede.endereco];
+      const sql = "INSERT INTO hospede (nome, endereco, email) VALUES (?, ?, ?)";
+      const valores = [hospede.nome,  hospede.endereco, hospede.email];
 
       const [resultado] = await conexao.query(sql, valores);
 
-      hospede.codigo = resultado.insertId;
+      hospede.codigo = resultado[0].insertId;
 
       // Verifica se é uma PessoaFisica
       if (hospede instanceof PessoaFisica) {
@@ -29,13 +29,12 @@ export default class HospedeBD {
         const valoresPessoaJuridica = [hospede.cnpj, resultado.insertId];
         await conexao.query(sqlPessoaJuridica, valoresPessoaJuridica);
       }
-
-      return resultado.insertId;
     } catch (erro) {
       throw erro;
     }
   }
 
+    //funcionando Excluir e consultar
 
   async alterar(hospede) {
     if(hospede instanceof Hospede) {
@@ -63,9 +62,6 @@ export default class HospedeBD {
     }
 }
 
-
-
-  //funcionando Excluir e consultar
 
   async excluir(hospede) {
     if(hospede instanceof Hospede) {
@@ -177,6 +173,8 @@ export default class HospedeBD {
 
     return resultadoFinal;
   }
+
+  ///// Não está funcionado
 
   async consultarCodigo(codigo) {
     const conexao = await conectar();

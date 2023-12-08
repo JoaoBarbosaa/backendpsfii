@@ -7,14 +7,16 @@ export default class Hospede {
 
     #codigo;
     #nome;
-    #email;
     #endereco;
+    #email;
 
-    constructor(codigo = 0, nome, email, endereco) {
+
+    constructor(codigo = 0, nome, endereco, email) {
         this.#codigo = codigo;
         this.#nome = nome;
-        this.#email = email;
         this.#endereco = endereco;
+        this.#email = email;
+
     }
 
     //METODO CODIGO
@@ -33,14 +35,6 @@ export default class Hospede {
         this.#nome = novoNome;
     }
 
-    //METODO EMAIL
-    get email() {
-        return this.#email;
-    }
-    set email(novoEmail) {
-        this.#email = novoEmail;
-    }
-
     //METODO ENDEREÇO
     get endereco() {
         return this.#endereco;
@@ -49,12 +43,22 @@ export default class Hospede {
         this.#endereco = novoEndereco;
     }
 
+
+    //METODO EMAIL
+    get email() {
+        return this.#email;
+    }
+    set email(novoEmail) {
+        this.#email = novoEmail;
+    }
+
+
     toJSON() {
         return {
             "codigo": this.#codigo,
             "nome": this.#nome,
-            "email": this.#email,
             "endereco": this.#endereco,
+            "email": this.#email,
         };
     }
 

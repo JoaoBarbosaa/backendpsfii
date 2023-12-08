@@ -6,8 +6,8 @@ export default class PessoaFisica {
     #rg;
     #hospede;
   
-    constructor(codigo, nome, email, endereco, cpf, rg) {
-      this.#hospede = new Hospede(codigo, nome, email, endereco);
+    constructor(codigo, nome, endereco, email,  cpf, rg) {
+      this.#hospede = new Hospede(codigo, nome, endereco, email);
       this.#cpf = cpf;
       this.#rg = rg;
     }

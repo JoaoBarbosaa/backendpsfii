@@ -10,57 +10,43 @@ export default class HospedeCTRL {
         resposta.type("application/json");
     
         if (requisicao.method === "POST") {
-            try {
-                const dados = requisicao.body;
+            const dados = requisicao.body;
+            const codigo = dados.codigo;
+            const nome = dados.nome;
+            const endereco = dados.endereco;
+            const email = dados.email;
+            const tipo = dados.tipo;
+            
+
+            const hospede = new Hospede(codigo, nome, endereco, email);
+
+            if (tipo === "pessoa fisica") {
+                const cpf = dados.cpf;
+                const rg = dados.rg;
+                hospede.cpf = cpf;
+                hospede.rg = rg;
+            }
+            else if (tipo === "pessoa juridica") {
+                const cnpj = dados.cnpj;
+                hospede.cnpj = cnpj;
+            }
     
-                let hospede;
-    
-                if (dados.tipo === "pessoa fisica") {
-                    hospede = new PessoaFisica(
-                        0,
-                        dados.nome,
-                        dados.email,
-                        dados.endereco,
-                        dados.cpf,
-                        dados.rg
-                    );
-                } else if (dados.tipo === "pessoa juridica") {
-                    hospede = new PessoaJuridica(
-                        0,
-                        dados.nome,
-                        dados.email,
-                        dados.endereco,
-                        dados.cnpj
-                    );
-                } else {
-                    hospede = new Hospede(
-                        0,
-                        dados.nome,
-                        dados.email,
-                        dados.endereco
-                    );
-                }
-    
-                await hospede.gravar();
-    
+            hospede.atualizar().then(() => {
                 resposta.json({
                     status: true,
-                    mensagem: "Hóspede gravado com sucesso!"
+                    mensagem: "Hóspede atualizado com sucesso!"
                 });
-            } catch (erro) {
+            }
+            ).catch((erro) => {
                 resposta.status(500).json({
                     status: false,
                     mensagem: erro.message
                 });
-            }
-        } else {
-            resposta.status(400).json({
-                status: false,
-                mensagem: "Método não permitido!"
             });
         }
     }
 
+    // Atualizar, excluir e consultar Funcionando
     async atualizar(requisicao, resposta) {
         resposta.type("application/json");
     
@@ -71,21 +57,22 @@ export default class HospedeCTRL {
             const nome = dados.nome;
             const endereco = dados.endereco;
             const email = dados.email;
+            const tipo = dados.tipo;
             
 
 
             const hospede = new Hospede(codigo, nome, endereco, email);
 
-            if (dados.cpf) {
-                hospede.cpf = dados.cpf;
+            if (tipo === "pessoa fisica") {
+                const cpf = dados.cpf;
+                const rg = dados.rg;
+                hospede.cpf = cpf;
+                hospede.rg = rg;
             }
-            if (dados.rg) {
-                hospede.rg = dados.rg;
+            else if (tipo === "pessoa juridica") {
+                const cnpj = dados.cnpj;
+                hospede.cnpj = cnpj;
             }
-            if (dados.cnpj) {
-                hospede.cnpj = dados.cnpj;
-            }
-
     
             hospede.atualizar().then(() => {
                 resposta.json({

@@ -5,8 +5,8 @@ export default class PessoaJuridica{
     #cnpj;
     #hospede;
 
-    constructor(codigo, nome, email, endereco, cnpj) {
-        this.#hospede = new Hospede(codigo, nome, email, endereco);
+    constructor(codigo, nome, endereco, email,  cnpj) {
+        this.#hospede = new Hospede(codigo, nome, endereco,email );
         this.#cnpj = cnpj;
     }
 
