@@ -10,7 +10,7 @@ export default class PessoaFisicaBD {
         if (pessoafisica instanceof PessoaFisica) {
             const conexao = await conectar();
 
-            const sql = "INSERT INTO pessoafisica ( cpfUsuario, rgUsuario, codHospede) VALUES (?, ?, ?)";
+            const sql = "INSERT INTO fisica ( cpfUsuario, rgUsuario, codHospede) VALUES (?, ?, ?)";
             const valores = [pessoafisica.cpfUsuario, pessoafisica.rgUsuario, pessoafisica.codHospede];
 
             const [resultado] = await conexao.query(sql, valores);

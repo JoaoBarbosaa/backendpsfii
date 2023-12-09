@@ -9,7 +9,7 @@ export default class TelefoneFisicaDB {
 
         if (telefone instanceof Telefone) {
             const conexao = await conectar();
-            const sql = "INSERT INTO telefone(ddd, numero, codHospede) VALUES(?, ?, ?)";
+            const sql = "INSERT INTO telefonefisico(ddd, numero, codHospede) VALUES(?, ?, ?)";
             const parametros = [
                 telefone.ddd,
                 telefone.numero,
