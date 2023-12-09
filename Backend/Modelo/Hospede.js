@@ -1,7 +1,4 @@
 import HospedeBD from "../Persistencia/HospedeBD.js";
-import PessoaFisica from "./PessoaFisica.js";
-import PessoaJuridica from "./PessoaJuridica.js";
-
 
 export default class Hospede {
 

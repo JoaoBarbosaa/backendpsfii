@@ -1,4 +1,6 @@
 import Hospede from "../Modelo/Hospede.js";
+import HospedePessoaFisica from "../Modelo/HospedeFisico.js";
+import HospedePessoaJuridica from "../Modelo/HospedeJuridico.js";
 import PessoaFisica from "../Modelo/PessoaFisica.js";
 import PessoaJuridica from "../Modelo/PessoaJuridica.js";
 import conectar from "./Conexao.js";
@@ -18,12 +20,12 @@ export default class HospedeBD {
 
             hospede.codigo = resultadoHospede.insertId;
 
-            // Verifica se é uma PessoaFisica ou PessoaJuridica
-            if (hospede instanceof PessoaFisica) {
+            // Verifique se é PessoaFisica ou PessoaJuridica
+            if (hospede.pessoaFisica instanceof HospedePessoaFisica) {
                 const sqlPessoaFisica = "INSERT INTO pessoafisica (cpf, rg, hospede_codigo) VALUES (?, ?, ?)";
-                const valoresPessoaFisica = [hospede.cpf, hospede.rg, resultadoHospede.insertId];
+                const valoresPessoaFisica = [hospede.pessoaFisica.cpf, hospede.pessoaFisica.rg, resultadoHospede.insertId];
                 await conexao.query(sqlPessoaFisica, valoresPessoaFisica);
-            } else if (hospede instanceof PessoaJuridica) {
+            } else if (hospede instanceof HospedePessoaJuridica) {
                 const sqlPessoaJuridica = "INSERT INTO pessoajuridica (cnpj, hospede_codigo) VALUES (?, ?)";
                 const valoresPessoaJuridica = [hospede.cnpj, resultadoHospede.insertId];
                 await conexao.query(sqlPessoaJuridica, valoresPessoaJuridica);
@@ -35,6 +37,8 @@ export default class HospedeBD {
         }
     }
 }
+
+
 
 
 
