@@ -1,46 +1,56 @@
 import HospedeBD from "../Persistencia/HospedeBD.js";
+import PessoaFisicaBD from "../Persistencia/PessoaFisicaBD.js";
 import Hospede from "./Hospede.js";
 
 export default class HospedePessoaFisica {
-    #cpf;
-    #rg;
-    #hospede;
+    #cpfUsuario;
+    #rgUsuario;
+    #codHospede
   
-    constructor(codigo, nome, endereco, email,  cpf, rg) {
-      this.#hospede = new Hospede(codigo, nome, endereco, email);
-      this.#cpf = cpf;
-      this.#rg = rg;
+    constructor(  cpfUsuario, rgUsuario, codHospede) {
+
+      this.#cpfUsuario = cpfUsuario;
+      this.#rgUsuario = rgUsuario;
+        this.#codHospede = codHospede;
     }
 
-    //METODO CPF
-    get cpf() {
-        return this.#cpf;
+    //METODO cpfUsuario
+    get cpfUsuario() {
+        return this.#cpfUsuario;
     }
 
-    set cpf(novoCpf) {
-        this.#cpf = novoCpf;
+    set cpfUsuario(novocpfUsuario) {
+        this.#cpfUsuario = novocpfUsuario;
     }
 
-    //METODO RG
-    get rg() {
-        return this.#rg;
+    //METODO rgUsuario
+    get rgUsuario() {
+        return this.#rgUsuario;
     }
 
-    set rg(novoRg) {
-        this.#rg = novoRg;
+    set rgUsuario(novorgUsuario) {
+        this.#rgUsuario = novorgUsuario;
+    }
+
+    //METODO CODIGO
+    get codHospede() {
+        return this.#codHospede;
+    }
+    set codHospede(novoCodHospede) {
+        this.#codHospede = novoCodHospede;
     }
 
     toJSON() {
         return {
-           
-            "cpf": this.#cpf,
-            "rg": this.#rg,
+            "cpfUsuario": this.#cpfUsuario,
+            "rgUsuario": this.#rgUsuario,
+            "codHospede": this.#codHospede,
         };
     }
 
     async gravar() {
-        const hospedeBD = new HospedeBD();
-        this.codigo = await hospedeBD.gravarHospede(this);
+        const pessoaFisicaBD = new PessoaFisicaBD();
+        await pessoaFisicaBD.gravarPF(this);
     }
 
 }

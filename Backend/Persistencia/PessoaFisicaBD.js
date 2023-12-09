@@ -6,20 +6,15 @@ import conectar from "./Conexao.js";
 
 export default class PessoaFisicaBD {
 
-    async gravarPF(pessoaFisica) {
-        if (pessoaFisica instanceof PessoaFisica) {
+    async gravarPF(pessoafisica) {
+        if (pessoafisica instanceof PessoaFisica) {
             const conexao = await conectar();
 
-            const sql = "INSERT INTO fisica (nome, endereco, email, cpf, rg) VALUES (?, ?, ?, ?, ?)";
-            const valores = [pessoaFisica.nome, pessoaFisica.endereco, pessoaFisica.email, pessoaFisica.cpf, pessoaFisica.rg];
+            const sql = "INSERT INTO pessoafisica ( cpfUsuario, rgUsuario, codHospede) VALUES (?, ?, ?)";
+            const valores = [pessoafisica.cpfUsuario, pessoafisica.rgUsuario, pessoafisica.codHospede];
 
             const [resultado] = await conexao.query(sql, valores);
-
-            pessoaFisica.codigo = resultado.insertId;
-
-            return resultado.insertId;
-
-
+            
         }
     }
 

@@ -20,17 +20,6 @@ export default class HospedeBD {
 
             hospede.codigo = resultadoHospede.insertId;
 
-            // Verifique se é PessoaFisica ou PessoaJuridica
-            if (hospede.pessoaFisica instanceof HospedePessoaFisica) {
-                const sqlPessoaFisica = "INSERT INTO pessoafisica (cpf, rg, hospede_codigo) VALUES (?, ?, ?)";
-                const valoresPessoaFisica = [hospede.pessoaFisica.cpf, hospede.pessoaFisica.rg, resultadoHospede.insertId];
-                await conexao.query(sqlPessoaFisica, valoresPessoaFisica);
-            } else if (hospede instanceof HospedePessoaJuridica) {
-                const sqlPessoaJuridica = "INSERT INTO pessoajuridica (cnpj, hospede_codigo) VALUES (?, ?)";
-                const valoresPessoaJuridica = [hospede.cnpj, resultadoHospede.insertId];
-                await conexao.query(sqlPessoaJuridica, valoresPessoaJuridica);
-            }
-
             return resultadoHospede.insertId;
         } catch (erro) {
             throw erro;

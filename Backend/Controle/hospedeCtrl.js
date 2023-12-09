@@ -9,66 +9,56 @@ export default class HospedeCTRL {
 
 
     async gravar(requisicao, resposta) {
-        resposta.type("application/json");
+    resposta.type("application/json");
 
-        if(requisicao.method === "POST" && requisicao.is('application/json')) {
-            const dados = requisicao.body;
-            const nome = dados.nome;
-            const email = dados.email;
-            const endereco = dados.endereco;
-            const tipo = dados.tipo;
-            const cpf = dados.cpf;
-            const rg = dados.rg;
-            const cnpj = dados.cnpj;
+    if (requisicao.method === "POST" && requisicao.is('application/json')) {
+        const dados = requisicao.body;
+        const nome = dados.nome;
+        const email = dados.email;
+        const endereco = dados.endereco;
+        const tipo = dados.tipo;
+        const cpfUsuario = dados.pessoafisica.cpf;
+        const rgUsuario = dados.pessoafisica.rg;
 
-            if(  nome  && email && endereco )
-            {
-                const hospede = new Hospede(0,nome,email,endereco);
-                hospede.gravar().then(()=>{
-                    resposta.status(200).json({
-                        status: true,
-                        codigo: hospede.codigo,
-                        mensagem:"Hóspede gravado com sucesso!!!"
-                    })
-                if( tipo ==="pessoa fisica"){
-                    const pessoaFisica = new HospedePessoaFisica(0,cpf,rg);
-                    pessoaFisica.gravar().then(()=>{
-                        resposta.status(200).json({
-                            status: true,
-                            codigo: hospede.codigo,
-                            mensagem:"Hóspede gravado com sucesso!!!"
-                        })
-                    }).catch((erro)=>{
-                        resposta.status(500).json({
-                            status: false,
-                            mensagem: erro.message
-                        })
-                    })
-                }
-                }).catch((erro) => {
+        if (nome && email && endereco) {
+            const hospede = new Hospede(0, nome, email, endereco);
+            await hospede.gravar();
+
+            const responsePayload = {
+                status: true,
+                codigo: hospede.codigo,
+                mensagem: "Hóspede gravado com sucesso!!!"
+            };
+
+            if (tipo === "pessoa fisica") {
+                const codHospode = hospede.codigo;
+                const pessoaFisica = new HospedePessoaFisica(cpfUsuario, rgUsuario, codHospode);
+                try {
+                    await pessoaFisica.gravar();
+                } catch (erro) {
                     resposta.status(500).json({
                         status: false,
                         mensagem: erro.message
-                    })
-                });
+                    });
+                    return;
+                }
             }
-            else
-            {
-                resposta.status(400).json({
-                    status: false,
-                    mensagem: "Informe todos os dados do hóspede de forma adequada"
-                });
-            }
-        }
-        else{
+
+            resposta.status(200).json(responsePayload);
+        } else {
             resposta.status(400).json({
-                status:false,
-                mensagem:"Método não permitido ou hóspede não fornecido em formato JSON!"
+                status: false,
+                mensagem: "Parâmetros inválidos para gravar o hóspede."
             });
         }
+    } else {
+        resposta.status(400).json({
+            status: false,
+            mensagem: "Método ou tipo de conteúdo inválido."
+        });
     }
-    
-    
+}
+
 
 
     // Atualizar, excluir e consultar Funcionando
