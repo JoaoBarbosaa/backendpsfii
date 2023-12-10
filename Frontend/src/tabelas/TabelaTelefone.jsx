@@ -64,11 +64,11 @@ export default function TabelaTelefone(props) {
             {props.listaTelefones?.map((telefone) => {
               return (
                 <tr key={telefone.codigo}>
-                  <td id="colorwhite">{telefone.codigo}</td>
-                  <td id="colorwhite">{telefone.nome}</td>
-                  <td id="colorwhite">{telefone.endereco}</td>
-                  <td id="colorwhite">{telefone.email}</td>
-                  <td id="colorwhite">{telefone.telefone}</td>  
+                <td id="colorwhite">{telefone.codigo}</td>
+                <td id="colorwhite">{telefone.nome}</td>
+                <td id="colorwhite">{telefone.endereco}</td>
+                <td id="colorwhite">{telefone.email}</td>
+                <td id="colorwhite">{telefone.telefone}</td>
 
                   <td>
                     <Button variant="warning" onClick={() => {
