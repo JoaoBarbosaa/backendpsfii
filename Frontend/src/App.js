@@ -7,6 +7,7 @@ import FormTefone from "./Formularios/FormTelefone.jsx";
 
 import './App.scss';
 import 'boxicons/css/boxicons.min.css';
+import TelaCadastroTelefone from "./interfaces/TelaCadastroTelefone.jsx";
 function App() {
   return (
     <div className="App">
@@ -16,7 +17,7 @@ function App() {
           <Route path="/" element={<TelaMenu></TelaMenu>}></Route>
           <Route path="/frontendz" element={<TelaMenu></TelaMenu>}></Route>
           <Route path="*" element={<Tela404></Tela404>}></Route>
-          <Route path="/telefone" element={<FormTefone />}></Route>
+          <Route path="/telefone" element={<TelaCadastroTelefone />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

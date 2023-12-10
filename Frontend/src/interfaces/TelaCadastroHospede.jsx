@@ -7,6 +7,7 @@ import { urlBase } from "../utilitarios/definicoes.js";
 import { Spinner } from "react-bootstrap";
 
 export default function TelaCadastroHospede(props) {
+    
     const [exibirTabela, setExibirTabela] = useState(true);
     const [pessoas, setPessoas] = useState([]);
     const [modoEdicao, setModoEdicao] = useState(false);

@@ -44,7 +44,7 @@ export default function TabelaTelefone(props) {
                 onChange={(e) => setTermoDeBusca(e.target.value)}
                 placeholder="Pesquisar por código"
               />
-              <Button className="BotaoPesquisar " type="button" onClick={buscaTelefone}><span className="fontLetra">Pesquisar</span></Button>
+              <Button className="BotaoPesquisar " type="button" onClick={buscaTelefones}><span className="fontLetra">Pesquisar</span></Button>
             </Form>
           </Col>
         </Row>

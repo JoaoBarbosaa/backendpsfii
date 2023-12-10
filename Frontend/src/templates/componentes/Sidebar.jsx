@@ -14,6 +14,12 @@ const sidebarNavItems = [
         icon: <i className='bx bx-user'></i>,
         to: '/hospede',
         section: 'hospede'
+    },
+    {
+        display: 'Telefone',
+        icon: <i className='bx bx-user'></i>,
+        to: '/telefone',
+        section: 'telefone'
     }
 ]
 

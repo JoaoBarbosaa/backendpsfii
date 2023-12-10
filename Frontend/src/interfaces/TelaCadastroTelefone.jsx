@@ -5,40 +5,41 @@ import { useState, useEffect } from "react";
 import "../tabelas/estilos/tabela.css";
 import { urlBase } from "../utilitarios/definicoes.js";
 import { Spinner } from "react-bootstrap";
+import TabelaTelefone from "../tabelas/TabelaTelefone.jsx";
+import FormTelefone from "../Formularios/FormTelefone.jsx";
 
-export default function TelaCadastroHospede(props) {
+export default function TelaCadastroTelefone(props) {
+
     const [exibirTabela, setExibirTabela] = useState(true);
-    const [pessoas, setPessoas] = useState([]);
+    const [telefone, setTelefone] = useState([]);
     const [modoEdicao, setModoEdicao] = useState(false);
     const [erro, setErro] = useState(null);
     const [processado, setProcessado] = useState(false);
-    const [pessoaEmEdicao, setPessoaEmEdicao] = useState(
+    const [telefoneEmEdicao, setTelefoneEmEdicao] = useState(
         {
-            nome: "",
-            endereco: "",
-            email: "",
-            tipo: "",
-            cpf: "",
-            rg: "",
-            cnpj: ""
+            ddd: "",
+            numero: "",
+            hospede: {
+                codigo: 0
+            }
         }
     );
 
-    function prepararPessoaParaEdicao(pessoa) {
+    function prepararTelefoneParaEdicao(telefone) {
         setModoEdicao(true);
-        setPessoaEmEdicao(pessoa);
+        setTelefoneEmEdicao(telefone);
         setExibirTabela(false);
     }
 
-    function buscarPessoas() {
-        fetch(urlBase + "/hospede", {
+    function buscarTelefone() {
+        fetch(urlBase + "/telefone", {
             method: "GET"
         }).then((resposta) => {
             return resposta.json();
         }).then((dados) => {
             if (Array.isArray(dados)) {
                 setProcessado(true);
-                setPessoas(dados);
+                setTelefone(dados);
             }
             else {
                 setProcessado(true);
@@ -47,25 +48,25 @@ export default function TelaCadastroHospede(props) {
         });
     }
 
-    function apagarPessoa(pessoa) {
+    function apagarTelefone(telefone) {
         fetch(urlBase + "/hospede", {
             method: "DELETE",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(pessoa)
+            body: JSON.stringify(telefone)
         }).then((resposta) => {
             return resposta.json()
         }).then((retorno) => {
             if (retorno.resultado) {
-                alert("Não foi possível excluir a pessoa!");
+                alert("Não foi possível excluir a telefone!");
             }
             else {
-                buscarPessoas();
+                buscarTelefone();
             }
         })
     }
 
     useEffect(() => {
-        buscarPessoas();
+        buscarTelefone();
     }, []);
 
 
@@ -73,21 +74,21 @@ export default function TelaCadastroHospede(props) {
             <div>
                 {
                     exibirTabela ?
-                        <TabelaPessoa listaPessoas={pessoas}
-                            buscar={buscarPessoas}
-                            setPessoas={setPessoas}
+                        <TabelaTelefone listaTelefones={telefone}
+                            buscar={buscarTelefone}
+                            setTelefone={setTelefone}
                             exibirTabela={setExibirTabela}
-                            editarPessoa={prepararPessoaParaEdicao}
-                            excluirPessoa={apagarPessoa}
+                            editarTelefone={prepararTelefoneParaEdicao}
+                            excluirTelefone={apagarTelefone}
                             setModoEdicao={setModoEdicao}
                         /> :
-                        <FormPessoa listaPessoas={pessoas}
-                            setPessoas={setPessoas}
+                        <FormTelefone listaTelefones={telefone}
+                        setTelefone={setTelefone}
                             exibirTabela={setExibirTabela}
-                            buscar={buscarPessoas}
+                            buscar={buscarTelefone}
                             modoEdicao={modoEdicao}
                             setModoEdicao={setModoEdicao}
-                            pessoa={pessoaEmEdicao} />
+                            pessoa={telefoneEmEdicao} />
                 };
             </div>
         </Pagina>
