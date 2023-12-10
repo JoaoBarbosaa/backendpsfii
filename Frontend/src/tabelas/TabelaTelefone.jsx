@@ -3,17 +3,17 @@ import { urlBase } from "../utilitarios/definicoes";
 import { useState } from "react";
 import { PiNotePencil } from "react-icons/pi";
 
-export default function TabelaHospede(props) {
+export default function TabelaTelefone(props) {
 
   const [termoDeBusca, setTermoDeBusca] = useState('');
 
-  const buscaPessoa = () => {
+  const buscaTelefones = () => {
     if (termoDeBusca.length === 0) {
       props.buscar()
     } else {
-      fetch(`${urlBase}/hospede/${termoDeBusca}`)
+      fetch(`${urlBase}/telefone/${termoDeBusca}`)
         .then((response) => response.json())
-        .then((data) => props.setPessoas(data))
+        .then((data) => props.setTelefone(data))
         .catch((error) => console.error('Erro ao buscar os dados:', error));
     }
   };
@@ -21,7 +21,7 @@ export default function TabelaHospede(props) {
   return (
     <body id="corpo" className="colorwhite">
       <Container className="border corpoTabela PessoaEscp">
-        <h1 className="text-center TituloTabela">Tabela de Cadastro de Hospede <PiNotePencil /> </h1>
+        <h1 className="text-center TituloTabela">Tabela de Cadastro de Telefone <PiNotePencil /> </h1>
 
         <Row className="d-flex justify-content-end md-2">
           <Col>
@@ -44,7 +44,7 @@ export default function TabelaHospede(props) {
                 onChange={(e) => setTermoDeBusca(e.target.value)}
                 placeholder="Pesquisar por código"
               />
-              <Button className="BotaoPesquisar " type="button" onClick={buscaPessoa}><span className="fontLetra">Pesquisar</span></Button>
+              <Button className="BotaoPesquisar " type="button" onClick={buscaTelefone}><span className="fontLetra">Pesquisar</span></Button>
             </Form>
           </Col>
         </Row>
@@ -56,35 +56,26 @@ export default function TabelaHospede(props) {
               <th>Nome</th>
               <th>Endereco</th>
               <th>E-mail</th>
-              <th>Tipo</th>
               <th>Telefone</th>
-              <th> CPF/CNPJ</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody>
-            {props.listaPessoas?.map((pessoa) => {
+            {props.listaTelefones?.map((telefone) => {
               return (
-                <tr key={pessoa.codigo}>
-                  <td id="colorwhite">{pessoa.codigo}</td>
-                  <td id="colorwhite">{pessoa.nome}</td>
-                  <td id="colorwhite">{pessoa.endereco}</td>
-                  <td id="colorwhite">{pessoa.email}</td>
-                  <td id="colorwhite">{pessoa.tipo}</td>
-                  <td id="colorwhite">
-                    {pessoa.telefones.map((telefone) => (
-                      <div key={telefone.codigoTelefone}>
-                        {telefone.ddd} {telefone.numero}
-                      </div>
-                    ))}
-                  </td>
-                  <td id="colorwhite">{pessoa.tipo === "Pessoa Física" ? pessoa.cpf : pessoa.cnpj}</td>
+                <tr key={telefone.codigo}>
+                  <td id="colorwhite">{telefone.codigo}</td>
+                  <td id="colorwhite">{telefone.nome}</td>
+                  <td id="colorwhite">{telefone.endereco}</td>
+                  <td id="colorwhite">{telefone.email}</td>
+                  <td id="colorwhite">{telefone.telefone}</td>  
+
                   <td>
                     <Button variant="warning" onClick={() => {
                       if (
-                        window.confirm("Deseja atualizar o cadastro da pessoa?")
+                        window.confirm("Deseja atualizar o cadastro da telefone?")
                       ) {
-                        props.editarPessoa(pessoa)
+                        props.editarTelefone(telefone)
                       }
                     }}>
                       <svg xmlns="http://www.w3.org/2000/svg"
@@ -98,9 +89,9 @@ export default function TabelaHospede(props) {
                     </Button>{" "}
                     <Button variant="danger" onClick={() => {
                       if (
-                        window.confirm("Deseja realmente excluir essa Pessoa?")
+                        window.confirm("Deseja realmente excluir essa telefone?")
                       ) {
-                        props.excluirPessoa(pessoa);
+                        props.excluirTelefone(telefone);
                       }
                     }}>
                       <svg xmlns="http://www.w3.org/2000/svg"

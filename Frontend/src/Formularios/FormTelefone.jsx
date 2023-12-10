@@ -1,83 +1,69 @@
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import React, { useState, useRef } from "react";
-import "./estilos/EstiloForm.css";
 import { urlBase } from "../utilitarios/definicoes";
 import Pagina from "../templates/componentes/Pagina";
-export default function FormHospede(props) {
+import CaixaSelecao from "../componentes/componentes/CaixaSelecao";
+
+export default function FormTelefone(props) {
   const [validado, setValidado] = useState(false);
-  const [pessoa, setPessoa] = useState(props.pessoa);
+  const [hospedeSelecionado, setHospedeSelecionado] = useState(0);
+  const [telefoneAtual, setTelefoneAtual] = useState({ ddd: '', numero: '' });
+
+  const [telefone, setTelefone] = useState({
+    ddd: '',
+    telefones: [],
+    hospede: {
+      codigo: 0,
+    },
+  });
+
   const teleRef = useRef(null);
 
-  const formatPhone = (value) => {
-    const formattedValue = value
-      .replace(/\D/g, "")
-      .replace(/^(\d{2})(\d{4,5})(\d{4})$/, "($1) $2-$3");
 
-    return formattedValue;
+  const manipulaSubmissao = (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    }
+
+    setValidado(true);
+    gravarDados(telefone);
+  };
+
+  const adicionarTelefone = () => {
+    setTelefone({
+      ...telefone,
+      telefones: [...telefone.telefones, { ...telefoneAtual }],
+    });
+    setTelefoneAtual({ ddd: '', numero: '' }); // Limpa os campos após adicionar
+    teleRef.current.value = ''; // Limpa o campo de telefone
   };
 
 
-    const elemForm = e.currentTarget;
-    const id = elemForm.id;
-    const valor = elemForm.value;
-    if (elemForm.id === "tipo") {
-      setTipoPessoa(e.target.value);
-    }
-    setPessoa({ ...pessoa, [id]: valor });
-  }
-
   function gravarDados(telefone) {
-    console.log(telefone);
-    console.log(telefone.numero);
-    if (!props.modoEdicao) {
-      if (pessoa.tipo === "pessoa fisica") {
-        fetch(urlBase + "/telefone", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            numero: pessoa.numero,
-          }),
-        }).then((resposta) => {
-        });
-      } else {
-        fetch(urlBase + "/telefone", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            numero: pessoa.numero,
-          }),
-        }).then((resposta) => {
-        });
-      }
-    } else {
-      if(pessoa.tipo === "pessoa fisica"){
-        fetch(urlBase + "/telefone", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            numero: pessoa.numero,
-          }),
-        }).then((resposta) => {
-          window.alert("Atualizado com sucesso!");
-        });
-      }else{
-        fetch(urlBase + "/telefone", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            numero: pessoa.numero,
-          }),
-        }).then((resposta) => {
-          window.alert("Atualizado com sucesso!");
-        });
-      }
-
-
-
-      }
-     
+    fetch(urlBase + "/telefone", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ddd: telefone.ddd,
+        telefones: telefone.telefones,
+        hospede: {
+          codigo: telefone.hospede.codigo,
+        },
+      }),
+    })
+      .then((resposta) => resposta.json())
+      .then((data) => {
+        // Trate a resposta, se necessário
+        console.log(data);
+        window.alert("Telefone cadastrado com sucesso!");
+        setTelefone({ ...telefone, telefones: [] });
+      })
+      .catch((erro) => console.error('Erro ao cadastrar telefone:', erro));
   }
 
+  return (
     <body id="corpo">
       <Container className="background mb-3">
         <Form
@@ -99,31 +85,79 @@ export default function FormHospede(props) {
                   placeholder="Automático"
                   id="codigo"
                   disabled
-                  value={pessoa.codigo}
+                  value={telefone.codigo}
                 />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group className="mb-3" controlId="FormTelefone">
+                <Form.Label>DDD</Form.Label>
+                <Form.Control
+                  type="text"
+                  required
+                  id="ddd"
+                  placeholder="Digite o DDD"
+                  value={telefoneAtual.ddd}
+                  onChange={(e) =>
+                    setTelefoneAtual({ ...telefoneAtual, ddd: e.target.value })
+                  }
+                  maxLength={2}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="FormTelefoneNumero">
                 <Form.Label>Telefone</Form.Label>
                 <Form.Control
                   type="text"
                   required
-                  id="telefones"
-                  placeholder="(00)00000-0000"
-                  value={pessoa.telefones?.numero}
-                  onChange={manipularMudanca}
+                  placeholder="00000-0000"
+                  onChange={(e) =>
+                    setTelefoneAtual({
+                      ...telefoneAtual,
+                      numero: (e.target.value),
+                    })
+                  }
                   ref={teleRef}
                   maxLength={11}
                 />
                 <Form.Control.Feedback type="invalid">
-                  Digite um telefone valido!
+                  Digite um telefone válido!
                 </Form.Control.Feedback>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={adicionarTelefone}
+                >
+                  Adicionar Telefone
+                </Button>
+                {telefone.telefones.map((tel, index) => (
+                  <div key={index}>
+                    {tel.ddd} {tel.numero}
+                  </div>
+                ))}
               </Form.Group>
             </Col>
           </Row>
+
+          <Col>
+            <Form.Group className="mb-3" controlId="titulo">
+              <Form.Label>Selecione o Hóspede:</Form.Label>
+              <CaixaSelecao
+                enderecoFonteDados={urlBase + "/hospede"}
+                campoChave={"codigo"}
+                campoExibicao={"nome"}
+                funcaoSelecao={setHospedeSelecionado}
+                valor={hospedeSelecionado}
+                id="telefone"
+                required
+              />
+              <Form.Control.Feedback type='invalid'>Selecione o Hóspede</Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+
+
+
           <Button type="submit" variant="primary" id="cadastrar">
-            {props.modoEdicao ? "Atualizar" : "Cadastrar"}
+            Cadastrar
           </Button>{" "}
           <Button
             type="button"
@@ -138,4 +172,5 @@ export default function FormHospede(props) {
         </Form>
       </Container>
     </body>
-
+  );
+}

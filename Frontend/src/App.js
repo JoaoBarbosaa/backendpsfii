@@ -3,6 +3,8 @@ import Tela404 from "./interfaces/Tela404.js"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TelaCadastroHospede from "./interfaces/TelaCadastroHospede.jsx";
 //import TelaCadastroPessoa from "./Formularios/FormPessoa.jsx";
+import FormTefone from "./Formularios/FormTelefone.jsx";
+
 import './App.scss';
 import 'boxicons/css/boxicons.min.css';
 function App() {
@@ -14,6 +16,7 @@ function App() {
           <Route path="/" element={<TelaMenu></TelaMenu>}></Route>
           <Route path="/frontendz" element={<TelaMenu></TelaMenu>}></Route>
           <Route path="*" element={<Tela404></Tela404>}></Route>
+          <Route path="/telefone" element={<FormTefone />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
