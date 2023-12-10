@@ -156,17 +156,19 @@ export default function FormHospede(props) {
     }
 
     if (pessoa.tipo === "pessoa juridica") {
-      const formattedValueCnpj = formatCnpj(value);
-      cnpjRef.current.value = formattedValueCnpj;
 
-      const cnpj = cnpjRef.current.value;
-      const valido = validarCNPJ(cnpj);
-      setCnpjValido(valido);
+      const elementoFormulario = e.currentTarget;
+      const cod = elementoFormulario.id;
+      if (cod === "cnpj"){
+        const formattedValueCnpj = formatCnpj(value);
+        cnpjRef.current.value = formattedValueCnpj;
+
+        const cnpj = cnpjRef.current.value;
+        const valido = validarCNPJ(cnpj);
+        setCnpjValido(valido);
+      }
+
     }
-
-
-
-
 
     const elemForm = e.currentTarget;
     const id = elemForm.id;
@@ -176,45 +178,87 @@ export default function FormHospede(props) {
     }
     setPessoa({ ...pessoa, [id]: valor });
   }
-
+  
   function gravarDados(pessoa) {
-    const dados = {
-      nome: pessoa.nome,
-      endereco: pessoa.endereco,
-      email: pessoa.email,
-      tipo: pessoa.tipo,
-      pessoafisica: {
-        cpf: pessoa.cpf,
-        rg: pessoa.rg,
-      },
-      telefones: telefones.map(telefone => ({ ddd: telefone.ddd, numero: telefone.numero })),
-    };
-  
-    const endpoint = props.modoEdicao ? `${urlBase}/hospede/${pessoa.codigo}` : `${urlBase}/hospede`;
-  
-    const metodo = props.modoEdicao ? 'PUT' : 'POST';
-  
-    fetch(endpoint, {
-      method: metodo,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dados),
-    })
-      .then((resposta) => {
-        if (resposta.ok) {
-          return resposta.json();
-        } else {
-          throw new Error('Falha ao gravar os dados.');
-        }
-      })
-      .then((dados) => {
-        // Lógica para lidar com a resposta do backend
-        console.log(dados);
-        window.alert(props.modoEdicao ? 'Atualizado com sucesso!' : 'Gravado com sucesso!');
-      })
-      .catch((erro) => {
-        console.error('Erro ao gravar dados:', erro);
-        window.alert('Erro ao gravar dados.');
-      });
+    console.log(pessoa);
+    console.log(pessoa.rg);
+    if (!props.modoEdicao) {
+      if (pessoa.tipo === "pessoa fisica") {
+        fetch(urlBase + "/hospede", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nome: pessoa.nome,
+            endereco: pessoa.endereco,
+            email: pessoa.email,
+            tipo: pessoa.tipo,
+            pessoafisica: {
+              cpf: pessoa.cpf,
+              rg: pessoa.rg,
+            },
+            telefones: telefones.map(telefone => ({ ddd: telefone.ddd, numero: telefone.numero })),
+          }),
+        }).then((resposta) => {
+        });
+      } else {
+        fetch(urlBase + "/hospede", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nome: pessoa.nome,
+            endereco: pessoa.endereco,
+            email: pessoa.email,
+            tipo: pessoa.tipo,
+            pessoajuridica: {
+              cnpj: pessoa.cnpj,
+            },
+            telefones: telefones.map(telefone => ({ ddd: telefone.ddd, numero: telefone.numero })),
+          }),
+        }).then((resposta) => {
+        });
+      }
+    } else {
+      if(pessoa.tipo === "pessoa fisica"){
+        fetch(urlBase + "/hospede", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            codigo: pessoa.codigo,
+            nome: pessoa.nome,
+            endereco: pessoa.endereco,
+            email: pessoa.email,
+            tipo: pessoa.tipo,
+            pessoafisica: {
+              cpf: pessoa.cpf,
+              rg: pessoa.rg,
+            },
+            telefones: telefones.map(telefone => ({ ddd: telefone.ddd, numero: telefone.numero })),
+          }),
+        }).then((resposta) => {
+          window.alert("Atualizado com sucesso!");
+        });
+      }else{
+        fetch(urlBase + "/hospede", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            codigo: pessoa.codigo,
+            nome: pessoa.nome,
+            endereco: pessoa.endereco,
+            email: pessoa.email,
+            tipo: pessoa.tipo,
+            pessoajuridica: {
+              cnpj: pessoa.cnpj,
+            },
+            telefones: telefones.map(telefone => ({ ddd: telefone.ddd, numero: telefone.numero })),
+          }),
+        }).then((resposta) => {
+          window.alert("Atualizado com sucesso!");
+        });
+      }
+      }
+
+
   }
   
 
