@@ -10,10 +10,10 @@ const sidebarNavItems = [
         section: 'started'
     },
     {
-        display: 'Cadastro',
+        display: 'Hospede',
         icon: <i className='bx bx-user'></i>,
-        to: '/pessoa',
-        section: 'pessoa'
+        to: '/hospede',
+        section: 'hospede'
     }
 ]
 

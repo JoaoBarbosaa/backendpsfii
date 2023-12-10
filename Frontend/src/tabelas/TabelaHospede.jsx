@@ -3,7 +3,7 @@ import { urlBase } from "../utilitarios/definicoes";
 import { useState } from "react";
 import { PiNotePencil } from "react-icons/pi";
 
-export default function TabelaPessoas(props) {
+export default function TabelaHospede(props) {
 
   const [termoDeBusca, setTermoDeBusca] = useState('');
 
@@ -11,7 +11,7 @@ export default function TabelaPessoas(props) {
     if(termoDeBusca.length === 0){
       props.buscar()
     }else{
-      fetch(`${urlBase}/pessoa/buscar/${termoDeBusca}`)
+      fetch(`${urlBase}/hospede/${termoDeBusca}`)
       .then((response) => response.json())
       .then((data) => props.setPessoas(data))
       .catch((error) => console.error('Erro ao buscar os dados:', error));
@@ -21,7 +21,7 @@ export default function TabelaPessoas(props) {
   return (
     <body id="corpo" className="colorwhite">
       <Container className="border corpoTabela PessoaEscp">
-        <h1 className="text-center TituloTabela">Cadastro de Pessoas <PiNotePencil /> </h1>
+        <h1 className="text-center TituloTabela">Tabela de Cadastro de Hospede <PiNotePencil /> </h1>
 
         <Row className="d-flex justify-content-end md-2">
         <Col>
@@ -42,7 +42,7 @@ export default function TabelaPessoas(props) {
               type="text"
               value={termoDeBusca}
               onChange={(e) => setTermoDeBusca(e.target.value)}
-              placeholder="Pesquisar nome"
+              placeholder="Pesquisar por código"
             />
             <Button className="BotaoPesquisar " type="button" onClick={buscaPessoa}><span className="fontLetra">Pesquisar</span></Button>
           </Form>
@@ -56,7 +56,9 @@ export default function TabelaPessoas(props) {
               <th>Nome</th>
               <th>Endereco</th>
               <th>E-mail</th>
+              <th>Tipo</th>
               <th>Telefone</th>
+              <th> CPF/CNPJ</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -68,7 +70,9 @@ export default function TabelaPessoas(props) {
                   <td id="colorwhite">{pessoa.nome}</td>
                   <td id="colorwhite">{pessoa.endereco}</td>
                   <td id="colorwhite">{pessoa.email}</td>
-                  <td id="colorwhite">{pessoa.telefone}</td>
+                  <td id="colorwhite">{pessoa.tipo}</td>
+                  <td id="colorwhite">{pessoa.telefones.numero}</td>
+                  <td id="colorwhite">{pessoa.tipo === "Pessoa Física" ? pessoa.cpf : pessoa.cnpj}</td>
                   <td>
                     <Button variant="warning" onClick={()=>{
                       if(

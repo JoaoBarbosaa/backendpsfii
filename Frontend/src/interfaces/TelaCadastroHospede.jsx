@@ -1,12 +1,12 @@
 import Pagina from "../templates/componentes/Pagina.js";
-import FormPessoa from "../Formularios/FormPessoa.jsx";
-import TabelaPessoa from "../tabelas/TabelaPessoa.jsx";
+import FormPessoa from "../Formularios/FormHospede.jsx";
+import TabelaPessoa from "../tabelas/TabelaHospede.jsx";
 import { useState, useEffect } from "react";
 import "../tabelas/estilos/tabela.css";
 import { urlBase } from "../utilitarios/definicoes.js";
 import { Spinner } from "react-bootstrap";
 
-export default function TelaCadastroPessoa(props) {
+export default function TelaCadastroHospede(props) {
     const [exibirTabela, setExibirTabela] = useState(true);
     const [pessoas, setPessoas] = useState([]);
     const [modoEdicao, setModoEdicao] = useState(false);
@@ -14,16 +14,13 @@ export default function TelaCadastroPessoa(props) {
     const [processado, setProcessado] = useState(false);
     const [pessoaEmEdicao, setPessoaEmEdicao] = useState(
         {
-            cpf: "",
-            categoria: "",
             nome: "",
-            sexo: "",
-            email: "",
-            telefone: "",
-            cidade: "",
             endereco: "",
-            cep: "",
-            dataNasc: ""
+            email: "",
+            tipo: "",
+            cpf: "",
+            rg: "",
+            cnpj: ""
         }
     );
 
@@ -34,7 +31,7 @@ export default function TelaCadastroPessoa(props) {
     }
 
     function buscarPessoas() {
-        fetch(urlBase + "/pessoa", {
+        fetch(urlBase + "/hospede", {
             method: "GET"
         }).then((resposta) => {
             return resposta.json();
@@ -51,7 +48,7 @@ export default function TelaCadastroPessoa(props) {
     }
 
     function apagarPessoa(pessoa) {
-        fetch(urlBase + "/pessoa", {
+        fetch(urlBase + "/hospede", {
             method: "DELETE",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(pessoa)
