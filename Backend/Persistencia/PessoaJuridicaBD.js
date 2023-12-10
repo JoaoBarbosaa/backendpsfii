@@ -1,39 +1,34 @@
-import PessoaFisica from "../Modelo/PessoaFisica.js";
-import PessoaJuridica from "../Modelo/PessoaJuridica.js";
+import HospedePessoaJuridica from "../Modelo/HospedeJuridico.js";
 import conectar from "./Conexao.js";
 
 export default class PessoaJuridicaBD {
 
     async gravarPJ(pessoaJuridica) {
-        if (pessoaJuridica instanceof PessoaJuridica) {
+        if (pessoaJuridica instanceof HospedePessoaJuridica) {
             const conexao = await conectar();
 
-            const sql = "INSERT INTO juridica (nome, endereco, email, cnpj) VALUES (?, ?, ?, ?)";
-            const valores = [pessoaJuridica.nome, pessoaJuridica.endereco, pessoaJuridica.email, pessoaJuridica.cnpj];
+            const sql = "INSERT INTO pessoajuridica (cnpjUsuario, codHospede) VALUES (?, ?)";
+            const valores = [pessoaJuridica.cnpjUsuario, pessoaJuridica.codHospede];
 
             const [resultado] = await conexao.query(sql, valores);
-
-            pessoaJuridica.codigo = resultado.insertId;
-
-            return resultado.insertId;
         }
     }
 
     async alterar(pessoaJuridica) {
-        if (pessoaJuridica instanceof PessoaJuridica) {
+        if (pessoaJuridica instanceof HospedePessoaJuridica) {
             const conexao = await conectar();
 
-            const sql = "UPDATE juridica SET nome = ?, endereco = ?, email = ?, cnpj = ? WHERE codigo = ?";
-            const valores = [pessoaJuridica.nome, pessoaJuridica.endereco, pessoaJuridica.email, pessoaJuridica.cnpj, pessoaJuridica.codigo];
+            const sql = "UPDATE pessoajuridica SET cnpjUsuario  WHERE codHospede = ?";
+            const valores = [pessoaJuridica.cnpjUsuario, pessoaJuridica.codHospede];
 
             await conexao.query(sql, valores);
         }
     }
 
     async excluir(pessoaJuridica) {
-        if (pessoaJuridica instanceof PessoaJuridica) {
+        if (pessoaJuridica instanceof HospedePessoaJuridica) {
             const conexao = await conectar();
-            const sql = "DELETE FROM juridica WHERE codigo = ?";
+            const sql = "DELETE FROM pessoajuridica WHERE codHospede = ?";
             const valor = [pessoaJuridica.codigo];
             await conexao.query(sql, valor);
         }
@@ -44,22 +39,24 @@ export default class PessoaJuridicaBD {
         const termoCnpj = termo ? `%${termo}%` : '%';
 
         const sql = `
-            SELECT
-                pj.codigo,
-                pj.nome,
-                pj.endereco,
-                pj.email,
-                pj.cnpj,
-                t.codigo AS codigoTelefone,
-                t.ddd,
-                t.numero
-            FROM
-                juridica pj
-            LEFT JOIN
-                telefone t ON pj.codigo = t.codHospede
-            WHERE
-                pj.cnpj LIKE ?;
-        `;
+                        SELECT
+                            h.codigo,
+                            h.nome,
+                            h.endereco,
+                            h.email,
+                            pj.cnpjUsuario,
+                            t.codigo AS codigoTelefone,
+                            t.ddd,
+                            t.numero
+                        FROM
+                            hospede h
+                        LEFT JOIN
+                            pessoajuridica pj ON h.codigo = pj.codHospede
+                        LEFT JOIN
+                            telefone t ON pj.codigo = t.codHospede
+                        WHERE
+                            pj.cnpjUsuario LIKE ?;
+                    `;
 
         const valores = [termoCnpj];
         const [rows] = await conexao.query(sql, valores);

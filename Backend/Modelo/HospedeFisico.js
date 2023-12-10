@@ -53,4 +53,10 @@ export default class HospedePessoaFisica {
         await pessoaFisicaBD.gravarPF(this);
     }
 
+    async atualizar() {
+        const pessoaFisicaBD = new PessoaFisicaBD();
+        await pessoaFisicaBD.atualizarpf(this);
+    }
+
+
 }

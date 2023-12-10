@@ -1,16 +1,14 @@
-import Hospede from "../Modelo/Hospede.js";
-import PessoaFisica from "../Modelo/PessoaFisica.js";
-
+import HospedePessoaFisica from "../Modelo/HospedeFisico.js";
 import conectar from "./Conexao.js";
 
 
 export default class PessoaFisicaBD {
 
     async gravarPF(pessoafisica) {
-        if (pessoafisica instanceof PessoaFisica) {
+        if (pessoafisica instanceof HospedePessoaFisica) {
             const conexao = await conectar();
 
-            const sql = "INSERT INTO fisica ( cpfUsuario, rgUsuario, codHospede) VALUES (?, ?, ?)";
+            const sql = "INSERT INTO pessoafisica ( cpfUsuario, rgUsuario, codHospede) VALUES (?, ?, ?)";
             const valores = [pessoafisica.cpfUsuario, pessoafisica.rgUsuario, pessoafisica.codHospede];
 
             const [resultado] = await conexao.query(sql, valores);
@@ -19,16 +17,13 @@ export default class PessoaFisicaBD {
     }
 
 
+    async atualizarpf(pessoaFisica) {
 
-    //funcionando Excluir e consultar
-
-    async alterar(pessoaFisica) {
-
-        if (pessoaFisica instanceof PessoaFisica) {
+        if (pessoaFisica instanceof HospedePessoaFisica) {
             const conexao = await conectar();
 
-            const sql = "UPDATE fisica SET nome = ?, endereco = ?, email = ?, cpf = ?, rg = ? WHERE codigo = ?";
-            const valores = [pessoaFisica.nome, pessoaFisica.endereco, pessoaFisica.email, pessoaFisica.cpf, pessoaFisica.rg, pessoaFisica.codigo];
+            const sql = "UPDATE pessoafisica SET cpfUsuario = ?, rgUsuario = ? WHERE codHospede = ?";
+            const valores = [pessoaFisica.cpfUsuario, pessoaFisica.rgUsuario, pessoaFisica.codHospede];
 
             await conexao.query(sql, valores);
         }
@@ -39,9 +34,9 @@ export default class PessoaFisicaBD {
 
     async excluir(pessoaFisica) {
         
-        if (pessoaFisica instanceof PessoaFisica) {
+        if (pessoaFisica instanceof HospedePessoaFisica) {
             const conexao = await conectar();
-            const sql = "DELETE FROM fisica WHERE codigo = ?";
+            const sql = "DELETE FROM pessoafisica WHERE codHospede = ?";
             const valor = [pessoaFisica.codigo];
             await conexao.query(sql, valor);
 
@@ -56,22 +51,25 @@ export default class PessoaFisicaBD {
         const termoCnpj = termo ? `%${termo}%` : '%';
 
         const sql = `
-        SELECT
-            pf.codigo,
-            pf.nome,
-            pf.endereco,
-            pf.email,
-            pf.cpf,
-            pf.rg,
-            t.codigo AS codigoTelefone,
-            t.ddd,
-            t.numero
-            FROM
-                fisica pf
-            LEFT JOIN
-                telefone t ON pf.codigo = t.codHospede
-            WHERE
-                pf.cpf LIKE ?;
+                    SELECT
+                    SELECT
+                    h.codigo,
+                    h.nome,
+                    h.endereco,
+                    h.email,
+                    pf.cpfUsuario,
+                    pf.rgUsuario,
+                    NULL AS cnpj,
+                    'Pessoa Física' AS tipo,
+                    t.codigo AS codigoTelefone,
+                    t.ddd,
+                    t.numero
+                FROM
+                    hospede h
+                    LEFT JOIN pessoafisica pf ON h.codigo = pf.codHospede
+                    LEFT JOIN telefone t ON h.codigo = t.codHospede
+                WHERE
+                    pf.cpfUsuario LIKE ?
 
     `;
 

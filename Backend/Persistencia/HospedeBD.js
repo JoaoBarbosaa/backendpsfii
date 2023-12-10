@@ -1,8 +1,4 @@
 import Hospede from "../Modelo/Hospede.js";
-import HospedePessoaFisica from "../Modelo/HospedeFisico.js";
-import HospedePessoaJuridica from "../Modelo/HospedeJuridico.js";
-import PessoaFisica from "../Modelo/PessoaFisica.js";
-import PessoaJuridica from "../Modelo/PessoaJuridica.js";
 import conectar from "./Conexao.js";
 
 
@@ -27,28 +23,11 @@ export default class HospedeBD {
     }
 }
 
-
-
-
-
-    //funcionando Excluir e consultar
-
   async alterar(hospede) {
     if(hospede instanceof Hospede) {
         const conexao = await conectar();
 
         try {
-            // Atualizar registros relacionados em pessoafisica
-            const sqlPessoaFisica = "UPDATE pessoafisica SET cpf = ?, rg = ? WHERE hospede_codigo = ?";
-            const valoresPessoaFisica = [hospede.cpf, hospede.rg, hospede.codigo];
-            await conexao.query(sqlPessoaFisica, valoresPessoaFisica);
-
-            // Atualizar registros relacionados em pessoajuridica
-            const sqlPessoaJuridica = "UPDATE pessoajuridica SET cnpj = ? WHERE hospede_codigo = ?";
-            const valoresPessoaJuridica = [hospede.cnpj, hospede.codigo];
-            await conexao.query(sqlPessoaJuridica, valoresPessoaJuridica);
-
-            // Finalmente, atualizar o registro na tabela hospede
             const sqlHospede = "UPDATE hospede SET nome = ?, endereco = ?, email = ? WHERE codigo = ?";
             const valoresHospede = [hospede.nome, hospede.endereco, hospede.email, hospede.codigo];
             await conexao.query(sqlHospede, valoresHospede);
@@ -65,12 +44,12 @@ export default class HospedeBD {
       const conexao = await conectar();
 
       try {
-        const sqlPessoaFisica = "DELETE FROM pessoafisica WHERE hospede_codigo = ?";
+        const sqlPessoaFisica = "DELETE FROM pessoafisica WHERE codHospede = ?";
         const valoresPessoaFisica = [hospede.codigo];
         await conexao.query(sqlPessoaFisica, valoresPessoaFisica);
   
         // Excluir registros relacionados em pessoajuridica
-        const sqlPessoaJuridica = "DELETE FROM pessoajuridica WHERE hospede_codigo = ?";
+        const sqlPessoaJuridica = "DELETE FROM pessoajuridica WHERE codHospede = ?";
         const valoresPessoaJuridica = [hospede.codigo];
         await conexao.query(sqlPessoaJuridica, valoresPessoaJuridica);
   
@@ -89,54 +68,54 @@ export default class HospedeBD {
 }
 
 
-  async consultar(termo) {
+async consultar(termo) {
     const conexao = await conectar();
 
     const termoCpf = termo ? `%${termo}%` : '%';
     const termoCnpj = termo ? `%${termo}%` : '%';
 
     const sql = `
-        SELECT
-            h.codigo,
-            h.nome,
-            h.endereco,
-            h.email,
-            pf.cpf,
-            pf.rg,
-            NULL AS cnpj,
-            'Pessoa Física' AS tipo,
-            t.codigo AS codigoTelefone,
-            t.ddd,
-            t.numero
-        FROM
-            hospede h
-            LEFT JOIN pessoafisica pf ON h.codigo = pf.hospede_codigo
-            LEFT JOIN telefone t ON h.codigo = t.codHospede
-        WHERE
-            pf.cpf LIKE ?
-    
-        UNION
-    
-        SELECT
-            h.codigo,
-            h.nome,
-            h.endereco,
-            h.email,
-            NULL AS cpf,
-            NULL AS rg,
-            pj.cnpj,
-            'Pessoa Jurídica' AS tipo,
-            t.codigo AS codigoTelefone,
-            t.ddd,
-            t.numero
-        FROM
-            hospede h
-            LEFT JOIN pessoajuridica pj ON h.codigo = pj.hospede_codigo
-            LEFT JOIN telefone t ON h.codigo = t.codHospede
-        WHERE
-            pj.cnpj LIKE ?
-    `;
+                SELECT
+                    h.codigo,
+                    h.nome,
+                    h.endereco,
+                    h.email,
+                    pf.cpfUsuario AS documento,
+                    pf.rgUsuario AS documentoSecundario,
+                    NULL AS cnpj,
+                    'Pessoa Física' AS tipo,
+                    t.codigo AS codigoTelefone,
+                    t.ddd,
+                    t.numero
+                FROM
+                    hospede h
+                    LEFT JOIN pessoafisica pf ON h.codigo = pf.codHospede
+                    LEFT JOIN telefone t ON h.codigo = t.codHospede
+                WHERE
+                    pf.cpfUsuario LIKE ?
 
+                UNION
+
+                SELECT
+                    h.codigo,
+                    h.nome,
+                    h.endereco,
+                    h.email,
+                    NULL AS documento,
+                    NULL AS documentoSecundario,
+                    pj.cnpjUsuario AS cnpj,
+                    'Pessoa Jurídica' AS tipo,
+                    t.codigo AS codigoTelefone,
+                    t.ddd,
+                    t.numero
+                FROM
+                    hospede h
+                    LEFT JOIN pessoajuridica pj ON h.codigo = pj.codHospede
+                    LEFT JOIN telefone t ON h.codigo = t.codHospede
+                WHERE
+                    pj.cnpjUsuario LIKE ?
+                ORDER BY codigo;
+            `;
 
     const valores = [termoCpf, termoCnpj];
     const [rows] = await conexao.query(sql, valores);
@@ -144,114 +123,128 @@ export default class HospedeBD {
     const resultadoFinal = [];
 
     for (let i = 0; i < rows.length; i++) {
-      const item = {
-        codigo: rows[i].codigo,
-        nome: rows[i].nome,
-        endereco: rows[i].endereco,
-        email: rows[i].email,
-        tipo: rows[i].tipo,
-        telefones: {
-          codigoTelefone: rows[i].codigoTelefone,
-          ddd: rows[i].ddd,
-          numero: rows[i].numero
+        const item = {
+            codigo: rows[i].codigo,
+            nome: rows[i].nome,
+            endereco: rows[i].endereco,
+            email: rows[i].email,
+            tipo: rows[i].tipo,
+            telefones: []  
+        };
+
+
+        if (rows[i].codigoTelefone) {
+            const telefone = {
+                codigoTelefone: rows[i].codigoTelefone,
+                ddd: rows[i].ddd,
+                numero: rows[i].numero
+            };
+            item.telefones.push(telefone);
         }
 
-      };
+        if (rows[i].tipo === 'Pessoa Física') {
+            item.cpf = rows[i].documento; 
+            item.rg = rows[i].documentoSecundario; 
+        } else if (rows[i].tipo === 'Pessoa Jurídica') {
+            item.cnpj = rows[i].cnpj;
+        }
 
-      if (rows[i].tipo === 'Pessoa Física') {
-        item.cpf = rows[i].cpf;
-        item.rg = rows[i].rg;
-      } else if (rows[i].tipo === 'Pessoa Jurídica') {
-        item.cnpj = rows[i].cnpj;
-      }
+        const existingEntry = resultadoFinal.find(entry => entry.codigo === item.codigo);
 
-      resultadoFinal.push(item);
+        if (existingEntry) {
+            existingEntry.telefones.push(...item.telefones);
+        } else {
+            resultadoFinal.push(item);
+        }
     }
 
     return resultadoFinal;
-  }
+}
 
-  ///// Não está funcionado
 
-  async consultarCodigo(codigo) {
+  async consultarPorCodigo(codigo) {
     const conexao = await conectar();
 
-    const sql = `
-        -- Consulta para Pessoa Física
-        SELECT
-            h.codigo,
-            h.nome,
-            h.endereco,
-            h.email,
-            pf.cpf,
-            pf.rg,
-            NULL AS cnpj,
-            'Pessoa Física' AS tipo,
-            t.codigo AS codigoTelefone,
-            t.ddd,
-            t.numero
-        FROM
-            hospede h
-            LEFT JOIN pessoafisica pf ON h.codigo = pf.hospede_codigo
-            LEFT JOIN telefone t ON h.codigo = t.codHospede
-        WHERE
-            h.codigo = ? AND pf.cpf IS NOT NULL
-        
-        UNION
-        
-        -- Consulta para Pessoa Jurídica
-        SELECT
-            h.codigo,
-            h.nome,
-            h.endereco,
-            h.email,
-            NULL AS cpf,
-            NULL AS rg,
-            pj.cnpj,
-            'Pessoa Jurídica' AS tipo,
-            t.codigo AS codigoTelefone,
-            t.ddd,
-            t.numero
-        FROM
-            hospede h
-            LEFT JOIN pessoajuridica pj ON h.codigo = pj.hospede_codigo
-            LEFT JOIN telefone t ON h.codigo = t.codHospede
-        WHERE
-            h.codigo = ? AND pj.cnpj IS NOT NULL
-        
-        `;
+    const sql1 = `
+                    SELECT
+                    h.codigo,
+                    h.nome,
+                    h.endereco,
+                    h.email,
+                    pf.cpfUsuario,
+                    pf.rgUsuario,
+                    NULL AS cnpj,
+                    'Pessoa Física' AS tipo,
+                    t.codigo AS codigoTelefone,
+                    t.ddd,
+                    t.numero
+                    FROM
+                    hospede h
+                    LEFT JOIN pessoafisica pf ON h.codigo = pf.codHospede
+                    LEFT JOIN telefone t ON h.codigo = t.codHospede
+                    WHERE
+                    h.codigo = ?;
+                 `;
 
-    const valores = [codigo, codigo];
-    const [rows] = await conexao.query(sql, valores);
+    const sql2 = `
+                    SELECT
+                    h.codigo,
+                    h.nome,
+                    h.endereco,
+                    h.email,
+                    NULL AS cpfUsuario,
+                    NULL AS rgUsuario,
+                    pj.cnpjUsuario ,
+                    'Pessoa Jurídica' AS tipo,
+                    t.codigo AS codigoTelefone,
+                    t.ddd,
+                    t.numero
+                    FROM
+                    hospede h
+                    LEFT JOIN pessoajuridica pj ON h.codigo = pj.codHospede
+                    LEFT JOIN telefone t ON h.codigo = t.codHospede
+                    WHERE
+                    h.codigo = ?;
+                `;
 
-    const resultadoFinal = [];
+    try {
+        const [rows1] = await conexao.query(sql1, [codigo]);
 
-    for (let i = 0; i < rows.length; i++) {
-      const item = {
-        codigo: rows[i].codigo,
-        nome: rows[i].nome,
-        endereco: rows[i].endereco,
-        email: rows[i].email,
-        tipo: rows[i].tipo,
-        telefones: {
-          codigoTelefone: rows[i].codigoTelefone,
-          ddd: rows[i].ddd,
-          numero: rows[i].numero
+        const [rows2] = await conexao.query(sql2, [codigo]);
+
+        const resultadoFinal = [];
+
+        for (let i = 0; i < rows2.length; i++) {
+
+            const item = {
+                codigo: rows2[i].codigo,
+                nome: rows2[i].nome,
+                endereco: rows2[i].endereco,
+                email: rows2[i].email,
+                tipo: rows2[i].tipo,
+                telefones: {
+                    codigoTelefone: rows2[i].codigoTelefone,
+                    ddd: rows2[i].ddd,
+                    numero: rows2[i].numero
+                }
+            };
+
+            if (rows2[i].tipo === 'Pessoa Física') {
+                item.cpf = rows2[i].documento;
+                item.rg = rows2[i].documentoSecundario;
+            } else if (rows2[i].tipo === 'Pessoa Jurídica') {
+                item.cnpj = rows2[i].cnpj;
+            }
+
+            resultadoFinal.push(item);
         }
-      };
 
-      if (rows[i].tipo === 'Pessoa Física') {
-        item.cpf = rows[i].cpf;
-        item.rg = rows[i].rg;
-      } else if (rows[i].tipo === 'Pessoa Jurídica') {
-        item.cnpj = rows[i].cnpj;
-      }
-
-      resultadoFinal.push(item);
+        return resultadoFinal;
+    } catch (erro) {
+        console.error(erro);
+        throw erro;
     }
-
-    return resultadoFinal;
-  }
+}
 
 
 }

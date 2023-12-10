@@ -83,13 +83,8 @@ export default class Hospede {
 
     async consultarCodigo(codigo) {
         const hospedeBD = new HospedeBD();
-        const hospedes = await hospedeBD.consultarCodigo(codigo);
+        const hospedes = await hospedeBD.consultarPorCodigo(codigo);
         return hospedes;
     }
 
-    async consultarNome(nome) {
-        const hospedeBD = new HospedeBD();
-        const hospedes = await hospedeBD.consultarNome(nome);
-        return hospedes;
-    }
 }

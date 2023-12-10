@@ -54,12 +54,11 @@ export default class Telefone{
             "codigo"      :this.#codigo,
             "ddd"         :this.#ddd,
             "numero"      :this.#numero,
-            "hospede"  :this.#hospede
+            "hospede"   :this.#hospede
 
         }
     }
 
-    //refazer
     async gravar(){
         const telefoneDB = new TelefoneDB();
         this.#codigo = await telefoneDB.incluir(this);

@@ -52,45 +52,57 @@ export default class TelefoneDB {
         const listaHospedes = [];
         const conexao = await conectar();
         const sql = `
-            SELECT
-                h.codigo AS codigoHospede,
-                h.nome,
-                h.endereco,
-                h.email,
-                t.codigo AS codigoTelefone,
-                t.ddd,
-                t.numero
-            FROM
-                hospede h
-            LEFT JOIN
-                telefone t ON h.codigo = t.codHospede
-            WHERE
-                h.nome LIKE ?;`;
+                        SELECT
+                            h.codigo AS codigoHospede,
+                            h.nome,
+                            h.endereco,
+                            h.email,
+                            t.codigo AS codigoTelefone,
+                            t.ddd,
+                            t.numero
+                        FROM
+                            hospede h
+                        LEFT JOIN
+                            telefone t ON h.codigo = t.codHospede
+                        WHERE
+                            h.nome LIKE ?;
+                    `;
         const parametros = ['%' + termo + '%'];
-
+    
         const [rows] = await conexao.query(sql, parametros);
-
+    
+        const hospedesMap = new Map();
+    
         for (const row of rows) {
-            const hospedeFormatado = {
-                codigoHospede: row.codigoHospede,
-                nome: row.nome,
-                telefones: []
-            };
-
+            if (!hospedesMap.has(row.codigoHospede)) {
+                hospedesMap.set(row.codigoHospede, {
+                    codigoHospede: row.codigoHospede,
+                    nome: row.nome,
+                    endereco: row.endereco,
+                    email: row.email,
+                    telefones: []
+                });
+            }
+    
             if (row.codigoTelefone) {
-                const telefone = {
+                hospedesMap.get(row.codigoHospede).telefones.push({
                     codigoTelefone: row.codigoTelefone,
                     ddd: row.ddd,
                     numero: row.numero
-                };
-                hospedeFormatado.telefones.push(telefone);
+                });
             }
-
-            listaHospedes.push(hospedeFormatado);
         }
-
+    
+        const filteredHospedes = Array.from(hospedesMap.values()).filter(
+            hospede => hospede.telefones.length > 0
+        );
+    
+        listaHospedes.push(...filteredHospedes);
+    
         return listaHospedes;
     }
+    
+    
 
     async consultarCodigo(codigo) {
         const conexao = await conectar();

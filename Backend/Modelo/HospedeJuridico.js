@@ -1,33 +1,47 @@
-import HospedeBD from "../Persistencia/HospedeBD.js";
-import Hospede from "./Hospede.js";
+import PessoaJuridicaBD from "../Persistencia/PessoaJuridicaBD.js";
 
 export default class HospedePessoaJuridica{
-    #cnpj;
-    #hospede;
+    #cnpjUsuario;
+    #codHospede
 
-    constructor(codigo, nome, endereco, email,  cnpj) {
-        this.#hospede = new Hospede(codigo, nome, endereco,email );
-        this.#cnpj = cnpj;
+    constructor(cnpjUsuario, codHospede) {
+        this.#cnpjUsuario = cnpjUsuario;
+        this.#codHospede = codHospede;
     }
 
     //METODO CNPJ
-    get cnpj() {
-        return this.#cnpj;
+    get cnpjUsuario() {
+        return this.#cnpjUsuario;
     }
 
     set cnpj(novoCnpj) {
-        this.#cnpj = novoCnpj;
+        this.#cnpjUsuario = novoCnpj;
     }
+
+    get codHospede() {
+        return this.#codHospede;
+    }
+    set codHospede(novoCodHospede) {
+        this.#codHospede = novoCodHospede;
+    }
+
 
     toJSON() {
         return {
-            
-            "cnpj": this.#cnpj,
+            "cnpj": this.#cnpjUsuario,
+            "codHospede": this.#codHospede,
         };
     }
 
     async gravar() {
-        const hospedeBD = new HospedeBD();
-        this.codigo = await hospedeBD.gravarHospede(this);
+        const pessoaJuridicaBD = new PessoaJuridicaBD();
+        await pessoaJuridicaBD.gravarPJ(this);
     }
+
+    async atualizar() {
+        const pessoaJuridicaBD = new PessoaJuridicaBD();
+        await pessoaJuridicaBD.alterar(this);
+    }
+
+
 }
