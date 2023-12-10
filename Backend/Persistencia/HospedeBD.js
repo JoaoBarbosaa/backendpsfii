@@ -162,78 +162,60 @@ async consultar(termo) {
 }
 
 
+  
   async consultarPorCodigo(codigo) {
     const conexao = await conectar();
-
-    const sql1 = `
-                    SELECT
-                    h.codigo,
-                    h.nome,
-                    h.endereco,
-                    h.email,
-                    pf.cpfUsuario,
-                    pf.rgUsuario,
-                    NULL AS cnpj,
-                    'Pessoa Física' AS tipo,
-                    t.codigo AS codigoTelefone,
-                    t.ddd,
-                    t.numero
-                    FROM
-                    hospede h
-                    LEFT JOIN pessoafisica pf ON h.codigo = pf.codHospede
-                    LEFT JOIN telefone t ON h.codigo = t.codHospede
-                    WHERE
-                    h.codigo = ?;
-                 `;
-
-    const sql2 = `
-                    SELECT
-                    h.codigo,
-                    h.nome,
-                    h.endereco,
-                    h.email,
-                    NULL AS cpfUsuario,
-                    NULL AS rgUsuario,
-                    pj.cnpjUsuario ,
-                    'Pessoa Jurídica' AS tipo,
-                    t.codigo AS codigoTelefone,
-                    t.ddd,
-                    t.numero
-                    FROM
-                    hospede h
-                    LEFT JOIN pessoajuridica pj ON h.codigo = pj.codHospede
-                    LEFT JOIN telefone t ON h.codigo = t.codHospede
-                    WHERE
-                    h.codigo = ?;
-                `;
+    const sql = `
+    SELECT
+        h.codigo,
+        h.nome,
+        h.endereco,
+        h.email,
+        pf.cpfUsuario AS cpf,
+        pf.rgUsuario AS rg,
+        pj.cnpjUsuario AS cnpj,
+        CASE
+            WHEN pf.cpfUsuario IS NOT NULL THEN 'Pessoa Física'
+            WHEN pj.cnpjUsuario IS NOT NULL THEN 'Pessoa Jurídica'
+        END AS tipo,
+        t.codigo AS codigoTelefone,
+        t.ddd,
+        t.numero
+    FROM
+        hospede h
+        LEFT JOIN pessoafisica pf ON h.codigo = pf.codHospede
+        LEFT JOIN pessoajuridica pj ON h.codigo = pj.codHospede
+        LEFT JOIN telefone t ON h.codigo = t.codHospede
+    WHERE
+        h.codigo = ?;
+    `;
 
     try {
-        const [rows1] = await conexao.query(sql1, [codigo]);
-
-        const [rows2] = await conexao.query(sql2, [codigo]);
+        // Executa a consulta
+        const [rows] = await conexao.query(sql, [codigo]);
 
         const resultadoFinal = [];
 
-        for (let i = 0; i < rows2.length; i++) {
-
+        for (let i = 0; i < rows.length; i++) {
+            // Processa os resultados
             const item = {
-                codigo: rows2[i].codigo,
-                nome: rows2[i].nome,
-                endereco: rows2[i].endereco,
-                email: rows2[i].email,
-                tipo: rows2[i].tipo,
+                codigo: rows[i].codigo,
+                nome: rows[i].nome,
+                endereco: rows[i].endereco,
+                email: rows[i].email,
+                tipo: rows[i].tipo,
                 telefones: {
-                    codigoTelefone: rows2[i].codigoTelefone,
-                    ddd: rows2[i].ddd,
-                    numero: rows2[i].numero
+                    codigoTelefone: rows[i].codigoTelefone,
+                    ddd: rows[i].ddd,
+                    numero: rows[i].numero
                 }
             };
 
-            if (rows2[i].tipo === 'Pessoa Física') {
-                item.cpf = rows2[i].documento;
-                item.rg = rows2[i].documentoSecundario;
-            } else if (rows2[i].tipo === 'Pessoa Jurídica') {
-                item.cnpj = rows2[i].cnpj;
+            if (rows[i].tipo === 'Pessoa Física') {
+                item.cpf = rows[i].cpf;
+                item.rg = rows[i].rg;
+            } else if (rows[i].tipo === 'Pessoa Jurídica') {
+                item.cnpj = rows[i].cnpj;
             }
 
             resultadoFinal.push(item);
@@ -243,8 +225,7 @@ async consultar(termo) {
     } catch (erro) {
         console.error(erro);
         throw erro;
-    }
-}
+    }}
 
 
 }
