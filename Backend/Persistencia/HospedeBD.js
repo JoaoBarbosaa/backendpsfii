@@ -225,13 +225,6 @@ async consultar(termo) {
     } catch (erro) {
         console.error(erro);
         throw erro;
-<<<<<<< HEAD
-    }}
-=======
     }
-
-}
->>>>>>> b14a8985a15665cf556b38d191cbd8fa5b6ce9d2
-
-
+  }
 }
