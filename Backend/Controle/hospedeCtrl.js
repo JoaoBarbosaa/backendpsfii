@@ -25,26 +25,29 @@ export default class HospedeCTRL {
                 if (nome && email && endereco) {
                     const hospede = new Hospede(0, nome, email, endereco);
                     await hospede.gravar();
-    
+                  
                     const responsePayload = {
-                        status: true,
-                        codigo: hospede.codigo,
-                        mensagem: "Hóspede gravado com sucesso!!!"
+                      status: true,
+                      codigo: hospede.codigo,
+                      mensagem: "Hóspede gravado com sucesso!!!",
                     };
+                  
                     if (dados.telefones && dados.telefones.length > 0) {
-                        const telefones = dados.telefones.map(telefone => new Telefone(0, telefone.ddd, telefone.numero, hospede));
-            
-                        try {
-                          const promises = telefones.map(telefone => telefone.gravar());
-                          await Promise.all(promises);
-                        } catch (erro) {
-                          resposta.status(500).json({
-                            status: false,
-                            mensagem: erro.message
-                          });
-                          return;
-                        }
+                      const telefones = dados.telefones.map((telefone) =>
+                        new Telefone(0, telefone.ddd, telefone.numero, hospede)
+                      );
+                  
+                      try {
+                        const promises = telefones.map((telefone) => telefone.gravar());
+                        await Promise.all(promises);
+                      } catch (erro) {
+                        resposta.status(500).json({
+                          status: false,
+                          mensagem: erro.message,
+                        });
+                        return;
                       }
+                    }
     
                     if (tipo === "pessoa fisica") {
                         const codHospode = hospede.codigo;
