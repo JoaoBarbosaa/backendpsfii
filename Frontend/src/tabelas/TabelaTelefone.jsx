@@ -63,12 +63,18 @@ export default function TabelaTelefone(props) {
           <tbody>
             {props.listaTelefones?.map((telefone) => {
               return (
-                <tr key={telefone.codigo}>
-                <td id="colorwhite">{telefone.codigo}</td>
+                <tr key={telefone.codigoHospede}>
+                <td id="colorwhite">{telefone.codigoHospede}</td>
                 <td id="colorwhite">{telefone.nome}</td>
                 <td id="colorwhite">{telefone.endereco}</td>
                 <td id="colorwhite">{telefone.email}</td>
-                <td id="colorwhite">{telefone.telefone}</td>
+                <td id="colorwhite">
+                  {telefone.telefones.map((tel) => (
+                    <div key={tel.codigoTelefone}>
+                      {tel.ddd} {tel.numero}
+                    </div>
+                  ))}
+                </td>
 
                   <td>
                     <Button variant="warning" onClick={() => {
