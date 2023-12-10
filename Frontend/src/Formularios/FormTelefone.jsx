@@ -26,12 +26,12 @@ export default function FormHospede(props) {
     setPessoa({ ...pessoa, [id]: valor });
   }
 
-  function gravarDados(pessoa) {
-    console.log(pessoa);
-    console.log(pessoa.rg);
+  function gravarDados(telefone) {
+    console.log(telefone);
+    console.log(telefone.numero);
     if (!props.modoEdicao) {
       if (pessoa.tipo === "pessoa fisica") {
-        fetch(urlBase + "/hospede", {
+        fetch(urlBase + "/telefone", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -40,7 +40,7 @@ export default function FormHospede(props) {
         }).then((resposta) => {
         });
       } else {
-        fetch(urlBase + "/hospede", {
+        fetch(urlBase + "/telefone", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -51,7 +51,7 @@ export default function FormHospede(props) {
       }
     } else {
       if(pessoa.tipo === "pessoa fisica"){
-        fetch(urlBase + "/hospede", {
+        fetch(urlBase + "/telefone", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -61,7 +61,7 @@ export default function FormHospede(props) {
           window.alert("Atualizado com sucesso!");
         });
       }else{
-        fetch(urlBase + "/hospede", {
+        fetch(urlBase + "/telefone", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

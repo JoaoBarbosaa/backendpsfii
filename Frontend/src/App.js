@@ -12,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/hospede" element={<TelaCadastroHospede />}/>
           <Route path="/" element={<TelaMenu></TelaMenu>}></Route>
+          <Route path="/frontendz" element={<TelaMenu></TelaMenu>}></Route>
           <Route path="*" element={<Tela404></Tela404>}></Route>
         </Routes>
       </BrowserRouter>
