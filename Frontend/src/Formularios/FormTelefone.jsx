@@ -89,7 +89,7 @@ export default function FormTelefone(props) {
                 />
               </Form.Group>
             </Col>
-            <Col>
+            <Col md={4}>
               <Form.Group className="mb-3" controlId="FormTelefone">
                 <Form.Label>DDD</Form.Label>
                 <Form.Control
@@ -104,6 +104,8 @@ export default function FormTelefone(props) {
                   maxLength={2}
                 />
               </Form.Group>
+            </Col>
+            <Col md={4}>
               <Form.Group className="mb-3" controlId="FormTelefoneNumero">
                 <Form.Label>Telefone</Form.Label>
                 <Form.Control
@@ -113,7 +115,7 @@ export default function FormTelefone(props) {
                   onChange={(e) =>
                     setTelefoneAtual({
                       ...telefoneAtual,
-                      numero: (e.target.value),
+                      numero: e.target.value,
                     })
                   }
                   ref={teleRef}
@@ -137,6 +139,7 @@ export default function FormTelefone(props) {
               </Form.Group>
             </Col>
           </Row>
+
 
           <Col>
             <Form.Group className="mb-3" controlId="titulo">
