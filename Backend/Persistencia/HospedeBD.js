@@ -190,41 +190,48 @@ async consultar(termo) {
         h.codigo = ?;
     `;
 
-    try {
-        // Executa a consulta
-        const [rows] = await conexao.query(sql, [codigo]);
+    const valores = [codigo];
+    const [rows] = await conexao.query(sql, valores);
 
-        const resultadoFinal = [];
+    const resultadoFinal = [];
 
-        for (let i = 0; i < rows.length; i++) {
-            // Processa os resultados
-            const item = {
-                codigo: rows[i].codigo,
-                nome: rows[i].nome,
-                endereco: rows[i].endereco,
-                email: rows[i].email,
-                tipo: rows[i].tipo,
-                telefones: {
-                    codigoTelefone: rows[i].codigoTelefone,
-                    ddd: rows[i].ddd,
-                    numero: rows[i].numero
-                }
+    for (let i = 0; i < rows.length; i++) {
+        const item = {
+            codigo: rows[i].codigo,
+            nome: rows[i].nome,
+            endereco: rows[i].endereco,
+            email: rows[i].email,
+            tipo: rows[i].tipo,
+            telefones: []  
+        };
+
+
+        if (rows[i].codigoTelefone) {
+            const telefone = {
+                codigoTelefone: rows[i].codigoTelefone,
+                ddd: rows[i].ddd,
+                numero: rows[i].numero
             };
-
-            if (rows[i].tipo === 'Pessoa Física') {
-                item.cpf = rows[i].cpf;
-                item.rg = rows[i].rg;
-            } else if (rows[i].tipo === 'Pessoa Jurídica') {
-                item.cnpj = rows[i].cnpj;
-            }
-
-            resultadoFinal.push(item);
+            item.telefones.push(telefone);
         }
 
-        return resultadoFinal;
-    } catch (erro) {
-        console.error(erro);
-        throw erro;
+        if (rows[i].tipo === 'Pessoa Física') {
+            item.cpf = rows[i].cpf; 
+            item.rg = rows[i].rg; 
+        } else if (rows[i].tipo === 'Pessoa Jurídica') {
+            item.cnpj = rows[i].cnpj;
+        }
+
+        const existingEntry = resultadoFinal.find(entry => entry.codigo === item.codigo);
+
+        if (existingEntry) {
+            existingEntry.telefones.push(...item.telefones);
+        } else {
+            resultadoFinal.push(item);
+        }
     }
-  }
+
+    return resultadoFinal;
+
+}
 }

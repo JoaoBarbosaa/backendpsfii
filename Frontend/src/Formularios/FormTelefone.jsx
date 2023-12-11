@@ -21,14 +21,15 @@ export default function FormTelefone(props) {
 
 
   const manipulaSubmissao = (e) => {
-    e.preventDefault();
+
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
-      e.stopPropagation();
+      e.preventDefault();
+        e.stopPropagation();
     }
 
-    setValidado(true);
     gravarDados(telefone);
+    setValidado(true);
   };
 
   const adicionarTelefone = () => {
@@ -42,25 +43,50 @@ export default function FormTelefone(props) {
 
 
   function gravarDados(telefone) {
-    fetch(urlBase + "/telefone", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ddd: telefone.ddd,
-        telefones: telefone.telefones,
-        hospede: {
-          codigo: telefone.hospede.codigo,
-        },
-      }),
-    })
-      .then((resposta) => resposta.json())
-      .then((data) => {
-        // Trate a resposta, se necessário
-        console.log(data);
-        window.alert("Telefone cadastrado com sucesso!");
-        setTelefone({ ...telefone, telefones: [] });
+    console.log('Dados a serem gravados (dentro da função gravarDados):', telefone);
+
+    if(!props.modoEdicao){
+      fetch(urlBase + "/telefone", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ddd: telefone.ddd,
+          telefones: telefone.telefones,
+          hospede: {
+            codigo: telefone.hospede.codigo,
+          },
+        }),
       })
-      .catch((erro) => console.error('Erro ao cadastrar telefone:', erro));
+        .then((resposta) => resposta.json())
+        .then((data) => {
+          // Trate a resposta, se necessário
+          console.log(data);
+          window.alert("Telefone cadastrado com sucesso!");
+          setTelefone({ ...telefone, telefones: [] });
+        })
+        .catch((erro) => console.error('Erro ao cadastrar telefone:', erro));
+    }
+    else{
+      fetch(urlBase + "/telefone/" + telefone.codigo, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ddd: telefone.ddd,
+          telefones: telefone.telefones,
+          hospede: {
+            codigo: telefone.hospede.codigo,
+          },
+        }),
+      })
+        .then((resposta) => resposta.json())
+        .then((data) => {
+          // Trate a resposta, se necessário
+          console.log(data);
+          window.alert("Telefone alterado com sucesso!");
+          setTelefone({ ...telefone, telefones: [] });
+        })
+        .catch((erro) => console.error('Erro ao alterar telefone:', erro));
+    }
   }
 
   return (
@@ -89,7 +115,7 @@ export default function FormTelefone(props) {
                 />
               </Form.Group>
             </Col>
-            <Col>
+            <Col md={4}>
               <Form.Group className="mb-3" controlId="FormTelefone">
                 <Form.Label>DDD</Form.Label>
                 <Form.Control
@@ -104,6 +130,8 @@ export default function FormTelefone(props) {
                   maxLength={2}
                 />
               </Form.Group>
+            </Col>
+            <Col md={4}>
               <Form.Group className="mb-3" controlId="FormTelefoneNumero">
                 <Form.Label>Telefone</Form.Label>
                 <Form.Control
@@ -113,7 +141,7 @@ export default function FormTelefone(props) {
                   onChange={(e) =>
                     setTelefoneAtual({
                       ...telefoneAtual,
-                      numero: (e.target.value),
+                      numero: e.target.value,
                     })
                   }
                   ref={teleRef}
@@ -138,6 +166,7 @@ export default function FormTelefone(props) {
             </Col>
           </Row>
 
+
           <Col>
             <Form.Group className="mb-3" controlId="titulo">
               <Form.Label>Selecione o Hóspede:</Form.Label>
@@ -154,10 +183,8 @@ export default function FormTelefone(props) {
             </Form.Group>
           </Col>
 
-
-
           <Button type="submit" variant="primary" id="cadastrar">
-            Cadastrar
+            {props.modoEdicao ? "Atualizar" : "Cadastrar"}
           </Button>{" "}
           <Button
             type="button"
