@@ -10,6 +10,9 @@ export default function TabelaHospede(props) {
     if (termoDeBusca.length === 0) {
       props.buscar();
     } else {
+      // Limpar a lista antes de fazer a nova pesquisa
+      props.setPessoas([]);
+  
       fetch(`${urlBase}/hospede/${termoDeBusca}`)
         .then((response) => response.json())
         .then((data) => props.setPessoas(data))
@@ -94,7 +97,7 @@ export default function TabelaHospede(props) {
                     
                   </td>
                   <td id="colorwhite">
-                    {pessoa.tipo === "Pessoa Física" ? pessoa.cpf : pessoa.cnpj}
+                    {pessoa.tipo === "pessoa fisica" ? pessoa.cpf : pessoa.cnpj}
                   </td>
                   <td>
                     <Button

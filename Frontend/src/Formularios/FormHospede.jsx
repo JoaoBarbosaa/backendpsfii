@@ -11,6 +11,7 @@ export default function FormHospede(props) {
   const rgRef = useRef(null);
   const cnpjRef = useRef(null);
   const resultadoRef = useRef(null);
+  const Swal = require('sweetalert2')
   const [cpfValido, setCpfValido] = useState(true);
   const [cnpjValido, setCnpjValido] = useState(true);
   const [telefones, setTelefones] = useState([
@@ -198,7 +199,10 @@ export default function FormHospede(props) {
             },
             telefones: telefones.map(telefone => ({ ddd: telefone.ddd, numero: telefone.numero })),
           }),
-        }).then((resposta) => {
+        }).then((resposta) => {Swal.fire(
+          'Hospede cadastrado',
+          'Com sucesso no sistema',
+          'success')
         });
       } else {
         fetch(urlBase + "/hospede", {
@@ -214,7 +218,10 @@ export default function FormHospede(props) {
             },
             telefones: telefones.map(telefone => ({ ddd: telefone.ddd, numero: telefone.numero })),
           }),
-        }).then((resposta) => {
+        }).then((resposta) => {Swal.fire(
+          'Hospede cadastrado',
+          'Com sucesso no sistema',
+          'success')
         });
       }
     } else {
@@ -235,7 +242,10 @@ export default function FormHospede(props) {
             telefones: telefones.map(telefone => ({ ddd: telefone.ddd, numero: telefone.numero })),
           }),
         }).then((resposta) => {
-          window.alert("Atualizado com sucesso!");
+          Swal.fire(
+            'Hospede atualizado',
+            'Com sucesso no sistema',
+            'success')
         });
       }else{
         fetch(urlBase + "/hospede", {
@@ -253,7 +263,10 @@ export default function FormHospede(props) {
             telefones: telefones.map(telefone => ({ ddd: telefone.ddd, numero: telefone.numero })),
           }),
         }).then((resposta) => {
-          window.alert("Atualizado com sucesso!");
+          Swal.fire(
+            'Hospede atualizado',
+            'Com sucesso no sistema',
+            'success')
         });
       }
       }
@@ -336,8 +349,8 @@ export default function FormHospede(props) {
                 aria-label="Default select example"
               >
                 <option value={setValidado}>Selecione uma das opções</option>
-                <option value="pessoa fisica">Pessoa Física</option>
-                <option value="pessoa juridica">Pessoa Jurídica</option>
+                <option value="pessoa fisica">pessoa fisica</option>
+                <option value="pessoa juridica">pessoa juridica</option>
               </Form.Select>
               <Form.Control.Feedback type="invalid">
                 Selecione uma categoria
