@@ -49,7 +49,7 @@ export default function TelaCadastroTelefone(props) {
     }
 
     function apagarTelefone(telefone) {
-        fetch(urlBase + "/hospede", {
+        fetch(urlBase + "/telefone", {
             method: "DELETE",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(telefone)
