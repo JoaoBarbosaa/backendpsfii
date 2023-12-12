@@ -7,87 +7,60 @@ import CaixaSelecao from "../componentes/componentes/CaixaSelecao";
 export default function FormTelefone(props) {
   const [validado, setValidado] = useState(false);
   const [hospedeSelecionado, setHospedeSelecionado] = useState(0);
-  const [telefoneAtual, setTelefoneAtual] = useState({ ddd: '', numero: '' });
-
   const [telefone, setTelefone] = useState({
     ddd: '',
-    telefones: [],
+    numero: '',
     hospede: {
       codigo: 0,
     },
   });
-
   const teleRef = useRef(null);
 
+  const formatPhone = (value) => {
+    const formattedValue = value
+      .replace(/\D/g, "")
+      .replace(/^(\d{2})(\d{4,5})(\d{4})$/, "($1) $2-$3");
+
+    return formattedValue;
+  };
 
   const manipulaSubmissao = (e) => {
-
+    e.preventDefault();
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
-      e.preventDefault();
-        e.stopPropagation();
+      e.stopPropagation();
     }
 
-    gravarDados(telefone);
     setValidado(true);
+    gravarDados();
   };
 
-  const adicionarTelefone = () => {
-    setTelefone({
-      ...telefone,
-      telefones: [...telefone.telefones, { ...telefoneAtual }],
-    });
-    setTelefoneAtual({ ddd: '', numero: '' }); // Limpa os campos após adicionar
-    teleRef.current.value = ''; // Limpa o campo de telefone
-  };
-
-
-  function gravarDados(telefone) {
-    console.log('Dados a serem gravados (dentro da função gravarDados):', telefone);
-
-    if(!props.modoEdicao){
-      fetch(urlBase + "/telefone", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ddd: telefone.ddd,
-          telefones: telefone.telefones,
-          hospede: {
-            codigo: telefone.hospede.codigo,
-          },
-        }),
+  function gravarDados() {
+    console.log(telefone);
+    console.log(hospedeSelecionado);
+    fetch(urlBase + "/telefone", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ddd: telefone.ddd,
+        numero: telefone.numero,
+        hospede: {
+          codigo: hospedeSelecionado.codigo,
+        },
+      }),
+    })
+      .then((resposta) => resposta.json())
+      .then((data) => {
+        console.log(data);
+        window.alert("Telefone(s) cadastrado(s) com sucesso!");
+        setTelefone({
+          telefones: [],
+          hospede: { codigo: hospedeSelecionado },
+        });
       })
-        .then((resposta) => resposta.json())
-        .then((data) => {
-          // Trate a resposta, se necessário
-          console.log(data);
-          window.alert("Telefone cadastrado com sucesso!");
-          setTelefone({ ...telefone, telefones: [] });
-        })
-        .catch((erro) => console.error('Erro ao cadastrar telefone:', erro));
-    }
-    else{
-      fetch(urlBase + "/telefone/" + telefone.codigo, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ddd: telefone.ddd,
-          telefones: telefone.telefones,
-          hospede: {
-            codigo: telefone.hospede.codigo,
-          },
-        }),
-      })
-        .then((resposta) => resposta.json())
-        .then((data) => {
-          // Trate a resposta, se necessário
-          console.log(data);
-          window.alert("Telefone alterado com sucesso!");
-          setTelefone({ ...telefone, telefones: [] });
-        })
-        .catch((erro) => console.error('Erro ao alterar telefone:', erro));
-    }
+      .catch((erro) => console.error('Erro ao cadastrar telefone:', erro));
   }
+
 
   return (
     <body id="corpo">
@@ -115,7 +88,7 @@ export default function FormTelefone(props) {
                 />
               </Form.Group>
             </Col>
-            <Col md={4}>
+            <Col>
               <Form.Group className="mb-3" controlId="FormTelefone">
                 <Form.Label>DDD</Form.Label>
                 <Form.Control
@@ -123,25 +96,23 @@ export default function FormTelefone(props) {
                   required
                   id="ddd"
                   placeholder="Digite o DDD"
-                  value={telefoneAtual.ddd}
+                  value={telefone.ddd}
                   onChange={(e) =>
-                    setTelefoneAtual({ ...telefoneAtual, ddd: e.target.value })
+                    setTelefone({ ...telefone, ddd: e.target.value })
                   }
                   maxLength={2}
                 />
               </Form.Group>
-            </Col>
-            <Col md={4}>
               <Form.Group className="mb-3" controlId="FormTelefoneNumero">
                 <Form.Label>Telefone</Form.Label>
                 <Form.Control
                   type="text"
                   required
-                  placeholder="00000-0000"
+                  placeholder="(00)00000-0000"
                   onChange={(e) =>
-                    setTelefoneAtual({
-                      ...telefoneAtual,
-                      numero: e.target.value,
+                    setTelefone({
+                      ...telefone,
+                      numero: formatPhone(e.target.value),
                     })
                   }
                   ref={teleRef}
@@ -150,24 +121,11 @@ export default function FormTelefone(props) {
                 <Form.Control.Feedback type="invalid">
                   Digite um telefone válido!
                 </Form.Control.Feedback>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={adicionarTelefone}
-                >
-                  Adicionar Telefone
-                </Button>
-                {telefone.telefones.map((tel, index) => (
-                  <div key={index}>
-                    {tel.ddd} {tel.numero}
-                  </div>
-                ))}
+
               </Form.Group>
             </Col>
-          </Row>
 
-
-          <Col>
+            <Col>
             <Form.Group className="mb-3" controlId="titulo">
               <Form.Label>Selecione o Hóspede:</Form.Label>
               <CaixaSelecao
@@ -183,8 +141,10 @@ export default function FormTelefone(props) {
             </Form.Group>
           </Col>
 
+
+          </Row>
           <Button type="submit" variant="primary" id="cadastrar">
-            {props.modoEdicao ? "Atualizar" : "Cadastrar"}
+            Cadastrar
           </Button>{" "}
           <Button
             type="button"
