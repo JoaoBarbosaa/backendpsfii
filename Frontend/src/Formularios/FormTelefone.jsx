@@ -7,6 +7,8 @@ import CaixaSelecao from "../componentes/componentes/CaixaSelecao";
 export default function FormTelefone(props) {
   const [validado, setValidado] = useState(false);
   const [hospedeSelecionado, setHospedeSelecionado] = useState(0);
+  const [hospede, setHospede] = useState(props.hospede);
+
   const [telefone, setTelefone] = useState({
     ddd: '',
     numero: '',
@@ -18,7 +20,6 @@ export default function FormTelefone(props) {
 
   const formatPhone = (value) => {
     const formattedValue = value
-      .replace(/\D/g, "")
       .replace(/^(\d{2})(\d{4,5})(\d{4})$/, "($1) $2-$3");
 
     return formattedValue;
@@ -26,39 +27,81 @@ export default function FormTelefone(props) {
 
   const manipulaSubmissao = (e) => {
     e.preventDefault();
+    e.stopPropagation();
+
     const form = e.currentTarget;
-    if (form.checkValidity() === false) {
-      e.stopPropagation();
+
+    if (form.checkValidity()) {
+      gravarDados({ ...hospede, hospede: hospedeSelecionado })
+      setValidado(false);
+    }
+    else {
+      setValidado(true);
     }
 
-    setValidado(true);
-    gravarDados();
+
   };
 
   function gravarDados() {
     console.log(telefone);
     console.log(hospedeSelecionado);
-    fetch(urlBase + "/telefone", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ddd: telefone.ddd,
-        numero: telefone.numero,
-        hospede: {
-          codigo: hospedeSelecionado.codigo,
-        },
-      }),
-    })
-      .then((resposta) => resposta.json())
-      .then((data) => {
-        console.log(data);
-        window.alert("Telefone(s) cadastrado(s) com sucesso!");
-        setTelefone({
-          telefones: [],
-          hospede: { codigo: hospedeSelecionado },
-        });
+
+    if (!props.modoEdicao) {
+      fetch(urlBase + "/telefone", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ddd: telefone.ddd,
+          numero: telefone.numero,
+          hospede: {
+            codigo: hospedeSelecionado.codigo,
+          },
+        }),
       })
-      .catch((erro) => console.error('Erro ao cadastrar telefone:', erro));
+        .then((resposta) => resposta.json())
+        .then((data) => {
+          console.log(data);
+          window.alert("Telefone(s) cadastrado(s) com sucesso!");
+          window.location.reload();
+          props.setModoEdicao(false);
+          props.exibirTabela(true);
+        })
+        .catch((erro) => console.error('Erro ao cadastrar telefone:', erro));
+    }
+    else {
+      fetch(urlBase + "/telefone", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          codigo: telefone.codigo,
+          ddd: telefone.ddd,
+          numero: telefone.numero,
+          hospede: {
+            codigo: hospedeSelecionado.codigo,
+          },
+        }),
+      })
+        .then((resposta) => {
+          if (!resposta.ok) {
+            throw new Error('Erro na atualização');
+          }
+          return resposta.json();
+        })
+        .then((dadosAtualizados) => {
+
+          if (dadosAtualizados.resultado) {
+            window.alertr("Erro ao atualizar o telefone!");
+          } else {
+            window.alert("Telefone atualizado com sucesso!");
+            props.setModoEdicao(false);
+            props.exibirTabela(true);
+          }
+        })
+    }
+
+
+
+
   }
 
 
@@ -108,7 +151,7 @@ export default function FormTelefone(props) {
                 <Form.Control
                   type="text"
                   required
-                  placeholder="(00)00000-0000"
+                  placeholder="00000-0000"
                   onChange={(e) =>
                     setTelefone({
                       ...telefone,
@@ -126,20 +169,20 @@ export default function FormTelefone(props) {
             </Col>
 
             <Col>
-            <Form.Group className="mb-3" controlId="titulo">
-              <Form.Label>Selecione o Hóspede:</Form.Label>
-              <CaixaSelecao
-                enderecoFonteDados={urlBase + "/hospede"}
-                campoChave={"codigo"}
-                campoExibicao={"nome"}
-                funcaoSelecao={setHospedeSelecionado}
-                valor={hospedeSelecionado}
-                id="telefone"
-                required
-              />
-              <Form.Control.Feedback type='invalid'>Selecione o Hóspede</Form.Control.Feedback>
-            </Form.Group>
-          </Col>
+              <Form.Group className="mb-3" controlId="titulo">
+                <Form.Label>Selecione o Hóspede:</Form.Label>
+                <CaixaSelecao
+                  enderecoFonteDados={urlBase + "/hospede"}
+                  campoChave={"codigo"}
+                  campoExibicao={"nome"}
+                  funcaoSelecao={setHospedeSelecionado}
+                  valor={hospedeSelecionado}
+                  id="telefone"
+                  required
+                />
+                <Form.Control.Feedback type='invalid'>Selecione o Hóspede</Form.Control.Feedback>
+              </Form.Group>
+            </Col>
 
 
           </Row>

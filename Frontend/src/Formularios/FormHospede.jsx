@@ -483,6 +483,7 @@ export default function FormHospede(props) {
             </Col>
 
             <Col>
+            
               <Form.Group className="mb-3" controlId="FormTelefone">
                 <Form.Label>Telefones</Form.Label>
                 {telefones.map((telefone, index) => (
@@ -490,7 +491,7 @@ export default function FormHospede(props) {
                     <Form.Control
                       type="text"
                       required
-                      placeholder="(00)00000-0000"
+                      placeholder="00000-0000"
                       value={telefone.numero}
                       onChange={(e) => manipularMudancaTelefone(e.target.value, index, 'numero')}
                       maxLength={11}
