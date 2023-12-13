@@ -1,4 +1,5 @@
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, InputGroup, FormControl } from "react-bootstrap";
+
 import React, { useState, useRef } from "react";
 import "./estilos/EstiloForm.css";
 import { urlBase } from "../utilitarios/definicoes";
@@ -160,7 +161,7 @@ export default function FormHospede(props) {
 
       const elementoFormulario = e.currentTarget;
       const cod = elementoFormulario.id;
-      if (cod === "cnpj"){
+      if (cod === "cnpj") {
         const formattedValueCnpj = formatCnpj(value);
         cnpjRef.current.value = formattedValueCnpj;
 
@@ -179,7 +180,7 @@ export default function FormHospede(props) {
     }
     setPessoa({ ...pessoa, [id]: valor });
   }
-  
+
   function gravarDados(pessoa) {
     console.log(pessoa);
     console.log(pessoa.rg);
@@ -199,10 +200,11 @@ export default function FormHospede(props) {
             },
             telefones: telefones.map(telefone => ({ ddd: telefone.ddd, numero: telefone.numero })),
           }),
-        }).then((resposta) => {Swal.fire(
-          'Hospede cadastrado',
-          'Com sucesso no sistema',
-          'success')
+        }).then((resposta) => {
+          Swal.fire(
+            'Hospede cadastrado',
+            'Com sucesso no sistema',
+            'success')
         });
       } else {
         fetch(urlBase + "/hospede", {
@@ -218,14 +220,15 @@ export default function FormHospede(props) {
             },
             telefones: telefones.map(telefone => ({ ddd: telefone.ddd, numero: telefone.numero })),
           }),
-        }).then((resposta) => {Swal.fire(
-          'Hospede cadastrado',
-          'Com sucesso no sistema',
-          'success')
+        }).then((resposta) => {
+          Swal.fire(
+            'Hospede cadastrado',
+            'Com sucesso no sistema',
+            'success')
         });
       }
     } else {
-      if(pessoa.tipo === "pessoa fisica"){
+      if (pessoa.tipo === "pessoa fisica") {
         fetch(urlBase + "/hospede", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -247,7 +250,7 @@ export default function FormHospede(props) {
             'Com sucesso no sistema',
             'success')
         });
-      }else{
+      } else {
         fetch(urlBase + "/hospede", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -269,11 +272,11 @@ export default function FormHospede(props) {
             'success')
         });
       }
-      }
+    }
 
 
   }
-  
+
 
   function manipulaSubmissao(evento) {
     const form = evento.currentTarget;
@@ -477,25 +480,34 @@ export default function FormHospede(props) {
                   onChange={manipularMudanca}
                 />
                 <Form.Control.Feedback type="invalid">
-                  Digite um e-mail valido!
+                  Digite um e-mail válido!
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
 
             <Col>
-            
               <Form.Group className="mb-3" controlId="FormTelefone">
                 <Form.Label>Telefones</Form.Label>
                 {telefones.map((telefone, index) => (
                   <div key={index}>
-                    <Form.Control
-                      type="text"
-                      required
-                      placeholder="00000-0000"
-                      value={telefone.numero}
-                      onChange={(e) => manipularMudancaTelefone(e.target.value, index, 'numero')}
-                      maxLength={11}
-                    />
+                    <InputGroup className="mb-3">
+                      <FormControl
+                        type="text"
+                        required
+                        placeholder="DDD"
+                        value={telefone.ddd}
+                        onChange={(e) => manipularMudancaTelefone(e.target.value, index, 'ddd')}
+                        maxLength={2}
+                      />
+                      <FormControl
+                        type="text"
+                        required
+                        placeholder="Número"
+                        value={telefone.numero}
+                        onChange={(e) => manipularMudancaTelefone(e.target.value, index, 'numero')}
+                        maxLength={9}
+                      />
+                    </InputGroup>
                     <Form.Control.Feedback type="invalid">
                       Digite um telefone válido!
                     </Form.Control.Feedback>
@@ -504,9 +516,7 @@ export default function FormHospede(props) {
                 <Button variant="secondary" onClick={adicionarTelefone}>
                   Adicionar Telefone
                 </Button>
-
               </Form.Group>
-
             </Col>
           </Row>
           <Button type="submit" variant="primary" id="cadastrar">

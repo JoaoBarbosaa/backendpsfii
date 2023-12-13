@@ -80,8 +80,8 @@ async consultar(termo) {
                     h.nome,
                     h.endereco,
                     h.email,
-                    pf.cpfUsuario AS documento,
-                    pf.rgUsuario AS documentoSecundario,
+                    pf.cpfUsuario AS cpf,
+                    pf.rgUsuario AS rg,
                     NULL AS cnpj,
                     'Pessoa Física' AS tipo,
                     t.codigo AS codigoTelefone,
@@ -101,8 +101,8 @@ async consultar(termo) {
                     h.nome,
                     h.endereco,
                     h.email,
-                    NULL AS documento,
-                    NULL AS documentoSecundario,
+                    NULL AS cpf,
+                    NULL AS rg,
                     pj.cnpjUsuario AS cnpj,
                     'Pessoa Jurídica' AS tipo,
                     t.codigo AS codigoTelefone,
@@ -143,8 +143,8 @@ async consultar(termo) {
         }
 
         if (rows[i].tipo === 'Pessoa Física') {
-            item.cpf = rows[i].documento; 
-            item.rg = rows[i].documentoSecundario; 
+            item.cpf = rows[i].cpf; 
+            item.rg = rows[i].rg; 
         } else if (rows[i].tipo === 'Pessoa Jurídica') {
             item.cnpj = rows[i].cnpj;
         }

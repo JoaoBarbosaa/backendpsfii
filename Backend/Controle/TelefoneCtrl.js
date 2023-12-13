@@ -92,14 +92,14 @@ export default class TelefoneCtrl {
 	consultarCodigo(requisicao, resposta) {
 		resposta.type("application/json");
 
-		const codigo = requisicao.parametro['codigo']
+		const codigo = requisicao.params.codigo;
 
 		if(requisicao.method === "GET"){
 			const telefone = new Telefone();
 
 			telefone.consultarCodigo(codigo)
-				.then((telefoneEncontrado) => {
-					resposta.json(telefoneEncontrado);
+				.then((telefones) => {
+					resposta.json(telefones);
 				})
 				.catch((erro) => {
 					resposta.json({
@@ -137,9 +137,29 @@ export default class TelefoneCtrl {
 						const primeiroHospede = hospedeEncontrado[0];
 						const telefone = new Telefone(codigo, ddd, numero, primeiroHospede);
 
-						telefone.atualizar();
-
-						return telefone;
+						telefone.atualizar()
+						.then((telefoneAtualizado) => {
+							resposta.json({
+								status: true,
+								telefone: {
+									codigo: telefoneAtualizado.codigo,
+									ddd: telefoneAtualizado.ddd,
+									numero: telefoneAtualizado.numero,
+									hospede: {
+										codigo: telefoneAtualizado.hospede.codigo,
+										nome: telefoneAtualizado.hospede.nome,
+									}
+								},
+								mensagem: "Telefone atualizado com sucesso!"
+							})
+						})
+						.catch((erro) => {
+							resposta.json({
+								status: false,
+								mensagem: erro.message
+							});
+						});
+						
 					} else {
 						return {
 							status: false,

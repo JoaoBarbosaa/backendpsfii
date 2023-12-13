@@ -26,8 +26,16 @@ export default function TelaCadastroTelefone(props) {
     );
 
     function prepararTelefoneParaEdicao(telefone) {
+        console.log("Telefone para edição:", telefone);
         setModoEdicao(true);
-        setTelefoneEmEdicao(telefone);
+        setTelefoneEmEdicao({
+            codigo: telefone.codigo,
+            ddd: telefone.ddd,
+            numero: telefone.numero,
+            hospede: {
+                codigo: telefone.codigoHospede,
+            },
+        });
         setExibirTabela(false);
     }
 
@@ -70,27 +78,27 @@ export default function TelaCadastroTelefone(props) {
     }, []);
 
 
-        return <Pagina>
-            <div>
-                {
-                    exibirTabela ?
-                        <TabelaTelefone listaTelefones={telefone}
-                            buscar={buscarTelefone}
-                            setTelefone={setTelefone}
-                            exibirTabela={setExibirTabela}
-                            editarTelefone={prepararTelefoneParaEdicao}
-                            excluirTelefone={apagarTelefone}
-                            setModoEdicao={setModoEdicao}
-                        /> :
-                        <FormTelefone listaTelefones={telefone}
+    return <Pagina>
+        <div>
+            {
+                exibirTabela ?
+                    <TabelaTelefone listaTelefones={telefone}
+                        buscar={buscarTelefone}
                         setTelefone={setTelefone}
-                            exibirTabela={setExibirTabela}
-                            buscar={buscarTelefone}
-                            modoEdicao={modoEdicao}
-                            setModoEdicao={setModoEdicao}
-                            pessoa={telefoneEmEdicao} />
-                };
-            </div>
-        </Pagina>
-    }
+                        exibirTabela={setExibirTabela}
+                        editarTelefone={prepararTelefoneParaEdicao}
+                        excluirTelefone={apagarTelefone}
+                        setModoEdicao={setModoEdicao}
+                    /> :
+                    <FormTelefone listaTelefones={telefone}
+                        setTelefone={setTelefone}
+                        exibirTabela={setExibirTabela}
+                        buscar={buscarTelefone}
+                        modoEdicao={modoEdicao}
+                        setModoEdicao={setModoEdicao}
+                        pessoa={telefoneEmEdicao} />
+            };
+        </div>
+    </Pagina>
+}
 

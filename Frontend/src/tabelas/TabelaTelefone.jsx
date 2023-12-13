@@ -53,29 +53,20 @@ export default function TabelaTelefone(props) {
           <thead className="colorwhite">
             <tr className="fontLetra">
               <th>Codigo</th>
-              <th>Nome</th>
-              <th>Endereco</th>
-              <th>E-mail</th>
+              <th>DDD</th>
               <th>Telefone</th>
+              <th>Nome</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody>
-            {props.listaTelefones?.map((telefone) => {
+            {props.listaTelefones?.map((telefone, i) => {
               return (
-                <tr key={telefone.codigoHospede}>
-                <td id="colorwhite">{telefone.codigoHospede}</td>
-                <td id="colorwhite">{telefone.nome}</td>
-                <td id="colorwhite">{telefone.endereco}</td>
-                <td id="colorwhite">{telefone.email}</td>
-                <td id="colorwhite">
-                  {telefone.telefones.map((tel) => (
-                    <div key={tel.codigoTelefone}>
-                      {tel.ddd} {tel.numero}
-                    </div>
-                  ))}
-                </td>
-
+                <tr key={i}>
+                  <td id="colorwhite">{telefone.codigo}</td>
+                  <td id="colorwhite">{telefone.ddd}</td>
+                  <td id="colorwhite">{telefone.numero}</td>
+                  <td id="colorwhite">{telefone.nome}</td>
                   <td>
                     <Button variant="warning" onClick={() => {
                       if (

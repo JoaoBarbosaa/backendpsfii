@@ -97,7 +97,7 @@ export default function TabelaHospede(props) {
                     
                   </td>
                   <td id="colorwhite">
-                    {pessoa.tipo === "pessoa fisica" ? pessoa.cpf : pessoa.cnpj}
+                  {pessoa.tipo === "Pessoa Física" ? pessoa.cpf : pessoa.cnpj}
                   </td>
                   <td>
                     <Button

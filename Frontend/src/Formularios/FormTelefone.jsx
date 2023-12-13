@@ -16,6 +16,8 @@ export default function FormTelefone(props) {
       codigo: 0,
     },
   });
+
+  
   const teleRef = useRef(null);
 
   const formatPhone = (value) => {

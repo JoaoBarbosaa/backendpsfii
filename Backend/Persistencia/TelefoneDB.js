@@ -38,70 +38,70 @@ export default class TelefoneDB {
     }
 
     async excluir(telefone) {
-
         if (telefone instanceof Telefone) {
-            const conexao = await conectar();
-            const sql = "DELETE FROM telefone WHERE codigo=?";
-            const valores = [telefone.codigo];
-            await conexao.query(sql, valores);
-
+          const conexao = await conectar();
+      
+          // Obtenha o código do hospede associado ao telefone
+          const sqlBuscarHospede = "SELECT codHospede FROM telefone WHERE codigo=?";
+          const [rows] = await conexao.query(sqlBuscarHospede, [telefone.codigo]);
+      
+          if (rows.length > 0) {
+            const codHospede = rows[0].codHospede;
+      
+            // Excluir o telefone
+            const sqlExcluirTelefone = "DELETE FROM telefone WHERE codigo=?";
+            await conexao.query(sqlExcluirTelefone, [telefone.codigo]);
+      
+            // Verificar se o hospede tem mais telefones, se não tiver, exclua o hospede
+            const sqlContarTelefones = "SELECT COUNT(*) AS total FROM telefone WHERE codHospede=?";
+            const [result] = await conexao.query(sqlContarTelefones, [codHospede]);
+      
+            if (result[0].total === 0) {
+                const sqlExcluirHospede = "DELETE FROM hospede WHERE codigo=?";
+                await conexao.query(sqlExcluirHospede, [codHospede]);
+            }
+          }
         }
-    }
+      }
+      
 
-    async consultar(termo) {
-        const listaHospedes = [];
+      async consultar(termo) {
+        const listaTelefone = [];
         const conexao = await conectar();
         const sql = `
-                        SELECT
-                            h.codigo AS codigoHospede,
-                            h.nome,
-                            h.endereco,
-                            h.email,
-                            t.codigo AS codigoTelefone,
-                            t.ddd,
-                            t.numero
-                        FROM
-                            hospede h
-                        LEFT JOIN
-                            telefone t ON h.codigo = t.codHospede
-                        WHERE
-                            h.nome LIKE ?;
-                    `;
+          SELECT
+            h.codigo AS codigoHospede,
+            h.nome,
+            t.codigo AS codigo,
+            t.ddd,
+            t.numero
+          FROM
+            hospede h
+          LEFT JOIN
+            telefone t ON h.codigo = t.codHospede
+          WHERE
+            h.nome LIKE ?
+        `;
         const parametros = ['%' + termo + '%'];
-    
+      
         const [rows] = await conexao.query(sql, parametros);
-    
-        const hospedesMap = new Map();
-    
+      
         for (const row of rows) {
-            if (!hospedesMap.has(row.codigoHospede)) {
-                hospedesMap.set(row.codigoHospede, {
-                    codigoHospede: row.codigoHospede,
-                    nome: row.nome,
-                    endereco: row.endereco,
-                    email: row.email,
-                    telefones: []
-                });
-            }
-    
-            if (row.codigoTelefone) {
-                hospedesMap.get(row.codigoHospede).telefones.push({
-                    codigoTelefone: row.codigoTelefone,
-                    ddd: row.ddd,
-                    numero: row.numero
-                });
-            }
+          if (row.codigo !== null) {
+            const hospedeFormatado = {
+              codigo: row.codigo,
+              ddd: row.ddd,
+              numero: row.numero,
+              codigoHospede: row.codigoHospede,
+              nome: row.nome
+            };
+            listaTelefone.push(hospedeFormatado);
+          }
         }
-    
-        const filteredHospedes = Array.from(hospedesMap.values()).filter(
-            hospede => hospede.telefones.length > 0
-        );
-    
-        listaHospedes.push(...filteredHospedes);
-    
-        return listaHospedes;
-    }
-    
+      
+        return listaTelefone;
+      }
+      
     
 
     async consultarCodigo(codigo) {
