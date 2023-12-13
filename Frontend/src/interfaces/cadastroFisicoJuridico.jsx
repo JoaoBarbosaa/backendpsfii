@@ -13,7 +13,7 @@ export default function Inicio() {
       
       <section className="FisicoJuridico">
         <h1 id="TituloCadastroFisicoJuridico">Cadastro <PiNotePencil /></h1>
-        <p>Você deseja cadastrar uma pessoa física ou jurídca? </p>
+        <p>Você deseja cadastrar uma pessoa física ou jurídica? </p>
         <Button variant="primary" href="/fisico" section= 'cadastro'>Física </Button>{' '}
         <Button variant="primary" href="/juridico" section= 'cadastro'>Jurídica</Button>{' '}
       </section>
