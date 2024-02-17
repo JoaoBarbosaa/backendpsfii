@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 📝 Para um hotel
 <p>Um sistema desenvolvido para uma atividade acadêmica que permite o cadastro de hóspedes, sejam eles pessoas físicas ou jurídicas, com a possibilidade de adicionar um ou vários números de telefone.
 </p>
